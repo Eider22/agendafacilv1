@@ -1021,6 +1021,52 @@
             activeTab.classList.remove('text-slate-400', 'hover:text-slate-600', 'hover:bg-slate-50');
         }
 
+        /* ===============================
+           SWIPE EN TABS
+        =============================== */
+        const tabNames = ['info', 'contacto', 'comodidades'];
+        let currentTab = 0;
+        (function initTabSwipe() {
+            const introSlide = document.querySelector('.slide');
+            const slideContent = introSlide.querySelector('.slide-content');
+            let startX = 0, startY = 0, tracking = false;
+
+            slideContent.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+                tracking = true;
+            }, { passive: true });
+
+            slideContent.addEventListener('touchmove', (e) => {
+                if (!tracking) return;
+                const dy = Math.abs(e.touches[0].clientY - startY);
+                const dx = Math.abs(e.touches[0].clientX - startX);
+                if (dy > dx) tracking = false;
+            }, { passive: true });
+
+            slideContent.addEventListener('touchend', (e) => {
+                if (!tracking) return;
+                const diff = e.changedTouches[0].clientX - startX;
+                if (Math.abs(diff) > 50) {
+                    if (diff < 0 && currentTab < tabNames.length - 1) {
+                        currentTab++;
+                        switchTab(tabNames[currentTab]);
+                    } else if (diff > 0 && currentTab > 0) {
+                        currentTab--;
+                        switchTab(tabNames[currentTab]);
+                    }
+                }
+                tracking = false;
+            }, { passive: true });
+        })();
+
+        // Keep currentTab in sync when tabs are clicked directly
+        const origSwitchTab = switchTab;
+        switchTab = function(tab) {
+            currentTab = tabNames.indexOf(tab);
+            origSwitchTab(tab);
+        };
+
         let step = 1;
         let services = [];
         let professional = null;
