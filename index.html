@@ -259,19 +259,12 @@
             -webkit-overflow-scrolling: touch;
             scroll-snap-type: x proximity;
             padding-bottom: 4px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
 
         .time-strip::-webkit-scrollbar {
-            height: 2px;
-        }
-
-        .time-strip::-webkit-scrollbar-thumb {
-            background: #e2e8f0;
-            border-radius: 10px;
-        }
-
-        .time-strip::-webkit-scrollbar-track {
-            background: transparent;
+            display: none;
         }
 
         .time-strip .time-btn {
