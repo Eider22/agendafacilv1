@@ -198,7 +198,7 @@
         .cal-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 4px;
+            gap: 2px;
         }
 
         .cal-day-label {
@@ -215,13 +215,16 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 14px;
-            font-size: 13px;
+            border-radius: 12px;
+            font-size: 12px;
             font-weight: 700;
             color: #334155;
             cursor: pointer;
             transition: all .2s ease;
             border: 1px solid transparent;
+            max-width: 36px;
+            max-height: 36px;
+            margin: 0 auto;
         }
 
         .cal-day:hover:not(.cal-disabled):not(.cal-active) {
@@ -714,13 +717,13 @@
             <!-- PASO 3: HORARIO -->
             <div class="slide">
 
-                <div class="slide-header" style="padding-bottom: 0;">
+                <div class="slide-header" style="padding: 16px 24px 0;">
                     <div class="max-w-xl mx-auto">
                         <span class="text-indigo-600 font-bold text-xs uppercase tracking-widest">
                             Paso 3
                         </span>
-                        <h2 class="text-3xl font-black">Fecha y Hora</h2>
-                        <p class="text-slate-400 text-sm mb-4">
+                        <h2 class="text-2xl font-black">Fecha y Hora</h2>
+                        <p class="text-slate-400 text-sm mb-3">
                             Selecciona fecha y hora disponible.
                         </p>
                     </div>
@@ -748,8 +751,8 @@
                             </div>
 
                             <!-- Calendario completo (visible cuando expandido) -->
-                            <div id="cal-body" class="px-5 pb-5">
-                                <div class="flex items-center justify-between mb-4">
+                            <div id="cal-body" class="px-4 pb-3">
+                                <div class="flex items-center justify-between mb-2">
                                     <button onclick="event.stopPropagation(); changeMonth(-1)" class="w-9 h-9 flex items-center justify-center rounded-xl hover:bg-slate-100 transition-colors text-slate-500">
                                         <i data-lucide="chevron-left" class="w-5 h-5"></i>
                                     </button>
@@ -772,7 +775,7 @@
                         </div>
 
                         <!-- Fecha seleccionada -->
-                        <p id="selected-date-label" class="text-center text-xs font-bold text-indigo-600 mt-3 mb-4 hidden"></p>
+                        <p id="selected-date-label" class="text-center text-xs font-bold text-indigo-600 mt-2 mb-2 hidden"></p>
                     </div>
                 </div>
 
@@ -780,49 +783,49 @@
                     <div class="max-w-xl mx-auto">
 
                         <!-- Mañana -->
-                        <div class="mt-4">
-                            <div class="flex items-center gap-2 mb-3">
-                                <div class="w-7 h-7 bg-amber-50 text-amber-500 rounded-lg flex items-center justify-center">
-                                    <i data-lucide="sunrise" class="w-4 h-4"></i>
+                        <div class="mt-3">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-6 h-6 bg-amber-50 text-amber-500 rounded-lg flex items-center justify-center">
+                                    <i data-lucide="sunrise" class="w-3.5 h-3.5"></i>
                                 </div>
-                                <p class="text-[11px] font-black uppercase text-slate-400 tracking-widest">Mañana</p>
+                                <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Mañana</p>
                             </div>
-                            <div class="grid grid-cols-2 gap-3">
-                                <button onclick="selectTime(this,'09:00 AM')" class="time-btn py-5 font-bold text-base">09:00 AM</button>
-                                <button onclick="selectTime(this,'10:00 AM')" class="time-btn py-5 font-bold text-base">10:00 AM</button>
-                                <button onclick="selectTime(this,'11:00 AM')" class="time-btn py-5 font-bold text-base">11:00 AM</button>
-                                <button onclick="selectTime(this,'12:00 PM')" class="time-btn py-5 font-bold text-base">12:00 PM</button>
+                            <div class="grid grid-cols-4 gap-2">
+                                <button onclick="selectTime(this,'09:00 AM')" class="time-btn py-3 font-bold text-sm">09:00</button>
+                                <button onclick="selectTime(this,'10:00 AM')" class="time-btn py-3 font-bold text-sm">10:00</button>
+                                <button onclick="selectTime(this,'11:00 AM')" class="time-btn py-3 font-bold text-sm">11:00</button>
+                                <button onclick="selectTime(this,'12:00 PM')" class="time-btn py-3 font-bold text-sm">12:00</button>
                             </div>
                         </div>
 
                         <!-- Tarde -->
-                        <div class="mt-5">
-                            <div class="flex items-center gap-2 mb-3">
-                                <div class="w-7 h-7 bg-orange-50 text-orange-500 rounded-lg flex items-center justify-center">
-                                    <i data-lucide="sun" class="w-4 h-4"></i>
+                        <div class="mt-3">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-6 h-6 bg-orange-50 text-orange-500 rounded-lg flex items-center justify-center">
+                                    <i data-lucide="sun" class="w-3.5 h-3.5"></i>
                                 </div>
-                                <p class="text-[11px] font-black uppercase text-slate-400 tracking-widest">Tarde</p>
+                                <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Tarde</p>
                             </div>
-                            <div class="grid grid-cols-2 gap-3">
-                                <button onclick="selectTime(this,'01:00 PM')" class="time-btn py-5 font-bold text-base">01:00 PM</button>
-                                <button onclick="selectTime(this,'02:00 PM')" class="time-btn py-5 font-bold text-base">02:00 PM</button>
-                                <button onclick="selectTime(this,'03:00 PM')" class="time-btn py-5 font-bold text-base">03:00 PM</button>
-                                <button onclick="selectTime(this,'04:00 PM')" class="time-btn py-5 font-bold text-base">04:00 PM</button>
+                            <div class="grid grid-cols-4 gap-2">
+                                <button onclick="selectTime(this,'01:00 PM')" class="time-btn py-3 font-bold text-sm">1:00</button>
+                                <button onclick="selectTime(this,'02:00 PM')" class="time-btn py-3 font-bold text-sm">2:00</button>
+                                <button onclick="selectTime(this,'03:00 PM')" class="time-btn py-3 font-bold text-sm">3:00</button>
+                                <button onclick="selectTime(this,'04:00 PM')" class="time-btn py-3 font-bold text-sm">4:00</button>
                             </div>
                         </div>
 
                         <!-- Noche -->
-                        <div class="mt-5">
-                            <div class="flex items-center gap-2 mb-3">
-                                <div class="w-7 h-7 bg-indigo-50 text-indigo-500 rounded-lg flex items-center justify-center">
-                                    <i data-lucide="moon" class="w-4 h-4"></i>
+                        <div class="mt-3">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-6 h-6 bg-indigo-50 text-indigo-500 rounded-lg flex items-center justify-center">
+                                    <i data-lucide="moon" class="w-3.5 h-3.5"></i>
                                 </div>
-                                <p class="text-[11px] font-black uppercase text-slate-400 tracking-widest">Noche</p>
+                                <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Noche</p>
                             </div>
-                            <div class="grid grid-cols-2 gap-3">
-                                <button onclick="selectTime(this,'05:00 PM')" class="time-btn py-5 font-bold text-base">05:00 PM</button>
-                                <button onclick="selectTime(this,'06:00 PM')" class="time-btn py-5 font-bold text-base">06:00 PM</button>
-                                <button onclick="selectTime(this,'07:00 PM')" class="time-btn py-5 font-bold text-base col-span-2">07:00 PM</button>
+                            <div class="grid grid-cols-4 gap-2">
+                                <button onclick="selectTime(this,'05:00 PM')" class="time-btn py-3 font-bold text-sm">5:00</button>
+                                <button onclick="selectTime(this,'06:00 PM')" class="time-btn py-3 font-bold text-sm">6:00</button>
+                                <button onclick="selectTime(this,'07:00 PM')" class="time-btn py-3 font-bold text-sm col-span-2">7:00 PM</button>
                             </div>
                         </div>
 
