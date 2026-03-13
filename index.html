@@ -1135,10 +1135,10 @@
 
                 <!-- Barra intro (solo step 1) -->
                 <div id="bar-intro" class="w-full">
-                    <button onclick="moveSlide(1)"
+                    <button id="btn-intro-cta" onclick="moveSlide(1)"
                         class="w-full py-4 rounded-2xl bg-indigo-600 text-white font-extrabold text-sm uppercase tracking-widest flex items-center justify-center gap-2 active:scale-95 transition-transform shadow-lg">
-                        <i data-lucide="calendar-plus" class="w-5 h-5"></i>
-                        Agendar Cita
+                        <i id="intro-cta-icon" data-lucide="calendar-plus" class="w-5 h-5"></i>
+                        <span id="intro-cta-text">Agendar Cita</span>
                     </button>
                 </div>
 
@@ -1400,6 +1400,7 @@
             document.getElementById('bar-intro').classList.remove('hidden');
             document.getElementById('bar-steps').classList.add('hidden');
             document.getElementById('btn-back').disabled = true;
+            updateBackButtonAppearance();
             updateDots();
             validate();
         }
@@ -1423,7 +1424,8 @@
             // Toggle between intro bar and steps bar
             document.getElementById('bar-intro').classList.toggle('hidden', step !== 1);
             document.getElementById('bar-steps').classList.toggle('hidden', step === 1);
-            document.getElementById('btn-back').disabled = (step <= 2);
+            document.getElementById('btn-back').disabled = (step <= 1);
+            updateBackButtonAppearance();
             if (step === 4) updateStep3Summary();
             updateDots();
             validate();
@@ -1479,6 +1481,18 @@
                     return;
                 }
 
+                // Do not allow swipe back to intro from first booking step.
+                if (diffX > 0 && step === 2) {
+                    tracking = false;
+                    return;
+                }
+
+                // Do not allow swipe forward on final step to open review modal.
+                if (diffX < 0 && step === totalSteps) {
+                    tracking = false;
+                    return;
+                }
+
                 if (Math.abs(diffX) > threshold) {
                     if (diffX < 0) moveSlide(1);
                     else moveSlide(-1);
@@ -1499,9 +1513,59 @@
             slider.style.transform = `translateX(${offset}%)`;
             document.getElementById('bar-intro').classList.toggle('hidden', n !== 1);
             document.getElementById('bar-steps').classList.toggle('hidden', n === 1);
-            document.getElementById('btn-back').disabled = (n <= 2);
+            document.getElementById('btn-back').disabled = (n <= 1);
+            updateBackButtonAppearance();
             updateDots();
             validate();
+        }
+
+        function hasBookingInProgress() {
+            const name = document.getElementById('input-name')?.value.trim() || '';
+            const phone = document.getElementById('input-phone')?.value.trim() || '';
+
+            return (
+                services.length > 0 ||
+                professional !== null ||
+                selectedDate !== null ||
+                time !== null ||
+                name.length > 0 ||
+                phone.length > 0
+            );
+        }
+
+        function updateIntroCta() {
+            const introText = document.getElementById('intro-cta-text');
+            const introIcon = document.getElementById('intro-cta-icon');
+            if (!introText || !introIcon) return;
+
+            const inProgress = hasBookingInProgress();
+            introText.textContent = inProgress ? 'Continuar reserva' : 'Agendar Cita';
+            introIcon.setAttribute('data-lucide', inProgress ? 'arrow-right-circle' : 'calendar-plus');
+            lucide.createIcons();
+        }
+
+        function updateBackButtonAppearance() {
+            const backBtn = document.getElementById('btn-back');
+            if (!backBtn) return;
+
+            const defaultBackClasses = 'p-4 bg-slate-100 border border-slate-200 rounded-2xl text-slate-500 hover:bg-slate-200 transition-all disabled:opacity-30 disabled:hover:bg-slate-100';
+            const homeBackClasses = 'p-3 bg-slate-900 border border-slate-900 rounded-2xl text-white hover:bg-slate-800 transition-all disabled:opacity-30 disabled:hover:bg-slate-900';
+
+            // Booking step 1 (internal step 2) returns to home/intro.
+            if (step === 2) {
+                backBtn.className = homeBackClasses;
+                backBtn.innerHTML = `
+                    <span class="inline-flex items-center gap-1.5">
+                        <i data-lucide="house" class="w-4 h-4"></i>
+                        <span class="text-[10px] font-black tracking-tight leading-none">017</span>
+                    </span>
+                `;
+            } else {
+                backBtn.className = defaultBackClasses;
+                backBtn.innerHTML = '<i data-lucide="arrow-left" class="w-5 h-5"></i>';
+            }
+
+            lucide.createIcons();
         }
 
         function openStep3SummaryModal() {
@@ -1809,8 +1873,10 @@
 
             btnNext.disabled = !isValid;
 
+            updateIntroCta();
+
             btnNext.innerText =
-                step === 5 ? "Revisar Cita" : step === 1 ? "Agendar Cita" : "Continuar";
+                step === 5 ? "Revisar y confirmar" : step === 1 ? "Agendar Cita" : "Continuar";
         }
 
         function showReviewModal() {
