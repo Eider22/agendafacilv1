@@ -1281,7 +1281,7 @@
             step = n;
             const offset = (n - 1) * -20;
             slider.style.transform = `translateX(${offset}%)`;
-            document.getElementById('bar-intro').classList.toggle('hidden', n === 1);
+            document.getElementById('bar-intro').classList.toggle('hidden', n !== 1);
             document.getElementById('bar-steps').classList.toggle('hidden', n === 1);
             document.getElementById('btn-back').disabled = (n <= 2);
             updateDots();
