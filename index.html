@@ -1436,15 +1436,25 @@
             let startX = 0;
             let startY = 0;
             let tracking = false;
+            let blockSliderSwipe = false;
 
             main.addEventListener('touchstart', (e) => {
                 if (e.touches.length !== 1) return;
+
+                // Block slide swipe inside hour controls and date strip.
+                blockSliderSwipe = !!e.target.closest('.time-strip, .time-btn, #cal-strip-days');
+                if (blockSliderSwipe) {
+                    tracking = false;
+                    return;
+                }
+
                 startX = e.touches[0].clientX;
                 startY = e.touches[0].clientY;
                 tracking = true;
             }, { passive: true });
 
             main.addEventListener('touchmove', (e) => {
+                if (blockSliderSwipe) return;
                 if (!tracking) return;
                 const dx = Math.abs(e.touches[0].clientX - startX);
                 const dy = Math.abs(e.touches[0].clientY - startY);
@@ -1454,6 +1464,10 @@
             }, { passive: true });
 
             main.addEventListener('touchend', (e) => {
+                if (blockSliderSwipe) {
+                    blockSliderSwipe = false;
+                    return;
+                }
                 if (!tracking || e.changedTouches.length !== 1) return;
 
                 const diffX = e.changedTouches[0].clientX - startX;
@@ -1471,6 +1485,11 @@
                 }
 
                 tracking = false;
+            }, { passive: true });
+
+            main.addEventListener('touchcancel', () => {
+                tracking = false;
+                blockSliderSwipe = false;
             }, { passive: true });
         })();
 
