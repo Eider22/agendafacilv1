@@ -837,6 +837,11 @@
                         <p class="step-3-subtitle text-slate-400 text-sm mb-3">
                             Selecciona fecha y hora disponible.
                         </p>
+                        <button onclick="openStep3SummaryModal()"
+                            class="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-indigo-500 hover:text-indigo-700 transition-colors mb-2">
+                            <i data-lucide="receipt" class="w-4 h-4"></i>
+                            Ver resumen
+                        </button>
                     </div>
 
                     <!-- Calendario (fijo, no hace scroll) -->
@@ -892,42 +897,6 @@
 
                 <div class="slide-content">
                     <div class="max-w-xl mx-auto">
-
-                        <!-- RESUMEN: barbero + servicios -->
-                        <div id="step3-summary" class="mt-3 mb-3 space-y-2">
-
-                            <!-- Fila barbero -->
-                            <div class="flex items-center gap-3 bg-white rounded-[22px] border border-[var(--border-soft)] shadow-[var(--shadow-soft)] px-4 py-3">
-                                <img id="s3-prof-avatar"
-                                    src="https://api.dicebear.com/7.x/avataaars/svg?seed=placeholder"
-                                    class="w-10 h-10 rounded-xl flex-shrink-0">
-                                <div class="flex-1 min-w-0">
-                                    <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 leading-none mb-0.5">Barbero</p>
-                                    <p id="s3-prof-name" class="font-bold text-sm text-slate-800 truncate">—</p>
-                                </div>
-                                <button onclick="goToStep(3)"
-                                    class="text-[10px] font-black uppercase text-indigo-400 tracking-widest flex-shrink-0 hover:text-indigo-600 transition-colors">
-                                    Cambiar
-                                </button>
-                            </div>
-
-                            <!-- Fila servicios -->
-                            <div class="bg-white rounded-[22px] border border-[var(--border-soft)] shadow-[var(--shadow-soft)] px-4 py-3">
-                                <div class="flex items-center justify-between mb-2">
-                                    <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Servicios</p>
-                                    <button onclick="goToStep(2)"
-                                        class="text-[10px] font-black uppercase text-indigo-400 tracking-widest hover:text-indigo-600 transition-colors">
-                                        Cambiar
-                                    </button>
-                                </div>
-                                <div id="s3-chips" class="flex flex-wrap gap-1.5 mb-2"></div>
-                                <div class="flex justify-end">
-                                    <span id="s3-total" class="text-sm font-black text-indigo-600"></span>
-                                </div>
-                            </div>
-
-                        </div>
-
                         <div id="time-section" class="time-locked">
 
                         <!-- Mañana -->
@@ -1092,6 +1061,48 @@
     </main>
 
     <!-- Modal de Revisión y Confirmación -->
+    <div id="step3-summary-modal" class="modal-overlay">
+        <div class="modal-content bg-white rounded-[2rem] max-w-md mx-4 shadow-2xl w-full max-h-[80vh] flex flex-col overflow-hidden">
+            <div class="flex-shrink-0 px-5 pt-5 pb-3 border-b border-[var(--border-soft)] flex items-center justify-between">
+                <div>
+                    <h3 class="text-xl font-black tracking-tight text-slate-900">Tu Selección</h3>
+                    <p class="text-xs text-slate-400">Resumen antes de elegir horario</p>
+                </div>
+                <button onclick="closeStep3SummaryModal()" class="w-9 h-9 rounded-xl hover:bg-slate-100 text-slate-400 flex items-center justify-center">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-5 space-y-3">
+                <div class="flex items-center gap-3 bg-slate-50 rounded-2xl border border-slate-100 px-3 py-3">
+                    <img id="s3m-prof-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=placeholder" class="w-10 h-10 rounded-xl flex-shrink-0">
+                    <div class="flex-1 min-w-0">
+                        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Barbero</p>
+                        <p id="s3m-prof-name" class="text-sm font-bold text-slate-800 truncate">—</p>
+                    </div>
+                    <button onclick="changeFromSummary(3)" class="text-[10px] font-black uppercase tracking-widest text-indigo-500 hover:text-indigo-700">Cambiar</button>
+                </div>
+
+                <div class="bg-slate-50 rounded-2xl border border-slate-100 px-3 py-3">
+                    <div class="flex items-center justify-between mb-2">
+                        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Servicios</p>
+                        <button onclick="changeFromSummary(2)" class="text-[10px] font-black uppercase tracking-widest text-indigo-500 hover:text-indigo-700">Cambiar</button>
+                    </div>
+                    <div id="s3m-chips" class="flex flex-wrap gap-1.5 mb-2"></div>
+                    <div class="flex justify-end">
+                        <span id="s3m-total" class="text-sm font-black text-indigo-600"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-shrink-0 px-5 pb-5 pt-2 border-t border-[var(--border-soft)]">
+                <button onclick="closeStep3SummaryModal()" class="w-full py-3 rounded-2xl bg-indigo-600 text-white font-extrabold text-xs uppercase tracking-widest hover:bg-indigo-700 transition-colors">
+                    Continuar con horarios
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div id="review-modal" class="modal-overlay">
         <div class="modal-content bg-white rounded-[2.5rem] max-w-md mx-4 shadow-2xl max-h-[85vh] flex flex-col overflow-hidden">
 
@@ -1288,9 +1299,26 @@
             validate();
         }
 
+        function openStep3SummaryModal() {
+            updateStep3Summary();
+            document.getElementById('step3-summary-modal').classList.add('show');
+            lucide.createIcons();
+        }
+
+        function closeStep3SummaryModal() {
+            document.getElementById('step3-summary-modal').classList.remove('show');
+        }
+
+        function changeFromSummary(targetStep) {
+            closeStep3SummaryModal();
+            goToStep(targetStep);
+        }
+
         function updateStep3Summary() {
-            const avatar = document.getElementById('s3-prof-avatar');
-            const nameEl = document.getElementById('s3-prof-name');
+            const avatar = document.getElementById('s3m-prof-avatar');
+            const nameEl = document.getElementById('s3m-prof-name');
+            if (!avatar || !nameEl) return;
+
             if (professional && professionalSeed) {
                 avatar.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${professionalSeed}`;
                 nameEl.textContent = professional;
@@ -1298,8 +1326,8 @@
                 avatar.src = 'https://api.dicebear.com/7.x/avataaars/svg?seed=placeholder';
                 nameEl.textContent = '—';
             }
-            const chips = document.getElementById('s3-chips');
-            const totalEl = document.getElementById('s3-total');
+            const chips = document.getElementById('s3m-chips');
+            const totalEl = document.getElementById('s3m-total');
             chips.innerHTML = '';
             if (services.length === 0) {
                 chips.innerHTML = '<span class="text-xs text-slate-400 italic">Sin servicios seleccionados</span>';
@@ -1353,6 +1381,7 @@
             }
 
             updateTotal();
+            updateStep3Summary();
             validate();
         }
 
@@ -1373,6 +1402,7 @@
             professional = name;
             professionalSeed = seed;
 
+            updateStep3Summary();
             validate();
         }
 
