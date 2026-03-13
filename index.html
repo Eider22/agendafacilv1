@@ -427,6 +427,100 @@
             white-space: nowrap;
             line-height: 1.6;
         }
+
+        /* CTA RESUMEN PASO 3 */
+        .step3-summary-cta {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 10px 12px;
+            border-radius: 14px;
+            border: 1px solid #e2e8f0;
+            background: #ffffff;
+            transition: all .2s ease;
+            margin-bottom: 8px;
+        }
+
+        .step3-summary-cta:hover {
+            border-color: #c7d2fe;
+            box-shadow: 0 6px 16px rgba(99, 102, 241, .10);
+            transform: translateY(-1px);
+        }
+
+        .step3-summary-main {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .step3-summary-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            background: #eef2ff;
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .step3-summary-copy {
+            min-width: 0;
+            text-align: left;
+        }
+
+        .step3-summary-title {
+            font-size: 12px;
+            font-weight: 800;
+            color: #334155;
+            line-height: 1.15;
+        }
+
+        .step3-summary-hint {
+            font-size: 10px;
+            font-weight: 600;
+            color: #64748b;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .step3-summary-arrow {
+            width: 26px;
+            height: 26px;
+            border-radius: 9px;
+            background: #f8fafc;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border: 1px solid #e2e8f0;
+        }
+
+        .step3-summary-cta:focus-visible {
+            outline: 2px solid rgba(79, 70, 229, .4);
+            outline-offset: 2px;
+        }
+
+        @media (max-width: 640px) {
+            .step3-summary-cta {
+                padding: 9px 10px;
+            }
+
+            .step3-summary-title {
+                font-size: 11px;
+            }
+
+            .step3-summary-hint {
+                font-size: 9px;
+            }
+        }
     </style>
 </head>
 
@@ -837,10 +931,19 @@
                         <p class="step-3-subtitle text-slate-400 text-sm mb-3">
                             Selecciona fecha y hora disponible.
                         </p>
-                        <button onclick="openStep3SummaryModal()"
-                            class="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-indigo-500 hover:text-indigo-700 transition-colors mb-2">
-                            <i data-lucide="receipt" class="w-4 h-4"></i>
-                            Ver resumen
+                        <button onclick="openStep3SummaryModal()" class="step3-summary-cta" aria-label="Abrir resumen de la cita">
+                            <div class="step3-summary-main">
+                                <span class="step3-summary-icon">
+                                    <i data-lucide="receipt" class="w-4 h-4"></i>
+                                </span>
+                                <div class="step3-summary-copy">
+                                    <p class="step3-summary-title">Ver resumen de tu cita</p>
+                                    <p id="step3-summary-hint" class="step3-summary-hint">Servicios y barbero seleccionados</p>
+                                </div>
+                            </div>
+                            <span class="step3-summary-arrow">
+                                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                            </span>
                         </button>
                     </div>
 
@@ -1317,6 +1420,7 @@
         function updateStep3Summary() {
             const avatar = document.getElementById('s3m-prof-avatar');
             const nameEl = document.getElementById('s3m-prof-name');
+            const hintEl = document.getElementById('step3-summary-hint');
             if (!avatar || !nameEl) return;
 
             if (professional && professionalSeed) {
@@ -1329,6 +1433,14 @@
             const chips = document.getElementById('s3m-chips');
             const totalEl = document.getElementById('s3m-total');
             chips.innerHTML = '';
+
+            const servicesCount = services.length;
+            const profLabel = professional || 'sin barbero';
+            const servicesLabel = servicesCount === 1 ? '1 servicio' : `${servicesCount} servicios`;
+            if (hintEl) {
+                hintEl.textContent = `${servicesLabel} · ${profLabel}`;
+            }
+
             if (services.length === 0) {
                 chips.innerHTML = '<span class="text-xs text-slate-400 italic">Sin servicios seleccionados</span>';
                 totalEl.textContent = '';
