@@ -61,7 +61,7 @@
             background: rgba(248, 250, 252, .85);
             border-bottom: 1px solid var(--border-soft);
             z-index: 20;
-            padding: 24px;
+            padding: 14px 20px 0;
         }
 
         .slide-content {
@@ -343,20 +343,23 @@
         }
 
         @media (max-width: 640px) {
-            .step-3-slide .slide-header {
-                padding: 10px 14px 0 !important;
+            /* Cabecera compacta igual para todos los pasos */
+            .slide:not(:first-child) .slide-header {
+                padding: 9px 13px 0;
             }
 
-            .step-3-slide .step-3-title {
-                font-size: 1.25rem;
-                line-height: 1.2;
+            .slide:not(:first-child) .slide-header h2 {
+                font-size: 1.2rem;
+                line-height: 1.15;
+                margin-bottom: 1px;
             }
 
-            .step-3-slide .step-3-subtitle {
-                font-size: 12px;
+            .slide:not(:first-child) .slide-header .max-w-xl > p {
+                font-size: 11px;
                 margin-bottom: 8px;
             }
 
+            /* Paso 3: calendario */
             .step-3-calendar-box {
                 border-radius: 20px;
             }
@@ -588,8 +591,8 @@
                     <div class="max-w-xl mx-auto">
                         <span class="text-indigo-600 font-bold text-xs uppercase tracking-widest">Paso
                             1</span>
-                        <h2 class="text-3xl font-black mb-1">Servicios</h2>
-                        <p class="text-slate-400 text-sm">Selecciona los
+                        <h2 class="text-2xl font-black">Servicios</h2>
+                        <p class="text-slate-400 text-sm mb-3">Selecciona los
                             servicios que deseas.</p>
                     </div>
                 </div>
@@ -688,8 +691,8 @@
                         <span class="text-indigo-600 font-bold text-xs uppercase tracking-widest">
                             Paso 2
                         </span>
-                        <h2 class="text-3xl font-black">Barbero</h2>
-                        <p class="text-slate-400 text-sm">Elige tu barbero de confianza.</p>
+                        <h2 class="text-2xl font-black">Barbero</h2>
+                        <p class="text-slate-400 text-sm mb-3">Elige tu barbero de confianza.</p>
                     </div>
                 </div>
 
@@ -780,7 +783,7 @@
             <!-- PASO 3: HORARIO -->
             <div class="slide step-3-slide">
 
-                <div class="slide-header" style="padding: 16px 24px 0;">
+                <div class="slide-header" style="padding: 14px 20px 0;">
                     <div class="max-w-xl mx-auto">
                         <span class="text-indigo-600 font-bold text-xs uppercase tracking-widest">
                             Paso 3
@@ -913,8 +916,8 @@
                         <span class="text-indigo-600 font-bold text-xs uppercase tracking-widest">
                             Paso 4
                         </span>
-                        <h2 class="text-3xl font-black">Tus Datos</h2>
-                        <p class="text-slate-400 text-sm">
+                        <h2 class="text-2xl font-black">Tus Datos</h2>
+                        <p class="text-slate-400 text-sm mb-3">
                             Ingresa la información para confirmar la cita.
                         </p>
                     </div>
