@@ -508,6 +508,66 @@
             outline-offset: 2px;
         }
 
+        /* RESUMEN DESPLEGABLE EN BARRA INFERIOR */
+        .progress-summary-panel {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: calc(100% + 10px);
+            opacity: 0;
+            transform: translateY(14px);
+            pointer-events: none;
+            transition: all .25s cubic-bezier(.4, 0, .2, 1);
+            z-index: 70;
+        }
+
+        .progress-summary-panel.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .progress-summary-shell {
+            border-radius: 18px;
+            border: 1px solid #e2e8f0;
+            background: rgba(255, 255, 255, .96);
+            box-shadow: 0 20px 44px rgba(15, 23, 42, .14);
+            backdrop-filter: blur(10px);
+            padding: 12px;
+        }
+
+        .progress-summary-row {
+            border: 1px solid #f1f5f9;
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 8px 10px;
+        }
+
+        .summary-status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 9999px;
+            flex-shrink: 0;
+            margin-top: 5px;
+        }
+
+        .summary-status-dot.done {
+            background: #4f46e5;
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, .12);
+        }
+
+        .summary-status-dot.pending {
+            background: #cbd5e1;
+        }
+
+        .progress-summary-chevron {
+            transition: transform .22s ease;
+        }
+
+        .progress-summary-chevron.open {
+            transform: rotate(180deg);
+        }
+
         @media (max-width: 640px) {
             .step3-summary-cta {
                 padding: 9px 10px;
@@ -1144,9 +1204,60 @@
 
                 <!-- Barra normal (steps 2-5) -->
                 <div id="bar-steps" class="hidden">
-                    <div class="flex items-center justify-between mb-2">
-                        <p class="text-[10px] font-black uppercase text-slate-400">Precio Final</p>
-                        <h4 id="display-total" class="text-2xl font-black text-indigo-600 tracking-[-1px]">$0</h4>
+                    <div class="relative">
+                        <div class="flex items-center justify-between mb-2 gap-2">
+                            <div class="min-w-0">
+                                <p class="text-[10px] font-black uppercase text-slate-400">Precio Final</p>
+                                <p id="progress-summary-preview" class="text-[11px] font-bold text-slate-500 truncate">Aún no has seleccionado nada</p>
+                            </div>
+                            <div class="flex items-center gap-2 flex-shrink-0">
+                                <h4 id="display-total" class="text-2xl font-black text-indigo-600 tracking-[-1px]">$0</h4>
+                                <button id="progress-summary-toggle" type="button" aria-expanded="false" aria-label="Ver avance de la reserva"
+                                    class="w-9 h-9 rounded-xl border border-slate-200 bg-slate-50 text-slate-500 hover:bg-slate-100 transition-colors flex items-center justify-center">
+                                    <i data-lucide="chevron-up" id="progress-summary-chevron" class="w-4 h-4 progress-summary-chevron"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="progress-summary-panel" class="progress-summary-panel">
+                            <div class="progress-summary-shell">
+                                <div class="flex items-center justify-between mb-2">
+                                    <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Avance de tu reserva</p>
+                                    <span id="progress-summary-completion" class="text-[10px] font-black uppercase tracking-widest text-indigo-500">0/4 completo</span>
+                                </div>
+
+                                <div class="space-y-1.5">
+                                    <div class="progress-summary-row flex items-start gap-2">
+                                        <span id="summary-dot-services" class="summary-status-dot pending"></span>
+                                        <div class="min-w-0">
+                                            <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Servicios</p>
+                                            <p id="summary-services" class="text-xs font-bold text-slate-700 truncate">Sin seleccionar</p>
+                                        </div>
+                                    </div>
+                                    <div class="progress-summary-row flex items-start gap-2">
+                                        <span id="summary-dot-professional" class="summary-status-dot pending"></span>
+                                        <div class="min-w-0">
+                                            <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Barbero</p>
+                                            <p id="summary-professional" class="text-xs font-bold text-slate-700 truncate">Sin seleccionar</p>
+                                        </div>
+                                    </div>
+                                    <div class="progress-summary-row flex items-start gap-2">
+                                        <span id="summary-dot-datetime" class="summary-status-dot pending"></span>
+                                        <div class="min-w-0">
+                                            <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Fecha y hora</p>
+                                            <p id="summary-datetime" class="text-xs font-bold text-slate-700 truncate">Sin seleccionar</p>
+                                        </div>
+                                    </div>
+                                    <div class="progress-summary-row flex items-start gap-2">
+                                        <span id="summary-dot-customer" class="summary-status-dot pending"></span>
+                                        <div class="min-w-0">
+                                            <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Tus datos</p>
+                                            <p id="summary-customer" class="text-xs font-bold text-slate-700 truncate">Pendiente de completar</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="flex gap-2">
                         <button id="btn-back" onclick="moveSlide(-1)"
@@ -1396,6 +1507,7 @@
         function goToIntro() {
             if (step === 1) return;
             step = 1;
+            setProgressSummaryOpen(false);
             slider.style.transform = 'translateX(0%)';
             document.getElementById('bar-intro').classList.remove('hidden');
             document.getElementById('bar-steps').classList.add('hidden');
@@ -1417,6 +1529,7 @@
             const nextStep = Math.max(1, Math.min(totalSteps, step + delta));
             if (nextStep === step) return;
             step = nextStep;
+            setProgressSummaryOpen(false);
 
             const offset = (step - 1) * -20;
             slider.style.transform = `translateX(${offset}%)`;
@@ -1509,6 +1622,7 @@
 
         function goToStep(n) {
             step = n;
+            setProgressSummaryOpen(false);
             const offset = (n - 1) * -20;
             slider.style.transform = `translateX(${offset}%)`;
             document.getElementById('bar-intro').classList.toggle('hidden', n !== 1);
@@ -1874,10 +1988,114 @@
             btnNext.disabled = !isValid;
 
             updateIntroCta();
+            updateProgressSummary();
 
             btnNext.innerText =
                 step === 5 ? "Revisar y confirmar" : step === 1 ? "Agendar Cita" : "Continuar";
         }
+
+        function setStatusDot(dotEl, done) {
+            if (!dotEl) return;
+            dotEl.classList.toggle('done', done);
+            dotEl.classList.toggle('pending', !done);
+        }
+
+        function formatDateForSummary(date) {
+            if (!date) return '';
+            const dayNames = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+            const monthNames = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+            return `${dayNames[date.getDay()]} ${date.getDate()} de ${monthNames[date.getMonth()]}`;
+        }
+
+        function updateProgressSummary() {
+            const previewEl = document.getElementById('progress-summary-preview');
+            const completionEl = document.getElementById('progress-summary-completion');
+            const servicesEl = document.getElementById('summary-services');
+            const professionalEl = document.getElementById('summary-professional');
+            const datetimeEl = document.getElementById('summary-datetime');
+            const customerEl = document.getElementById('summary-customer');
+
+            if (!previewEl || !completionEl || !servicesEl || !professionalEl || !datetimeEl || !customerEl) return;
+
+            const name = document.getElementById('input-name')?.value.trim() || '';
+            const phone = document.getElementById('input-phone')?.value.trim() || '';
+
+            const servicesDone = services.length > 0;
+            const professionalDone = !!professional;
+            const datetimeDone = !!selectedDate && !!time;
+            const customerDone = name.length > 0 && phone.length > 0;
+
+            const completed = [servicesDone, professionalDone, datetimeDone, customerDone].filter(Boolean).length;
+            completionEl.textContent = `${completed}/4 completo`;
+
+            if (servicesDone) {
+                const base = services.slice(0, 2).map(s => s.name).join(', ');
+                const extra = services.length > 2 ? ` +${services.length - 2}` : '';
+                servicesEl.textContent = `${services.length} servicio${services.length > 1 ? 's' : ''}: ${base}${extra}`;
+            } else {
+                servicesEl.textContent = 'Sin seleccionar';
+            }
+
+            professionalEl.textContent = professionalDone ? professional : 'Sin seleccionar';
+
+            if (datetimeDone) {
+                datetimeEl.textContent = `${formatDateForSummary(selectedDate)} · ${time}`;
+            } else if (selectedDate) {
+                datetimeEl.textContent = `${formatDateForSummary(selectedDate)} · falta hora`;
+            } else {
+                datetimeEl.textContent = 'Sin seleccionar';
+            }
+
+            customerEl.textContent = customerDone
+                ? `${name} · ${phone}`
+                : name || phone
+                    ? 'Falta completar un campo'
+                    : 'Pendiente de completar';
+
+            setStatusDot(document.getElementById('summary-dot-services'), servicesDone);
+            setStatusDot(document.getElementById('summary-dot-professional'), professionalDone);
+            setStatusDot(document.getElementById('summary-dot-datetime'), datetimeDone);
+            setStatusDot(document.getElementById('summary-dot-customer'), customerDone);
+
+            const previewParts = [];
+            if (servicesDone) previewParts.push(`${services.length} servicio${services.length > 1 ? 's' : ''}`);
+            if (professionalDone) previewParts.push(professional);
+            if (selectedDate) previewParts.push(`${selectedDate.getDate()}/${selectedDate.getMonth() + 1}`);
+            if (time) previewParts.push(time);
+            previewEl.textContent = previewParts.length ? previewParts.join(' · ') : 'Aún no has seleccionado nada';
+        }
+
+        let progressSummaryOpen = false;
+
+        function setProgressSummaryOpen(open) {
+            const panel = document.getElementById('progress-summary-panel');
+            const toggle = document.getElementById('progress-summary-toggle');
+            const chevron = document.getElementById('progress-summary-chevron');
+            if (!panel || !toggle || !chevron) return;
+
+            progressSummaryOpen = open;
+            panel.classList.toggle('show', open);
+            toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            chevron.classList.toggle('open', open);
+        }
+
+        (function initProgressSummary() {
+            const panel = document.getElementById('progress-summary-panel');
+            const toggle = document.getElementById('progress-summary-toggle');
+            if (!panel || !toggle) return;
+
+            toggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                setProgressSummaryOpen(!progressSummaryOpen);
+            });
+
+            panel.addEventListener('click', (e) => e.stopPropagation());
+
+            document.addEventListener('click', () => {
+                if (!progressSummaryOpen) return;
+                setProgressSummaryOpen(false);
+            });
+        })();
 
         function showReviewModal() {
             const name = document.getElementById('input-name')?.value || '';
@@ -1962,6 +2180,8 @@
                 goTo((current + 1) % images.length);
             }, 4000);
         })();
+
+        updateProgressSummary();
     </script>
 
 </body>
