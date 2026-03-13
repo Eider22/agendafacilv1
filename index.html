@@ -1228,16 +1228,30 @@
                     </div>
                 </div>
 
-                <!-- Prof + Fecha/Hora -->
-                <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 mb-4">
-                    <p class="text-[10px] font-black uppercase text-slate-400 mb-1">Barbero</p>
+                <!-- Barbero -->
+                <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 mb-3">
+                    <div class="flex items-center justify-between mb-1">
+                        <p class="text-[10px] font-black uppercase text-slate-400">Barbero</p>
+                        <button onclick="changeFromReview(3)" class="text-[10px] font-black uppercase tracking-widest text-indigo-500 hover:text-indigo-700 transition-colors">Cambiar</button>
+                    </div>
                     <p id="final-prof" class="font-bold text-slate-700 text-sm">--</p>
-                    <p class="text-xs text-slate-400 mt-1"><span id="final-date">--</span> · <span id="final-time">--</span></p>
+                </div>
+
+                <!-- Fecha y Hora -->
+                <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 mb-4">
+                    <div class="flex items-center justify-between mb-1">
+                        <p class="text-[10px] font-black uppercase text-slate-400">Fecha y Hora</p>
+                        <button onclick="changeFromReview(4)" class="text-[10px] font-black uppercase tracking-widest text-indigo-500 hover:text-indigo-700 transition-colors">Cambiar</button>
+                    </div>
+                    <p class="text-sm font-bold text-slate-700"><span id="final-date">--</span> · <span id="final-time">--</span></p>
                 </div>
 
                 <!-- Servicios -->
                 <div class="p-4 border border-slate-100 rounded-2xl mb-4">
-                    <p class="text-[10px] font-black uppercase text-slate-400 mb-3">Servicios</p>
+                    <div class="flex items-center justify-between mb-3">
+                        <p class="text-[10px] font-black uppercase text-slate-400">Servicios</p>
+                        <button onclick="changeFromReview(2)" class="text-[10px] font-black uppercase tracking-widest text-indigo-500 hover:text-indigo-700 transition-colors">Cambiar</button>
+                    </div>
                     <div id="final-services" class="space-y-2 text-sm font-bold text-slate-600">--</div>
                 </div>
 
@@ -1770,6 +1784,11 @@
 
         function closeReviewModal() {
             document.getElementById('review-modal').classList.remove('show');
+        }
+
+        function changeFromReview(targetStep) {
+            closeReviewModal();
+            goToStep(targetStep);
         }
 
         function confirmAppointment() {
