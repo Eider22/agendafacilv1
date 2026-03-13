@@ -1357,6 +1357,7 @@
         };
 
         let step = 1;
+        const totalSteps = 5;
         let services = [];
         let professional = null;
         let professionalSeed = null;
@@ -1379,6 +1380,19 @@
             }
         });
 
+        function canProceedFromStep(stepToValidate) {
+            if (stepToValidate === 1) return true;
+            if (stepToValidate === 2) return services.length > 0;
+            if (stepToValidate === 3) return professional !== null;
+            if (stepToValidate === 4) return selectedDate !== null && time !== null;
+            if (stepToValidate === 5) {
+                const name = document.getElementById('input-name')?.value.trim() || "";
+                const phone = document.getElementById('input-phone')?.value.trim() || "";
+                return name.length > 0 && phone.length > 0;
+            }
+            return true;
+        }
+
         function goToIntro() {
             if (step === 1) return;
             step = 1;
@@ -1391,7 +1405,17 @@
         }
 
         function moveSlide(delta) {
-            step += delta;
+            if (delta > 0 && !canProceedFromStep(step)) return;
+
+            // On the last step, forward action should open review modal.
+            if (delta > 0 && step === totalSteps) {
+                showReviewModal();
+                return;
+            }
+
+            const nextStep = Math.max(1, Math.min(totalSteps, step + delta));
+            if (nextStep === step) return;
+            step = nextStep;
 
             const offset = (step - 1) * -20;
             slider.style.transform = `translateX(${offset}%)`;
@@ -1404,6 +1428,51 @@
             updateDots();
             validate();
         }
+
+        (function initMainSliderSwipe() {
+            const main = document.querySelector('main');
+            if (!main) return;
+
+            let startX = 0;
+            let startY = 0;
+            let tracking = false;
+
+            main.addEventListener('touchstart', (e) => {
+                if (e.touches.length !== 1) return;
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+                tracking = true;
+            }, { passive: true });
+
+            main.addEventListener('touchmove', (e) => {
+                if (!tracking) return;
+                const dx = Math.abs(e.touches[0].clientX - startX);
+                const dy = Math.abs(e.touches[0].clientY - startY);
+
+                // If user is clearly scrolling vertically, abort swipe tracking.
+                if (dy > dx) tracking = false;
+            }, { passive: true });
+
+            main.addEventListener('touchend', (e) => {
+                if (!tracking || e.changedTouches.length !== 1) return;
+
+                const diffX = e.changedTouches[0].clientX - startX;
+                const threshold = 70;
+
+                // Keep intro tab swipe behavior isolated on step 1.
+                if (step === 1) {
+                    tracking = false;
+                    return;
+                }
+
+                if (Math.abs(diffX) > threshold) {
+                    if (diffX < 0) moveSlide(1);
+                    else moveSlide(-1);
+                }
+
+                tracking = false;
+            }, { passive: true });
+        })();
 
         function goToStep(n) {
             step = n;
@@ -1717,31 +1786,7 @@
         =============================== */
 
         function validate() {
-
-            let isValid = false;
-
-            if (step === 1)
-                isValid = true;
-
-            else if (step === 2)
-                isValid = services.length > 0;
-
-            else if (step === 3)
-                isValid = professional !== null;
-
-            else if (step === 4)
-                isValid = selectedDate !== null && time !== null;
-
-            else if (step === 5) {
-                const name =
-                    document.getElementById('input-name')?.value.trim() || "";
-                const phone =
-                    document.getElementById('input-phone')?.value.trim() || "";
-
-                isValid = name.length > 0 && phone.length > 0;
-            }
-            else
-                isValid = true;
+            const isValid = canProceedFromStep(step);
 
             btnNext.disabled = !isValid;
 
