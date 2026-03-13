@@ -279,6 +279,31 @@
             white-space: nowrap;
         }
 
+        /* BLOQUEO DE HORARIOS cuando no hay fecha seleccionada */
+        #time-section {
+            position: relative;
+            transition: opacity .25s ease;
+        }
+
+        #time-section.time-locked {
+            opacity: .35;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        #time-lock-msg {
+            display: none;
+            position: absolute;
+            inset: 0;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        #time-section.time-locked #time-lock-msg {
+            display: flex;
+        }
+
         /* STRIP HORIZONTAL */
         .date-strip {
             display: flex;
@@ -854,6 +879,8 @@
                 <div class="slide-content">
                     <div class="max-w-xl mx-auto">
 
+                        <div id="time-section" class="time-locked">
+
                         <!-- Mañana -->
                         <div class="time-group mt-3">
                             <div class="flex items-center gap-2 mb-2">
@@ -908,6 +935,8 @@
                                 <button onclick="selectTime(this,'10:00 PM')" class="time-btn py-3 px-5 font-bold text-sm">10:00</button>
                             </div>
                         </div>
+
+                        </div><!-- /#time-section -->
 
                     </div>
                 </div>
@@ -1260,7 +1289,21 @@
            HORARIO
         =============================== */
 
+        function updateTimeLock() {
+            const section = document.getElementById('time-section');
+            if (!section) return;
+            if (selectedDate) {
+                section.classList.remove('time-locked');
+            } else {
+                section.classList.add('time-locked');
+                // Reset any previously selected time when date is cleared
+                document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('card-active'));
+                time = null;
+            }
+        }
+
         function selectTime(el, t) {
+            if (!selectedDate) return; // guard redundante
             document.querySelectorAll('.time-btn')
                 .forEach(b => b.classList.remove('card-active'));
 
@@ -1344,6 +1387,7 @@
             renderCalendar();
             renderStrip();
             if (!calCollapsed) toggleCalendar();
+            updateTimeLock();
             validate();
         }
 
@@ -1417,6 +1461,7 @@
             calMonth = date.getMonth();
             renderCalendar();
             renderStrip();
+            updateTimeLock();
             validate();
         }
 
