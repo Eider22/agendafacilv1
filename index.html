@@ -621,8 +621,8 @@
             margin-bottom: 0;
             padding: 6px;
             border-radius: 16px;
-            border: 1px solid #e2e8f0;
-            background: linear-gradient(180deg, rgba(255, 255, 255, .95) 0%, rgba(248, 250, 252, .95) 100%);
+            border: 1px solid #cbd5e1;
+            background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
             box-shadow: 0 6px 16px rgba(15, 23, 42, .06);
         }
 
@@ -634,12 +634,12 @@
         }
 
         .booking-progress-segment {
-            height: 24px;
+            height: 30px;
             border-radius: 10px;
-            border: 1px solid #e2e8f0;
-            background: #f8fafc;
-            color: #94a3b8;
-            font-size: 9px;
+            border: 1px solid #cbe1ce;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            color: #64748b;
+            font-size: 10px;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: .07em;
@@ -653,41 +653,40 @@
         }
 
         .booking-progress-segment::before {
-            content: '';
-            position: absolute;
-            left: 8px;
-            top: 50%;
-            width: 5px;
-            height: 5px;
-            border-radius: 9999px;
-            background: #cbd5e1;
-            transform: translateY(-50%);
-            transition: all .25s ease;
+            display: none;
         }
 
         .booking-progress-segment.done {
-            color: #4338ca;
-            border-color: #c7d2fe;
-            background: #eef2ff;
-            box-shadow: inset 0 -1px 0 rgba(99, 102, 241, .2);
+            color: #fff;
+            border-color: #3730a3;
+            background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
+            box-shadow: 0 2px 8px rgba(67, 56, 202, .32), inset 0 1px 0 rgba(255,255,255,.15);
         }
 
         .booking-progress-segment.done::before {
-            background: #6366f1;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, .16);
+            display: none;
         }
 
         .booking-progress-segment.current {
             color: #111827;
-            border-color: #818cf8;
-            background: linear-gradient(180deg, #e0e7ff 0%, #eef2ff 100%);
-            box-shadow: 0 0 0 2px rgba(99, 102, 241, .18);
+            border-color: #9f9fa4;
+            background: linear-gradient(180deg, #eef2ff 0%, #dbeafe 100%);
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, .14);
         }
 
-        .booking-progress-segment.current::before {
-            background: #4f46e5;
-            box-shadow: 0 0 0 4px rgba(79, 70, 229, .18);
-            animation: progressPulse 1.4s ease-in-out infinite;
+        .booking-progress-segment.current.done {
+            color: #fff;
+            border-color: #cbd2c9;
+            background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
+            box-shadow:
+                0 0 0 2px rgba(99, 102, 241, .18),
+                0 2px 8px rgba(67, 56, 202, .32),
+                inset 0 1px 0 rgba(255,255,255,.15);
+        }
+
+        .booking-progress-segment.current.done::before {
+            display: none;
+            animation: none;
         }
 
         @keyframes progressPulse {
@@ -717,15 +716,9 @@
             }
 
             .booking-progress-segment {
-                height: 22px;
-                font-size: 8px;
+                height: 28px;
+                font-size: 9px;
                 letter-spacing: .05em;
-            }
-
-            .booking-progress-segment::before {
-                left: 6px;
-                width: 4px;
-                height: 4px;
             }
 
             .step3-summary-cta {
