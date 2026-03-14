@@ -509,6 +509,31 @@
         }
 
         /* RESUMEN DESPLEGABLE EN BARRA INFERIOR */
+        .progress-summary-trigger {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 10px 12px;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            color: #334155;
+            border-radius: 14px;
+            transition: all .2s ease;
+            margin-bottom: 10px;
+        }
+
+        .progress-summary-trigger:hover {
+            border-color: #c7d2fe;
+            background: #f1f5f9;
+        }
+
+        .progress-summary-trigger:focus-visible {
+            outline: 2px solid rgba(79, 70, 229, .35);
+            outline-offset: 2px;
+        }
+
         .progress-summary-panel {
             position: absolute;
             left: 0;
@@ -534,6 +559,8 @@
             box-shadow: 0 20px 44px rgba(15, 23, 42, .14);
             backdrop-filter: blur(10px);
             padding: 12px;
+            max-height: min(44vh, 420px);
+            overflow-y: auto;
         }
 
         .progress-summary-row {
@@ -1021,16 +1048,16 @@
                                         <p id="cal-toggle-label" class="text-sm font-bold text-slate-700">Seleccionar fecha</p>
                                     </div>
                                 </div>
-                                <i data-lucide="chevron-down" id="cal-chevron" class="w-5 h-5 text-slate-400 transition-transform duration-300"></i>
+                                <i data-lucide="chevron-down" id="cal-chevron" class="w-5 h-5 text-slate-400 transition-transform duration-300" style="transform: rotate(-90deg);"></i>
                             </button>
 
                             <!-- Strip horizontal (visible cuando colapsado) -->
-                            <div id="cal-strip" class="px-5 pb-4 hidden">
+                            <div id="cal-strip" class="px-5 pb-4">
                                 <div id="cal-strip-days" class="date-strip"></div>
                             </div>
 
                             <!-- Calendario completo (visible cuando expandido) -->
-                            <div id="cal-body" class="px-4 pb-3">
+                            <div id="cal-body" class="px-4 pb-3 hidden">
                                 <div class="flex items-center justify-between mb-2">
                                     <button onclick="event.stopPropagation(); changeMonth(-1)" class="w-9 h-9 flex items-center justify-center rounded-xl hover:bg-slate-100 transition-colors text-slate-500">
                                         <i data-lucide="chevron-left" class="w-5 h-5"></i>
@@ -1205,55 +1232,83 @@
                 <!-- Barra normal (steps 2-5) -->
                 <div id="bar-steps" class="hidden">
                     <div class="relative">
+                        <button id="progress-summary-toggle" type="button" aria-expanded="false" aria-label="Ver avance de la reserva"
+                            class="progress-summary-trigger">
+                            <div class="min-w-0 text-left">
+                                <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Resumen de la reserva</p>
+                                <p id="progress-summary-preview" class="text-[11px] font-bold text-slate-600 truncate">Aún no has seleccionado nada</p>
+                            </div>
+                            <div class="flex items-center gap-2 flex-shrink-0">
+                                <span id="progress-summary-completion" class="text-[10px] font-black uppercase tracking-widest text-indigo-500">0/4 completo</span>
+                                <i data-lucide="chevron-up" id="progress-summary-chevron" class="w-4 h-4 progress-summary-chevron"></i>
+                            </div>
+                        </button>
+
                         <div class="flex items-center justify-between mb-2 gap-2">
                             <div class="min-w-0">
                                 <p class="text-[10px] font-black uppercase text-slate-400">Precio Final</p>
-                                <p id="progress-summary-preview" class="text-[11px] font-bold text-slate-500 truncate">Aún no has seleccionado nada</p>
+                                <p class="text-[11px] font-bold text-slate-500 truncate">Valor acumulado de tu selección</p>
                             </div>
-                            <div class="flex items-center gap-2 flex-shrink-0">
+                            <div class="flex items-center flex-shrink-0">
                                 <h4 id="display-total" class="text-2xl font-black text-indigo-600 tracking-[-1px]">$0</h4>
-                                <button id="progress-summary-toggle" type="button" aria-expanded="false" aria-label="Ver avance de la reserva"
-                                    class="w-9 h-9 rounded-xl border border-slate-200 bg-slate-50 text-slate-500 hover:bg-slate-100 transition-colors flex items-center justify-center">
-                                    <i data-lucide="chevron-up" id="progress-summary-chevron" class="w-4 h-4 progress-summary-chevron"></i>
-                                </button>
                             </div>
                         </div>
 
                         <div id="progress-summary-panel" class="progress-summary-panel">
                             <div class="progress-summary-shell">
-                                <div class="flex items-center justify-between mb-2">
-                                    <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Avance de tu reserva</p>
-                                    <span id="progress-summary-completion" class="text-[10px] font-black uppercase tracking-widest text-indigo-500">0/4 completo</span>
-                                </div>
+                                <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Avance de tu reserva</p>
 
                                 <div class="space-y-1.5">
                                     <div class="progress-summary-row flex items-start gap-2">
                                         <span id="summary-dot-services" class="summary-status-dot pending"></span>
                                         <div class="min-w-0">
                                             <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Servicios</p>
-                                            <p id="summary-services" class="text-xs font-bold text-slate-700 truncate">Sin seleccionar</p>
+                                            <p id="summary-services" class="text-xs font-bold text-slate-700">Sin seleccionar</p>
+                                            <p id="summary-services-detail" class="text-[11px] text-slate-500">Agrega al menos un servicio para continuar</p>
                                         </div>
                                     </div>
                                     <div class="progress-summary-row flex items-start gap-2">
                                         <span id="summary-dot-professional" class="summary-status-dot pending"></span>
                                         <div class="min-w-0">
                                             <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Barbero</p>
-                                            <p id="summary-professional" class="text-xs font-bold text-slate-700 truncate">Sin seleccionar</p>
+                                            <p id="summary-professional" class="text-xs font-bold text-slate-700">Sin seleccionar</p>
+                                            <p id="summary-professional-detail" class="text-[11px] text-slate-500">Selecciona quién te atenderá</p>
                                         </div>
                                     </div>
                                     <div class="progress-summary-row flex items-start gap-2">
                                         <span id="summary-dot-datetime" class="summary-status-dot pending"></span>
                                         <div class="min-w-0">
                                             <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Fecha y hora</p>
-                                            <p id="summary-datetime" class="text-xs font-bold text-slate-700 truncate">Sin seleccionar</p>
+                                            <p id="summary-datetime" class="text-xs font-bold text-slate-700">Sin seleccionar</p>
+                                            <p id="summary-datetime-detail" class="text-[11px] text-slate-500">Elige día y luego un horario disponible</p>
                                         </div>
                                     </div>
                                     <div class="progress-summary-row flex items-start gap-2">
                                         <span id="summary-dot-customer" class="summary-status-dot pending"></span>
                                         <div class="min-w-0">
                                             <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Tus datos</p>
-                                            <p id="summary-customer" class="text-xs font-bold text-slate-700 truncate">Pendiente de completar</p>
+                                            <p id="summary-customer" class="text-xs font-bold text-slate-700">Pendiente de completar</p>
+                                            <p id="summary-customer-detail" class="text-[11px] text-slate-500">Completa nombre y teléfono</p>
                                         </div>
+                                    </div>
+
+                                    <div class="progress-summary-row">
+                                        <div class="flex items-center justify-between mb-1">
+                                            <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Desglose de servicios</p>
+                                            <span id="summary-services-count" class="text-[10px] font-black uppercase tracking-widest text-slate-500">0 items</span>
+                                        </div>
+                                        <div id="summary-services-breakdown" class="space-y-1">
+                                            <p class="text-[11px] text-slate-500">Aun no hay servicios seleccionados.</p>
+                                        </div>
+                                        <div class="mt-2 pt-2 border-t border-slate-200 flex justify-between items-center">
+                                            <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Total</p>
+                                            <p id="summary-total" class="text-sm font-black text-indigo-600">$0</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="progress-summary-row">
+                                        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Siguiente paso</p>
+                                        <p id="summary-next-action" class="text-xs font-bold text-slate-700 mt-0.5">Empieza seleccionando un servicio.</p>
                                     </div>
                                 </div>
                             </div>
@@ -1834,6 +1889,7 @@
             calYear = today.getFullYear();
             calMonth = today.getMonth();
             renderCalendar();
+            renderStrip();
         })();
 
         function changeMonth(delta) {
@@ -1904,7 +1960,7 @@
             validate();
         }
 
-        let calCollapsed = false;
+        let calCollapsed = true;
         function toggleCalendar() {
             calCollapsed = !calCollapsed;
             const body = document.getElementById('cal-body');
@@ -2011,9 +2067,17 @@
             const previewEl = document.getElementById('progress-summary-preview');
             const completionEl = document.getElementById('progress-summary-completion');
             const servicesEl = document.getElementById('summary-services');
+            const servicesDetailEl = document.getElementById('summary-services-detail');
             const professionalEl = document.getElementById('summary-professional');
+            const professionalDetailEl = document.getElementById('summary-professional-detail');
             const datetimeEl = document.getElementById('summary-datetime');
+            const datetimeDetailEl = document.getElementById('summary-datetime-detail');
             const customerEl = document.getElementById('summary-customer');
+            const customerDetailEl = document.getElementById('summary-customer-detail');
+            const servicesCountEl = document.getElementById('summary-services-count');
+            const servicesBreakdownEl = document.getElementById('summary-services-breakdown');
+            const summaryTotalEl = document.getElementById('summary-total');
+            const nextActionEl = document.getElementById('summary-next-action');
 
             if (!previewEl || !completionEl || !servicesEl || !professionalEl || !datetimeEl || !customerEl) return;
 
@@ -2028,22 +2092,41 @@
             const completed = [servicesDone, professionalDone, datetimeDone, customerDone].filter(Boolean).length;
             completionEl.textContent = `${completed}/4 completo`;
 
+            const total = services.reduce((acc, s) => acc + s.price, 0);
+            if (summaryTotalEl) summaryTotalEl.textContent = `$${total.toLocaleString('es-CO')}`;
+            if (servicesCountEl) {
+                servicesCountEl.textContent = `${services.length} item${services.length === 1 ? '' : 's'}`;
+            }
+
             if (servicesDone) {
                 const base = services.slice(0, 2).map(s => s.name).join(', ');
                 const extra = services.length > 2 ? ` +${services.length - 2}` : '';
                 servicesEl.textContent = `${services.length} servicio${services.length > 1 ? 's' : ''}: ${base}${extra}`;
+                if (servicesDetailEl) {
+                    const avg = Math.round(total / services.length);
+                    servicesDetailEl.textContent = `Subtotal: $${total.toLocaleString('es-CO')} · Promedio: $${avg.toLocaleString('es-CO')}`;
+                }
             } else {
                 servicesEl.textContent = 'Sin seleccionar';
+                if (servicesDetailEl) servicesDetailEl.textContent = 'Agrega al menos un servicio para continuar';
             }
 
             professionalEl.textContent = professionalDone ? professional : 'Sin seleccionar';
+            if (professionalDetailEl) {
+                professionalDetailEl.textContent = professionalDone
+                    ? 'Profesional confirmado para tu cita'
+                    : 'Selecciona quien te atendera';
+            }
 
             if (datetimeDone) {
                 datetimeEl.textContent = `${formatDateForSummary(selectedDate)} · ${time}`;
+                if (datetimeDetailEl) datetimeDetailEl.textContent = 'Fecha y hora listas';
             } else if (selectedDate) {
                 datetimeEl.textContent = `${formatDateForSummary(selectedDate)} · falta hora`;
+                if (datetimeDetailEl) datetimeDetailEl.textContent = 'Solo falta elegir la hora';
             } else {
                 datetimeEl.textContent = 'Sin seleccionar';
+                if (datetimeDetailEl) datetimeDetailEl.textContent = 'Elige dia y luego un horario disponible';
             }
 
             customerEl.textContent = customerDone
@@ -2051,6 +2134,36 @@
                 : name || phone
                     ? 'Falta completar un campo'
                     : 'Pendiente de completar';
+
+            if (customerDetailEl) {
+                if (customerDone) {
+                    customerDetailEl.textContent = `Nombre: ${name} | Tel: ${phone}`;
+                } else {
+                    customerDetailEl.textContent = 'Completa nombre y telefono para confirmar';
+                }
+            }
+
+            if (servicesBreakdownEl) {
+                if (!servicesDone) {
+                    servicesBreakdownEl.innerHTML = '<p class="text-[11px] text-slate-500">Aun no hay servicios seleccionados.</p>';
+                } else {
+                    servicesBreakdownEl.innerHTML = services.map(s => `
+                        <div class="flex items-center justify-between text-[11px]">
+                            <span class="font-semibold text-slate-700 pr-2">${s.name}</span>
+                            <span class="font-bold text-indigo-600">$${s.price.toLocaleString('es-CO')}</span>
+                        </div>
+                    `).join('');
+                }
+            }
+
+            if (nextActionEl) {
+                if (!servicesDone) nextActionEl.textContent = 'Empieza seleccionando uno o varios servicios.';
+                else if (!professionalDone) nextActionEl.textContent = 'Ahora elige el barbero que prefieras.';
+                else if (!selectedDate) nextActionEl.textContent = 'Selecciona una fecha para ver disponibilidad.';
+                else if (!time) nextActionEl.textContent = 'Selecciona la hora para continuar.';
+                else if (!customerDone) nextActionEl.textContent = 'Completa tus datos para finalizar la reserva.';
+                else nextActionEl.textContent = 'Todo listo. Puedes revisar y confirmar tu reserva.';
+            }
 
             setStatusDot(document.getElementById('summary-dot-services'), servicesDone);
             setStatusDot(document.getElementById('summary-dot-professional'), professionalDone);
