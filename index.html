@@ -619,37 +619,36 @@
 
         .booking-progress-wrap {
             margin-bottom: 0;
-            padding: 6px;
-            border-radius: 16px;
-            border: 1px solid #cbd5e1;
-            background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
-            box-shadow: 0 6px 16px rgba(15, 23, 42, .06);
+            padding: 2px;
+            border-radius: 999px;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            box-shadow: none;
         }
 
         .booking-progress-line {
             width: 100%;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
+            gap: 2px;
         }
 
         .booking-progress-segment {
-            height: 30px;
-            border-radius: 10px;
-            border: 1px solid #cbe1ce;
-            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-            color: #64748b;
-            font-size: 10px;
+            height: 6px;
+            border-radius: 999px;
+            border: 0;
+            background: #cbd5e1;
+            color: transparent;
+            font-size: 0;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: .07em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            letter-spacing: 0;
+            display: block;
             white-space: nowrap;
-            transition: all .25s ease;
+            transition: background-color .22s ease, transform .22s ease;
             position: relative;
             overflow: hidden;
+            line-height: 0;
         }
 
         .booking-progress-segment::before {
@@ -657,10 +656,10 @@
         }
 
         .booking-progress-segment.done {
-            color: #fff;
-            border-color: #3730a3;
-            background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
-            box-shadow: 0 2px 8px rgba(67, 56, 202, .32), inset 0 1px 0 rgba(255,255,255,.15);
+            color: transparent;
+            border-color: transparent;
+            background: #6366f1;
+            box-shadow: none;
         }
 
         .booking-progress-segment.done::before {
@@ -668,20 +667,18 @@
         }
 
         .booking-progress-segment.current {
-            color: #111827;
-            border-color: #9f9fa4;
-            background: linear-gradient(180deg, #eef2ff 0%, #dbeafe 100%);
-            box-shadow: 0 0 0 2px rgba(99, 102, 241, .14);
+            color: transparent;
+            border-color: transparent;
+            background: #4338ca;
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, .2);
+            transform: scaleY(1.12);
         }
 
         .booking-progress-segment.current.done {
-            color: #fff;
-            border-color: #cbd2c9;
-            background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
-            box-shadow:
-                0 0 0 2px rgba(99, 102, 241, .18),
-                0 2px 8px rgba(67, 56, 202, .32),
-                inset 0 1px 0 rgba(255,255,255,.15);
+            color: transparent;
+            border-color: transparent;
+            background: #4338ca;
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, .2);
         }
 
         .booking-progress-segment.current.done::before {
@@ -695,30 +692,22 @@
         }
 
         .header-progress-caption {
-            font-size: 10px;
-            font-weight: 800;
-            color: #4338ca;
-            text-transform: uppercase;
-            letter-spacing: .06em;
-            padding: 3px 8px;
-            border-radius: 999px;
-            background: #eef2ff;
-            border: 1px solid #c7d2fe;
+            display: none;
         }
 
         @media (max-width: 640px) {
             .booking-progress-wrap {
-                padding: 5px;
+                padding: 2px;
             }
 
             .booking-progress-line {
-                gap: 4px;
+                gap: 2px;
             }
 
             .booking-progress-segment {
-                height: 28px;
-                font-size: 9px;
-                letter-spacing: .05em;
+                height: 5px;
+                font-size: 0;
+                letter-spacing: 0;
             }
 
             .step3-summary-cta {
@@ -874,7 +863,7 @@
                 <p id="header-progress-caption" class="header-progress-caption hidden">0/4 pasos</p>
             </div>
 
-            <div id="progress-bar" class="hidden mt-2">
+            <div id="progress-bar" class="hidden mt-1">
                 <div class="booking-progress-wrap" aria-label="Progreso de la reserva">
                     <div class="booking-progress-line">
                         <span id="booking-step-services" class="booking-progress-segment">Servicios</span>
