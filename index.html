@@ -785,6 +785,23 @@
             opacity: 1;
         }
 
+        .confirm-services-scroll {
+            max-height: 170px;
+            overflow-y: auto;
+            padding-right: 4px;
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 transparent;
+        }
+
+        .confirm-services-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .confirm-services-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 999px;
+        }
+
         /* PASO 4: animación de atención en tarjeta de datos */
         @keyframes dataCardPulse {
             0%   { box-shadow: 0 0 0 0   rgba(99,102,241,0);   border-color: #e2e8f0; }
@@ -830,6 +847,12 @@
 
         .step4-summary-card {
             transition: opacity .35s ease, filter .35s ease;
+        }
+
+        .step4-summary-card.inactive {
+            opacity: .5;
+            filter: grayscale(.5);
+            pointer-events: none;
         }
     </style>
 </head>
@@ -1426,7 +1449,7 @@
                         </div>
 
                         <!-- Resumen de cita -->
-                        <div id="confirm-summary-card" class="step4-summary-card bg-white rounded-2xl border border-[var(--border-soft)] shadow-[var(--shadow-soft)] overflow-hidden">
+                        <div id="confirm-summary-card" class="step4-summary-card inactive bg-white rounded-2xl border border-[var(--border-soft)] shadow-[var(--shadow-soft)] overflow-hidden">
                             <div class="px-4 pt-3 pb-2 border-b border-slate-100 flex items-center gap-2">
                                 <div class="w-6 h-6 bg-indigo-50 rounded-lg flex items-center justify-center flex-shrink-0">
                                     <i data-lucide="calendar-check" class="w-3.5 h-3.5 text-indigo-500"></i>
@@ -1472,7 +1495,7 @@
                                     <div class="flex items-center justify-end mb-1.5">
                                         <button onclick="changeFromReview(2)" class="text-[9px] font-black uppercase tracking-widest text-indigo-500 px-2 py-1 rounded-lg hover:bg-indigo-50 transition-colors">Cambiar</button>
                                     </div>
-                                    <div id="confirm-services-list" class="space-y-1 text-sm font-bold text-slate-700">—</div>
+                                    <div id="confirm-services-list" class="confirm-services-scroll space-y-1 text-sm font-bold text-slate-700">—</div>
                                 </div>
                             </div>
                         </div>
@@ -2348,8 +2371,75 @@
             toggleEl.setAttribute('aria-expanded', String(expanded));
         }
 
+        let servicesScrollAnimationFrame = null;
+
         function toggleConfirmServicesDetails() {
-            setConfirmServicesExpanded(!confirmServicesExpanded);
+            const nextExpanded = !confirmServicesExpanded;
+            setConfirmServicesExpanded(nextExpanded);
+
+            if (nextExpanded) {
+                // Wait for expand transition and then run one smooth guided scroll.
+                setTimeout(() => {
+                    smoothScrollSummaryIntoView();
+                }, 320);
+            }
+        }
+
+        function smoothScrollSummaryIntoView() {
+            const cardEl = document.getElementById('confirm-summary-card');
+            const detailsEl = document.getElementById('confirm-services-details');
+            if (!cardEl || !detailsEl || !confirmServicesExpanded) return;
+
+            const scroller = cardEl.closest('.slide')?.querySelector('.slide-content');
+            if (!scroller) return;
+
+            const scrollerRect = scroller.getBoundingClientRect();
+            const cardRect = cardEl.getBoundingClientRect();
+            const detailsRect = detailsEl.getBoundingClientRect();
+            const footerEl = document.querySelector('main > .fixed.bottom-0');
+            const footerHeight = footerEl instanceof HTMLElement ? footerEl.offsetHeight : 0;
+
+            const topTarget = scroller.scrollTop + (cardRect.top - scrollerRect.top) - 8;
+            const visibleBottom = Math.min(scrollerRect.bottom, window.innerHeight - footerHeight) - 12;
+            const overflow = detailsRect.bottom - visibleBottom;
+            const targetTop = Math.max(0, topTarget + Math.max(0, overflow));
+
+            animateScrollerTo(scroller, targetTop, 460);
+        }
+
+        function animateScrollerTo(scroller, targetTop, durationMs = 420) {
+            if (servicesScrollAnimationFrame !== null) {
+                cancelAnimationFrame(servicesScrollAnimationFrame);
+                servicesScrollAnimationFrame = null;
+            }
+
+            const startTop = scroller.scrollTop;
+            const delta = targetTop - startTop;
+            if (Math.abs(delta) < 2) {
+                scroller.scrollTop = targetTop;
+                return;
+            }
+
+            const startTime = performance.now();
+            const easeInOutCubic = (t) => t < 0.5
+                ? 4 * t * t * t
+                : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+            const step = (now) => {
+                const elapsed = now - startTime;
+                const progress = Math.min(1, elapsed / durationMs);
+                const eased = easeInOutCubic(progress);
+
+                scroller.scrollTop = startTop + delta * eased;
+
+                if (progress < 1) {
+                    servicesScrollAnimationFrame = requestAnimationFrame(step);
+                } else {
+                    servicesScrollAnimationFrame = null;
+                }
+            };
+
+            servicesScrollAnimationFrame = requestAnimationFrame(step);
         }
 
         function formatDateForSummary(date) {
@@ -2393,6 +2483,14 @@
             const servicesCountEl = document.getElementById('confirm-services-count');
             if (servicesCountEl) {
                 servicesCountEl.textContent = services.length === 1 ? '1 servicio' : `${services.length} servicios`;
+            }
+
+            const name = document.getElementById('input-name')?.value.trim() || '';
+            const phone = document.getElementById('input-phone')?.value.trim() || '';
+            const hasCustomerData = name.length > 0 && phone.length > 0;
+            const summaryCardEl = document.getElementById('confirm-summary-card');
+            if (summaryCardEl) {
+                summaryCardEl.classList.toggle('inactive', !hasCustomerData);
             }
 
             const detailsEl = document.getElementById('confirm-services-details');
