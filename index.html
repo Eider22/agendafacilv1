@@ -64,52 +64,55 @@
             padding: 14px 20px 0;
         }
 
-        /* Cabeceras de pasos: jerarquía clara + progreso contextual */
+        /* Cabeceras de pasos: distribución optimizada en 2 líneas */
         .slide:not(:first-child) .slide-header {
-            padding: 8px 14px 10px;
+            padding: 6px 12px 7px;
             background: linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(248,250,252,.96) 100%);
             border-bottom: 1px solid #e2e8f0;
-            box-shadow: 0 3px 14px rgba(15, 23, 42, .05);
+            box-shadow: 0 2px 10px rgba(15, 23, 42, .04);
         }
 
         .slide:not(:first-child) .slide-header > .max-w-xl:first-child {
             position: relative;
             display: grid;
-            gap: 2px;
+            grid-template-columns: minmax(0, 1fr);
+            grid-template-areas:
+                "title"
+                "desc";
+            align-items: center;
+            column-gap: 0;
+            row-gap: 2px;
             padding-bottom: 0;
         }
 
         .slide:not(:first-child) .slide-header > .max-w-xl > span {
-            display: inline-flex;
-            width: fit-content;
-            padding: 2px 8px;
-            border-radius: 999px;
-            background: #eef2ff;
-            color: #4338ca;
-            font-size: 9px;
-            font-weight: 800;
-            letter-spacing: .08em;
-            text-transform: uppercase;
+            display: none;
         }
 
         .slide:not(:first-child) .slide-header > .max-w-xl > h2 {
+            grid-area: title;
             display: block;
             margin: 0;
-            font-size: 1.05rem;
-            line-height: 1.2;
+            font-size: .96rem;
+            line-height: 1.08;
             font-weight: 800;
             color: #0f172a;
             letter-spacing: -0.01em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .slide:not(:first-child) .slide-header > .max-w-xl > p {
+            grid-area: desc;
             margin: 0;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            font-size: 11px;
+            font-size: 9px;
+            line-height: 1.15;
             font-weight: 700;
-            color: #475569;
+            color: #64748b;
         }
 
         .slide-content {
@@ -276,27 +279,58 @@
             max-width: 36px;
             max-height: 36px;
             margin: 0 auto;
+            background: #ffffff;
         }
 
         .cal-day:hover:not(.cal-disabled):not(.cal-active) {
-            background: #f1f5f9;
+            background: #eef2ff;
+            border-color: #c7d2fe;
+            color: #3730a3;
         }
 
         .cal-active {
             background: #6366f1 !important;
             color: white !important;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, .3);
+            border-color: #4338ca !important;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, .3), 0 0 0 2px rgba(99,102,241,.2);
         }
 
         .cal-disabled {
             color: #cbd5e1;
+            background: #f8fafc;
             cursor: default;
             pointer-events: none;
+        }
+
+        .cal-day.weekend:not(.cal-active):not(.cal-disabled) {
+            color: #475569;
+            background: #f8fafc;
         }
 
         .cal-today:not(.cal-active) {
             border-color: #6366f1;
             color: #6366f1;
+            background: #eef2ff;
+        }
+
+        .cal-day:focus-visible {
+            outline: 2px solid rgba(79, 70, 229, .45);
+            outline-offset: 2px;
+        }
+
+        @keyframes calMonthFadeIn {
+            from {
+                opacity: .45;
+                transform: translateY(4px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .calendar-enter {
+            animation: calMonthFadeIn .22s ease;
         }
 
         /* STRIP HORARIOS */
@@ -418,26 +452,27 @@
         @media (max-width: 640px) {
             /* Cabecera compacta igual para todos los pasos */
             .slide:not(:first-child) .slide-header {
-                padding: 7px 12px 9px;
+                padding: 5px 10px 6px;
             }
 
             .slide:not(:first-child) .slide-header > .max-w-xl:first-child {
-                gap: 1px;
+                column-gap: 0;
+                row-gap: 1px;
                 padding-bottom: 0;
             }
 
             .slide:not(:first-child) .slide-header > .max-w-xl > span {
-                font-size: 8px;
-                padding: 2px 7px;
+                display: none;
             }
 
             .slide:not(:first-child) .slide-header > .max-w-xl > h2 {
-                font-size: .98rem;
-                line-height: 1.2;
+                font-size: .88rem;
+                line-height: 1.05;
             }
 
             .slide:not(:first-child) .slide-header .max-w-xl > p {
-                font-size: 10px;
+                font-size: 9px;
+                line-height: 1.05;
                 margin-bottom: 0;
             }
 
@@ -2224,6 +2259,7 @@
 
             const container = document.getElementById('cal-days');
             container.innerHTML = '';
+            container.classList.remove('calendar-enter');
 
             const today = new Date();
             today.setHours(0,0,0,0);
@@ -2242,24 +2278,37 @@
 
             for (let d = 1; d <= daysInMonth; d++) {
                 const date = new Date(calYear, calMonth, d);
-                const btn = document.createElement('div');
+                const btn = document.createElement('button');
+                btn.type = 'button';
                 btn.className = 'cal-day';
                 btn.textContent = d;
+                const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+                if (isWeekend) btn.classList.add('weekend');
+                btn.setAttribute('aria-label', `${d} de ${months[calMonth]} de ${calYear}`);
 
                 if (date < today) {
                     btn.classList.add('cal-disabled');
+                    btn.disabled = true;
                 } else {
                     if (date.getTime() === today.getTime()) {
                         btn.classList.add('cal-today');
+                        btn.setAttribute('aria-current', 'date');
                     }
                     if (selectedDate && date.getTime() === selectedDate.getTime()) {
                         btn.classList.add('cal-active');
+                        btn.setAttribute('aria-selected', 'true');
+                    } else {
+                        btn.setAttribute('aria-selected', 'false');
                     }
                     btn.addEventListener('click', () => selectDate(date));
                 }
 
                 container.appendChild(btn);
             }
+
+            requestAnimationFrame(() => {
+                container.classList.add('calendar-enter');
+            });
         }
 
         function selectDate(date) {
