@@ -64,30 +64,52 @@
             padding: 14px 20px 0;
         }
 
-        /* Cabeceras compactas en pasos: solo una linea de instruccion */
+        /* Cabeceras de pasos: jerarquía clara + progreso contextual */
         .slide:not(:first-child) .slide-header {
-              padding: 4px 14px 0;
+            padding: 8px 14px 10px;
+            background: linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(248,250,252,.96) 100%);
+            border-bottom: 1px solid #e2e8f0;
+            box-shadow: 0 3px 14px rgba(15, 23, 42, .05);
         }
 
-        .slide:not(:first-child) .slide-header > .max-w-xl > span,
+        .slide:not(:first-child) .slide-header > .max-w-xl:first-child {
+            position: relative;
+            display: grid;
+            gap: 2px;
+            padding-bottom: 0;
+        }
+
+        .slide:not(:first-child) .slide-header > .max-w-xl > span {
+            display: inline-flex;
+            width: fit-content;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: #eef2ff;
+            color: #4338ca;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
         .slide:not(:first-child) .slide-header > .max-w-xl > h2 {
-            display: none;
+            display: block;
+            margin: 0;
+            font-size: 1.05rem;
+            line-height: 1.2;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.01em;
         }
 
         .slide:not(:first-child) .slide-header > .max-w-xl > p {
-            margin: 0 0 4px;
+            margin: 0;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             font-size: 11px;
             font-weight: 700;
-            color: #64748b;
-        }
-
-        /* Título de cabecera en pasos */
-        .slide:not(:first-child) .slide-header h2 {
-            font-size: 1.7rem;
-            line-height: 1.15;
+            color: #475569;
         }
 
         .slide-content {
@@ -396,18 +418,27 @@
         @media (max-width: 640px) {
             /* Cabecera compacta igual para todos los pasos */
             .slide:not(:first-child) .slide-header {
-                padding: 4px 13px 0;
+                padding: 7px 12px 9px;
             }
 
-            .slide:not(:first-child) .slide-header h2 {
-                font-size: 1.35rem;
-                line-height: 1.15;
-                margin-bottom: 1px;
+            .slide:not(:first-child) .slide-header > .max-w-xl:first-child {
+                gap: 1px;
+                padding-bottom: 0;
+            }
+
+            .slide:not(:first-child) .slide-header > .max-w-xl > span {
+                font-size: 8px;
+                padding: 2px 7px;
+            }
+
+            .slide:not(:first-child) .slide-header > .max-w-xl > h2 {
+                font-size: .98rem;
+                line-height: 1.2;
             }
 
             .slide:not(:first-child) .slide-header .max-w-xl > p {
-                font-size: 11px;
-                margin-bottom: 4px;
+                font-size: 10px;
+                margin-bottom: 0;
             }
 
             /* Paso 3: calendario */
@@ -1251,7 +1282,7 @@
             <!-- PASO 3: HORARIO -->
             <div class="slide step-3-slide">
 
-                <div class="slide-header" style="padding: 4px 16px 0;">
+                <div class="slide-header">
                     <div class="max-w-xl mx-auto">
                         <span class="text-indigo-600 font-bold text-xs uppercase tracking-widest">
                             Paso 3
@@ -1396,8 +1427,10 @@
             <!-- PASO 4: DATOS -->
             <div class="slide">
 
-                <div class="slide-header" style="padding: 4px 14px 0;">
+                <div class="slide-header">
                     <div class="max-w-xl mx-auto">
+                        <span class="text-indigo-600 font-bold text-xs uppercase tracking-widest">Paso 4</span>
+                        <h2 class="text-2xl font-black">Datos y Confirmación</h2>
                         <p class="text-slate-400 text-sm mb-2">Completa tus datos y confirma la cita</p>
                     </div>
                 </div>
