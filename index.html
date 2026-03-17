@@ -64,55 +64,65 @@
             padding: 14px 20px 0;
         }
 
-        /* Cabeceras de pasos: distribución optimizada en 2 líneas */
+        /* Cabeceras de pasos con estilo premium */
         .slide:not(:first-child) .slide-header {
-            padding: 6px 12px 7px;
-            background: linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(248,250,252,.96) 100%);
-            border-bottom: 1px solid #e2e8f0;
-            box-shadow: 0 2px 10px rgba(15, 23, 42, .04);
+            padding: 7px 10px 8px;
+            background:
+                radial-gradient(120% 130% at 0% -20%, rgba(99, 102, 241, .08) 0%, rgba(99, 102, 241, 0) 60%),
+                linear-gradient(180deg, rgba(255, 255, 255, .98) 0%, rgba(248, 250, 252, .98) 100%);
+            border-bottom: 1px solid #dbe3ee;
+            box-shadow: 0 7px 18px rgba(15, 23, 42, .05);
         }
 
-        .slide:not(:first-child) .slide-header > .max-w-xl:first-child {
+        .step-head {
             position: relative;
-            display: grid;
-            grid-template-columns: minmax(0, 1fr);
-            grid-template-areas:
-                "title"
-                "desc";
-            align-items: center;
-            column-gap: 0;
-            row-gap: 2px;
-            padding-bottom: 0;
+            border: 1px solid #dbe3ee;
+            border-radius: 18px;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            padding: 7px 9px 8px;
+            overflow: hidden;
         }
 
-        .slide:not(:first-child) .slide-header > .max-w-xl > span {
-            display: none;
+        .step-head::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #4338ca 0%, #6366f1 55%, #93c5fd 100%);
+            opacity: .85;
         }
 
-        .slide:not(:first-child) .slide-header > .max-w-xl > h2 {
-            grid-area: title;
-            display: block;
+        .step-head-title {
             margin: 0;
-            font-size: .96rem;
-            line-height: 1.08;
-            font-weight: 800;
+            font-size: clamp(.9rem, 1.35vw, 1.02rem);
+            line-height: 1.14;
+            font-weight: 900;
             color: #0f172a;
-            letter-spacing: -0.01em;
+            letter-spacing: -0.012em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 4px;
+        }
+
+        .step-head-help {
+            margin: 0 0 5px;
+            font-size: clamp(.64rem, 1.1vw, .71rem);
+            line-height: 1.22;
+            font-weight: 650;
+            color: #64748b;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        .slide:not(:first-child) .slide-header > .max-w-xl > p {
-            grid-area: desc;
-            margin: 0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-size: 9px;
-            line-height: 1.15;
-            font-weight: 700;
-            color: #64748b;
+        .step-head .booking-progress-wrap {
+            margin-bottom: 0;
+            padding: 2px;
+            border: 1px solid #dbe3ee;
+            background: #f8fafc;
         }
 
         .slide-content {
@@ -450,30 +460,25 @@
         }
 
         @media (max-width: 640px) {
-            /* Cabecera compacta igual para todos los pasos */
             .slide:not(:first-child) .slide-header {
-                padding: 5px 10px 6px;
+                padding: 6px 7px 7px;
             }
 
-            .slide:not(:first-child) .slide-header > .max-w-xl:first-child {
-                column-gap: 0;
-                row-gap: 1px;
-                padding-bottom: 0;
+            .step-head {
+                border-radius: 15px;
+                padding: 7px 8px 8px;
             }
 
-            .slide:not(:first-child) .slide-header > .max-w-xl > span {
-                display: none;
+            .step-head-title {
+                margin-bottom: 4px;
             }
 
-            .slide:not(:first-child) .slide-header > .max-w-xl > h2 {
-                font-size: .88rem;
-                line-height: 1.05;
+            .step-head-help {
+                margin-bottom: 4px;
             }
 
-            .slide:not(:first-child) .slide-header .max-w-xl > p {
-                font-size: 9px;
-                line-height: 1.05;
-                margin-bottom: 0;
+            .step-head .booking-progress-wrap {
+                padding: 2px;
             }
 
             /* Paso 3: calendario */
@@ -724,7 +729,7 @@
         .booking-progress-segment.done {
             color: transparent;
             border-color: transparent;
-            background: #6366f1;
+            background: linear-gradient(90deg, #4f46e5 0%, #6366f1 100%);
             box-shadow: none;
         }
 
@@ -735,16 +740,16 @@
         .booking-progress-segment.current {
             color: transparent;
             border-color: transparent;
-            background: #4338ca;
-            box-shadow: 0 0 0 2px rgba(99, 102, 241, .2);
+            background: linear-gradient(90deg, #3730a3 0%, #4338ca 100%);
+            box-shadow: 0 0 0 2px rgba(67, 56, 202, .2);
             transform: scaleY(1.12);
         }
 
         .booking-progress-segment.current.done {
             color: transparent;
             border-color: transparent;
-            background: #4338ca;
-            box-shadow: 0 0 0 2px rgba(99, 102, 241, .2);
+            background: linear-gradient(90deg, #3730a3 0%, #4338ca 100%);
+            box-shadow: 0 0 0 2px rgba(67, 56, 202, .2);
         }
 
         .booking-progress-segment.current.done::before {
@@ -755,10 +760,6 @@
         @keyframes progressPulse {
             0%, 100% { transform: translateY(-50%) scale(1); }
             50% { transform: translateY(-50%) scale(1.12); }
-        }
-
-        .header-progress-caption {
-            display: none;
         }
 
         @media (max-width: 640px) {
@@ -914,35 +915,7 @@
 
 <body class="h-screen flex flex-col">
 
-    <!-- HEADER -->
-    <header
-        class="bg-white/90 backdrop-blur-xl border-b border-[var(--border-soft)] px-6 py-4 flex-shrink-0 z-50 shadow-sm">
-        <div class="max-w-7xl mx-auto w-full">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-3 cursor-pointer group" onclick="goToIntro()">
-                    <div
-                        class="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center text-white font-black text-xs shadow-lg shadow-slate-400 group-hover:shadow-slate-500 transition-shadow">
-                        017
-                    </div>
-                    <h1 class="font-extrabold text-lg tracking-tight group-hover:text-indigo-600 transition-colors">Barbería 017</h1>
-                </div>
-                <p id="header-progress-caption" class="header-progress-caption hidden">0/4 pasos</p>
-            </div>
-
-            <div id="progress-bar" class="hidden mt-1">
-                <div class="booking-progress-wrap" aria-label="Progreso de la reserva">
-                    <div class="booking-progress-line">
-                        <span id="booking-step-services" class="booking-progress-segment">Servicios</span>
-                        <span id="booking-step-professional" class="booking-progress-segment">Barbero</span>
-                        <span id="booking-step-datetime" class="booking-progress-segment">Fecha</span>
-                        <span id="booking-step-customer" class="booking-progress-segment">Datos</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <main class="relative flex flex-col overflow-hidden h-[calc(100dvh-80px)]">
+    <main class="relative flex flex-col overflow-hidden h-[100dvh]">
 
         <div id="main-slider" class="slider-container">
 
@@ -1123,11 +1096,18 @@
             <div class="slide">
                 <div class="slide-header">
                     <div class="max-w-xl mx-auto">
-                        <span class="text-indigo-600 font-bold text-xs uppercase tracking-widest">Paso
-                            1</span>
-                        <h2 class="text-2xl font-black">Servicios</h2>
-                        <p class="text-slate-400 text-sm mb-3">Selecciona los
-                            servicios que deseas.</p>
+                        <div class="step-head">
+                            <h2 class="step-head-title">Servicios</h2>
+                            <p class="step-head-help">Selecciona los servicios que deseas agendar.</p>
+                            <div class="booking-progress-wrap" aria-label="Progreso de la reserva">
+                                <div class="booking-progress-line">
+                                    <span class="booking-progress-segment" data-progress-key="services">Servicios</span>
+                                    <span class="booking-progress-segment" data-progress-key="professional">Barbero</span>
+                                    <span class="booking-progress-segment" data-progress-key="datetime">Fecha</span>
+                                    <span class="booking-progress-segment" data-progress-key="customer">Datos</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -1222,11 +1202,18 @@
 
                 <div class="slide-header">
                     <div class="max-w-xl mx-auto">
-                        <span class="text-indigo-600 font-bold text-xs uppercase tracking-widest">
-                            Paso 2
-                        </span>
-                        <h2 class="text-2xl font-black">Barbero</h2>
-                        <p class="text-slate-400 text-sm mb-3">Elige tu barbero de confianza.</p>
+                        <div class="step-head">
+                            <h2 class="step-head-title">Barbero</h2>
+                            <p class="step-head-help">Elige el barbero con quien quieres atenderte.</p>
+                            <div class="booking-progress-wrap" aria-label="Progreso de la reserva">
+                                <div class="booking-progress-line">
+                                    <span class="booking-progress-segment" data-progress-key="services">Servicios</span>
+                                    <span class="booking-progress-segment" data-progress-key="professional">Barbero</span>
+                                    <span class="booking-progress-segment" data-progress-key="datetime">Fecha</span>
+                                    <span class="booking-progress-segment" data-progress-key="customer">Datos</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -1319,13 +1306,18 @@
 
                 <div class="slide-header">
                     <div class="max-w-xl mx-auto">
-                        <span class="text-indigo-600 font-bold text-xs uppercase tracking-widest">
-                            Paso 3
-                        </span>
-                        <h2 class="step-3-title text-2xl font-black">Fecha y Hora</h2>
-                        <p class="step-3-subtitle text-slate-400 text-sm mb-3">
-                            Selecciona fecha y hora disponible.
-                        </p>
+                        <div class="step-head mb-3">
+                            <h2 class="step-head-title step-3-title">Fecha y Hora</h2>
+                            <p class="step-head-help">Selecciona una fecha y luego un horario disponible.</p>
+                            <div class="booking-progress-wrap" aria-label="Progreso de la reserva">
+                                <div class="booking-progress-line">
+                                    <span class="booking-progress-segment" data-progress-key="services">Servicios</span>
+                                    <span class="booking-progress-segment" data-progress-key="professional">Barbero</span>
+                                    <span class="booking-progress-segment" data-progress-key="datetime">Fecha</span>
+                                    <span class="booking-progress-segment" data-progress-key="customer">Datos</span>
+                                </div>
+                            </div>
+                        </div>
                         <!-- <button onclick="openStep3SummaryModal()" class="step3-summary-cta" aria-label="Abrir resumen de la cita">
                             <div class="step3-summary-main">
                                 <span class="step3-summary-icon">
@@ -1464,9 +1456,18 @@
 
                 <div class="slide-header">
                     <div class="max-w-xl mx-auto">
-                        <span class="text-indigo-600 font-bold text-xs uppercase tracking-widest">Paso 4</span>
-                        <h2 class="text-2xl font-black">Datos y Confirmación</h2>
-                        <p class="text-slate-400 text-sm mb-2">Completa tus datos y confirma la cita</p>
+                        <div class="step-head mb-2">
+                            <h2 class="step-head-title">Datos y Confirmación</h2>
+                            <p class="step-head-help">Completa tus datos para confirmar la cita.</p>
+                            <div class="booking-progress-wrap" aria-label="Progreso de la reserva">
+                                <div class="booking-progress-line">
+                                    <span class="booking-progress-segment" data-progress-key="services">Servicios</span>
+                                    <span class="booking-progress-segment" data-progress-key="professional">Barbero</span>
+                                    <span class="booking-progress-segment" data-progress-key="datetime">Fecha</span>
+                                    <span class="booking-progress-segment" data-progress-key="customer">Datos</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -2149,18 +2150,12 @@
         }
 
         function updateDots() {
-            const bar = document.getElementById('progress-bar');
-            bar.classList.toggle('hidden', step === 1);
-            const steps = [
-                document.getElementById('booking-step-services'),
-                document.getElementById('booking-step-professional'),
-                document.getElementById('booking-step-datetime'),
-                document.getElementById('booking-step-customer')
-            ];
+            const keys = ['services', 'professional', 'datetime', 'customer'];
             const currentIndex = Math.max(0, Math.min(3, step - 2));
-            steps.forEach((el, idx) => {
-                if (!el) return;
-                el.classList.toggle('current', step > 1 && idx === currentIndex);
+            keys.forEach((key, idx) => {
+                document.querySelectorAll(`[data-progress-key="${key}"]`).forEach((el) => {
+                    el.classList.toggle('current', step > 1 && idx === currentIndex);
+                });
             });
         }
 
@@ -2586,13 +2581,12 @@
         }
 
         function updateProgressSummary() {
-            const servicesStepEl = document.getElementById('booking-step-services');
-            const professionalStepEl = document.getElementById('booking-step-professional');
-            const datetimeStepEl = document.getElementById('booking-step-datetime');
-            const customerStepEl = document.getElementById('booking-step-customer');
-            const captionEl = document.getElementById('header-progress-caption');
+            const servicesStepEls = document.querySelectorAll('[data-progress-key="services"]');
+            const professionalStepEls = document.querySelectorAll('[data-progress-key="professional"]');
+            const datetimeStepEls = document.querySelectorAll('[data-progress-key="datetime"]');
+            const customerStepEls = document.querySelectorAll('[data-progress-key="customer"]');
 
-            if (!servicesStepEl || !professionalStepEl || !datetimeStepEl || !customerStepEl) return;
+            if (!servicesStepEls.length || !professionalStepEls.length || !datetimeStepEls.length || !customerStepEls.length) return;
 
             const name = document.getElementById('input-name')?.value.trim() || '';
             const phone = document.getElementById('input-phone')?.value.trim() || '';
@@ -2601,17 +2595,11 @@
             const professionalDone = !!professional;
             const datetimeDone = !!selectedDate && !!time;
             const customerDone = name.length > 0 && phone.length > 0;
-            const completed = [servicesDone, professionalDone, datetimeDone, customerDone].filter(Boolean).length;
 
-            if (captionEl) {
-                captionEl.classList.toggle('hidden', step === 1);
-                captionEl.textContent = `${completed}/4 pasos`;
-            }
-
-            servicesStepEl.classList.toggle('done', servicesDone);
-            professionalStepEl.classList.toggle('done', professionalDone);
-            datetimeStepEl.classList.toggle('done', datetimeDone);
-            customerStepEl.classList.toggle('done', customerDone);
+            servicesStepEls.forEach((el) => el.classList.toggle('done', servicesDone));
+            professionalStepEls.forEach((el) => el.classList.toggle('done', professionalDone));
+            datetimeStepEls.forEach((el) => el.classList.toggle('done', datetimeDone));
+            customerStepEls.forEach((el) => el.classList.toggle('done', customerDone));
         }
 
         let progressSummaryOpen = false;
