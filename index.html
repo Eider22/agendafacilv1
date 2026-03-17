@@ -216,6 +216,195 @@
             transform: scale(1) translateY(0);
         }
 
+        .booking-loader,
+        .reservation-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 120;
+            background: rgba(248, 250, 252, .98);
+            backdrop-filter: blur(6px);
+            display: none;
+        }
+
+        .booking-loader.show,
+        .reservation-screen.show {
+            display: block;
+        }
+
+        .loader-card {
+            width: min(92vw, 420px);
+            margin: 22vh auto 0;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 24px;
+            box-shadow: 0 24px 48px rgba(15, 23, 42, .14);
+            padding: 24px 20px;
+            text-align: center;
+        }
+
+        .loader-ring {
+            width: 54px;
+            height: 54px;
+            border-radius: 999px;
+            border: 4px solid #c7d2fe;
+            border-top-color: #4f46e5;
+            margin: 0 auto 12px;
+            animation: spinLoader .85s linear infinite;
+        }
+
+        @keyframes spinLoader {
+            to { transform: rotate(360deg); }
+        }
+
+        .reservation-screen-scroll {
+            height: 100%;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: calc(132px + env(safe-area-inset-bottom));
+        }
+
+        .reservation-home-footer {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 130;
+            padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
+            background: linear-gradient(180deg, rgba(248, 250, 252, 0) 0%, rgba(248, 250, 252, .92) 20%, rgba(248, 250, 252, .98) 100%);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(226, 232, 240, .9);
+        }
+
+        .reservation-home-btn {
+            width: 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 16px;
+            border-radius: 18px;
+            border: 1px solid transparent;
+            background: #4f46e5;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: .09em;
+            box-shadow: 0 12px 24px rgba(79, 70, 229, .32);
+            transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease;
+        }
+
+        .reservation-home-btn:hover {
+            transform: translateY(-1px);
+            background: #4338ca;
+            box-shadow: 0 14px 28px rgba(79, 70, 229, .36);
+        }
+
+        #persist-note-display {
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+
+        .reservation-ticket-brand {
+            border: 1px solid #dbe3ee;
+            border-radius: 16px;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            padding: 10px;
+        }
+
+        .reservation-brand-logo {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            object-fit: cover;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 20px rgba(15, 23, 42, .14);
+            flex-shrink: 0;
+        }
+
+        .reservation-ticket-separator {
+            position: relative;
+            border-top: 1px dashed #cbd5e1;
+            margin: 14px 0 12px;
+        }
+
+        .reservation-ticket-separator::before,
+        .reservation-ticket-separator::after {
+            content: '';
+            position: absolute;
+            top: -8px;
+            width: 14px;
+            height: 14px;
+            border-radius: 999px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+        }
+
+        .reservation-ticket-separator::before {
+            left: -7px;
+        }
+
+        .reservation-ticket-separator::after {
+            right: -7px;
+        }
+
+        /* HERO OVERLAY */
+        .carousel-overlay {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(to top,
+                rgba(6, 6, 18, 0.88) 0%,
+                rgba(6, 6, 18, 0.55) 45%,
+                transparent 100%);
+            padding: 36px 14px 14px;
+            border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+            pointer-events: none;
+        }
+
+        .carousel-brand-logo-hero {
+            width: 54px;
+            height: 54px;
+            border-radius: 15px;
+            object-fit: cover;
+            border: 2px solid rgba(255,255,255,0.22);
+            box-shadow:
+                0 4px 20px rgba(0,0,0,0.5),
+                0 0 0 1px rgba(255,255,255,0.08) inset;
+            flex-shrink: 0;
+        }
+
+        .carousel-rating-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 999px;
+            padding: 4px 9px 4px 7px;
+            flex-shrink: 0;
+        }
+
+        .carousel-dots-inset {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 5px;
+            margin: 0;
+        }
+
+        .carousel-dots-inset .carousel-dot {
+            background: rgba(255,255,255,0.4);
+        }
+
+        .carousel-dots-inset .carousel-dot.active {
+            background: rgba(255,255,255,0.95);
+        }
+
         /* CARRUSEL */
         .carousel-container {
             position: relative;
@@ -924,22 +1113,32 @@
                 <div class="slide-header" style="padding-bottom: 10px; padding-top: 12px;">
                     <div class="max-w-xl mx-auto">
 
-                        <!-- Carrusel de fotos -->
+                        <!-- Carrusel hero con overlay de marca -->
                         <div class="carousel-container shadow-[var(--shadow-soft)] border border-[var(--border-soft)]">
                             <div id="carousel-track" class="carousel-track">
                                 <img src="https://images.unsplash.com/photo-1759134198561-e2041049419c?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Interior barbería">
-                                <!-- <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=600&h=340&fit=crop&q=80" alt="Interior barbería"> -->
                                 <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&h=340&fit=crop" alt="Corte de cabello">
                                 <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=600&h=340&fit=crop" alt="Estilo y barba">
                                 <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=600&h=340&fit=crop" alt="Ambiente barbería">
                             </div>
-                        </div>
-                        <div class="carousel-dots" id="carousel-dots"></div>
 
-                        <!-- Info empresa -->
-                        <div class="mt-2 text-center">
-                            <h2 class="text-2xl font-black mb-0.5">Barbería 017</h2>
-                            <p class="text-slate-400 text-xs leading-relaxed">Estilo, actitud y precisión. Tu barbería de confianza con los mejores profesionales y un ambiente único.</p>
+                            <!-- Dots inside hero -->
+                            <div id="carousel-dots" class="carousel-dots-inset"></div>
+
+                            <!-- Brand overlay -->
+                            <div class="carousel-overlay">
+                                <div style="display:flex;align-items:flex-end;gap:10px;">
+                                    <img src="agendafacilv1/images/logo.jpeg" alt="Logo Barbería 017" class="carousel-brand-logo-hero">
+                                    <div style="min-width:0;flex:1;">
+                                        <p style="color:rgba(255,255,255,0.6);font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 3px;">Barbería · Dosquebradas</p>
+                                        <h2 style="color:#fff;font-size:1.25rem;font-weight:900;line-height:1.05;margin:0;letter-spacing:-0.02em;">Barbería 017</h2>
+                                    </div>
+                                    <div class="carousel-rating-pill">
+                                        <svg width="11" height="11" viewBox="0 0 24 24" fill="#fbbf24" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                        <span style="color:#fff;font-size:0.68rem;font-weight:800;line-height:1;">4.8</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -1503,6 +1702,14 @@
                                     <input id="input-phone" type="tel" oninput="validate()" placeholder="300 123 4567"
                                         class="w-full bg-transparent text-sm font-bold text-slate-800 outline-none placeholder:text-slate-300 py-1">
                                 </div>
+
+                                <div class="pt-2 pb-1 border-t border-slate-100 mt-1">
+                                    <div class="flex items-center justify-between mb-1">
+                                        <label class="text-[9px] font-black uppercase text-slate-300 tracking-wider">Nota para la cita (Opcional)</label>
+                                        <span id="review-note-count" class="text-[10px] font-black text-indigo-500">0/160</span>
+                                    </div>
+                                    <textarea id="review-note" maxlength="160" oninput="updateReviewNoteCounter()" placeholder="Ej: perfil de barba, estilo de fade, cuidado especial..." class="w-full min-h-[68px] max-h-28 resize-none rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-[12px] font-semibold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-200"></textarea>
+                                </div>
                             </div>
                         </div>
 
@@ -1721,6 +1928,14 @@
                     <span class="text-sm font-black uppercase text-indigo-400">Total</span>
                     <span id="modal-total" class="text-2xl font-black text-indigo-600">$0</span>
                 </div>
+
+                <div class="mt-3 p-4 bg-white border border-slate-200 rounded-2xl">
+                    <div class="flex items-center justify-between mb-2">
+                        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Nota para la cita</p>
+                        <button onclick="goToNoteField()" class="text-[10px] font-black uppercase tracking-widest text-indigo-500 hover:text-indigo-700 transition-colors">Editar</button>
+                    </div>
+                    <p id="review-note-preview" class="text-[12px] font-semibold text-slate-700 leading-snug">Sin nota adicional.</p>
+                </div>
             </div>
 
             <!-- Botones fijos -->
@@ -1737,17 +1952,159 @@
 
     <!-- Modal de Confirmación Exitosa -->
     <div id="success-modal" class="modal-overlay">
-        <div class="modal-content bg-white rounded-[2.5rem] p-8 max-w-md mx-4 shadow-2xl">
-            <div class="text-center">
-                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <i data-lucide="check" class="w-10 h-10 text-green-600 stroke-[3]"></i>
+        <div class="modal-content bg-white rounded-[2rem] max-w-md mx-4 shadow-2xl w-full max-h-[86vh] flex flex-col overflow-hidden">
+            <div class="px-5 pt-5 pb-3 border-b border-[var(--border-soft)] bg-gradient-to-b from-emerald-50/70 to-white">
+                <div class="flex items-start gap-3">
+                    <div class="w-11 h-11 bg-emerald-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="check" class="w-6 h-6 text-emerald-600 stroke-[3]"></i>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <h3 class="text-xl font-black tracking-tight text-slate-900 leading-tight">¡Reserva Confirmada!</h3>
+                        <p class="text-[11px] text-slate-500 font-semibold mt-0.5 leading-snug">Todo está listo. Aquí tienes el resumen final de tu cita.</p>
+                    </div>
                 </div>
-                <h3 class="text-3xl font-black mb-3 tracking-tight text-slate-900">¡Cita Confirmada!</h3>
-                <p class="text-slate-500 font-semibold mb-6 leading-relaxed">
-                    Tu reserva ha sido registrada exitosamente. Recibirás un recordatorio antes de tu cita.
-                </p>
-                <button onclick="closeSuccessModal()" class="w-full bg-indigo-600 text-white py-4 px-6 rounded-2xl font-extrabold text-sm uppercase tracking-widest hover:bg-indigo-700 transition-colors">
-                    Entendido
+                <div class="mt-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900 text-white text-[10px] font-black tracking-wider uppercase">
+                    Código
+                    <span id="success-booking-code">AF-0000</span>
+                </div>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-5 space-y-3">
+                <div class="bg-slate-50 border border-slate-100 rounded-2xl p-3">
+                    <div class="grid grid-cols-2 gap-2 text-[11px]">
+                        <div>
+                            <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Cliente</p>
+                            <p id="success-client" class="font-bold text-slate-800 leading-tight">--</p>
+                        </div>
+                        <div>
+                            <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Teléfono</p>
+                            <p id="success-phone" class="font-bold text-slate-800 leading-tight">--</p>
+                        </div>
+                        <div>
+                            <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Barbero</p>
+                            <p id="success-prof" class="font-bold text-slate-800 leading-tight">--</p>
+                        </div>
+                        <div>
+                            <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Hora</p>
+                            <p id="success-time" class="font-bold text-slate-800 leading-tight">--</p>
+                        </div>
+                    </div>
+                    <div class="mt-2 pt-2 border-t border-slate-200">
+                        <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Fecha</p>
+                        <p id="success-date" class="font-bold text-slate-800 text-[12px] leading-tight">--</p>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-slate-200 rounded-2xl p-3">
+                    <div class="flex items-center justify-between mb-2">
+                        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Servicios</p>
+                        <p id="success-services-count" class="text-[10px] font-black text-indigo-600">0</p>
+                    </div>
+                    <div id="success-services-list" class="space-y-1.5 text-[12px] font-bold text-slate-700">--</div>
+                    <div class="mt-2 pt-2 border-t border-slate-100 flex justify-between items-center">
+                        <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">Total</span>
+                        <span id="success-total" class="text-lg font-black text-indigo-600">$0</span>
+                    </div>
+                </div>
+
+                <div class="bg-indigo-50/55 border border-indigo-100 rounded-2xl p-3">
+                    <p class="text-[10px] font-black uppercase tracking-widest text-indigo-400 mb-1">Nota registrada</p>
+                    <p id="success-note-display" class="text-[12px] font-semibold text-slate-700 leading-snug">Sin nota adicional.</p>
+                </div>
+            </div>
+
+            <div class="px-5 pb-5 pt-3 border-t border-[var(--border-soft)]">
+                <button onclick="closeSuccessModal()" class="w-full py-3.5 px-4 bg-indigo-600 text-white rounded-2xl font-extrabold text-[11px] uppercase tracking-widest hover:bg-indigo-700 transition-colors">Entendido</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="booking-loader" class="booking-loader">
+        <div class="loader-card">
+            <div class="loader-ring"></div>
+            <h3 class="text-xl font-black text-slate-900">Agendando tu cita...</h3>
+            <p class="text-sm font-semibold text-slate-500 mt-1">Estamos asegurando tu reserva.</p>
+        </div>
+    </div>
+
+    <div id="reservation-screen" class="reservation-screen">
+        <div class="reservation-screen-scroll">
+            <div class="max-w-xl mx-auto px-5 pt-6">
+                <div class="bg-white border border-slate-200 rounded-3xl shadow-xl overflow-hidden">
+                    <div class="px-5 pt-5 pb-4 border-b border-slate-100 bg-gradient-to-b from-emerald-50 to-white">
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="check" class="w-5 h-5"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <p class="text-lg font-black text-slate-900 leading-tight">Reserva agendada con éxito</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 text-white text-[10px] font-black uppercase tracking-wider">
+                            Código <span id="persist-code">AF-0000</span>
+                        </div>
+
+                        <div class="reservation-ticket-brand mt-3 flex items-center gap-3">
+                            <img src="agendafacilv1/images/logo.jpeg" alt="Logo Barberia 017" class="reservation-brand-logo">
+                            <div class="min-w-0">
+                                <p class="text-[13px] font-black text-slate-900 leading-tight">Barberia 017</p>
+                                <p class="text-[11px] font-semibold text-slate-500 leading-tight">Calle 17 #45, Dosquebradas</p>
+                                <p class="text-[11px] font-semibold text-slate-500 leading-tight">+57 317 456 7890</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-5 space-y-3">
+                        <div class="reservation-ticket-separator" aria-hidden="true"></div>
+
+                        <div class="grid grid-cols-2 gap-2 text-[12px]">
+                            <div>
+                                <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Cliente</p>
+                                <p id="persist-client" class="font-bold text-slate-800">--</p>
+                            </div>
+                            <div>
+                                <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Teléfono</p>
+                                <p id="persist-phone" class="font-bold text-slate-800">--</p>
+                            </div>
+                            <div>
+                                <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Barbero</p>
+                                <p id="persist-prof" class="font-bold text-slate-800">--</p>
+                            </div>
+                            <div>
+                                <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Hora</p>
+                                <p id="persist-time" class="font-bold text-slate-800">--</p>
+                            </div>
+                        </div>
+                        <div class="pt-2 border-t border-slate-100">
+                            <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Fecha</p>
+                            <p id="persist-date" class="font-bold text-slate-800">--</p>
+                        </div>
+
+                        <div class="pt-2 border-t border-slate-100">
+                            <div class="flex items-center justify-between mb-1">
+                                <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Servicios</p>
+                                <p id="persist-services-count" class="text-[10px] font-black text-indigo-600">0</p>
+                            </div>
+                            <div id="persist-services" class="space-y-1 text-[12px] font-bold text-slate-700">--</div>
+                            <div class="mt-2 pt-2 border-t border-slate-100 flex justify-between items-center">
+                                <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">Total</span>
+                                <span id="persist-total" class="text-lg font-black text-indigo-600">$0</span>
+                            </div>
+                        </div>
+
+                        <div class="pt-2 border-t border-slate-100">
+                            <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Nota</p>
+                            <p id="persist-note-display" class="min-h-[84px] rounded-xl border border-slate-200 bg-slate-100 px-3 py-2 text-[12px] font-semibold text-slate-700 leading-snug">Sin nota adicional.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="reservation-home-footer">
+            <div class="max-w-xl mx-auto px-5">
+                <button onclick="backToHomeFromReservation()" class="reservation-home-btn">
+                    <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                    Agendar otra cita
                 </button>
             </div>
         </div>
@@ -1824,6 +2181,8 @@
         let professionalSeed = null;
         let time = null;
         let selectedDate = null;
+        let reservationNote = '';
+        const RESERVATION_STORAGE_KEY = 'af-reservation-current';
         let calYear, calMonth;
 
         const slider = document.getElementById('main-slider');
@@ -2637,6 +2996,11 @@
                 `).join('');
             }
 
+            const reviewNotePreview = document.getElementById('review-note-preview');
+            if (reviewNotePreview) {
+                reviewNotePreview.textContent = reservationNote || 'Sin nota adicional.';
+            }
+
             document.getElementById('review-modal').classList.add('show');
             lucide.createIcons();
         }
@@ -2650,11 +3014,240 @@
             goToStep(targetStep);
         }
 
+        function goToNoteField() {
+            closeReviewModal();
+            goToStep(4);
+            setTimeout(() => {
+                const noteInput = document.getElementById('review-note');
+                if (noteInput) noteInput.focus();
+            }, 320);
+        }
+
+        function generateBookingCode() {
+            const d = new Date();
+            const day = String(d.getDate()).padStart(2, '0');
+            const mins = String(d.getHours() * 60 + d.getMinutes()).padStart(4, '0');
+            return `AF-${day}${mins}`;
+        }
+
+        function createReservationPayload() {
+            const name = document.getElementById('input-name')?.value.trim() || '--';
+            const phone = document.getElementById('input-phone')?.value.trim() || '--';
+            const total = services.reduce((acc, s) => acc + s.price, 0);
+            return {
+                code: generateBookingCode(),
+                client: name,
+                phone,
+                professional: professional || '--',
+                professionalSeed: professionalSeed || 'placeholder',
+                time: time || '--',
+                dateISO: selectedDate ? selectedDate.toISOString() : null,
+                services: services.map(s => ({ name: s.name, price: s.price })),
+                total,
+                note: reservationNote || '',
+                updatedAt: new Date().toISOString()
+            };
+        }
+
+        function saveReservationPayload(payload) {
+            localStorage.setItem(RESERVATION_STORAGE_KEY, JSON.stringify(payload));
+        }
+
+        function readReservationPayload() {
+            try {
+                const raw = localStorage.getItem(RESERVATION_STORAGE_KEY);
+                return raw ? JSON.parse(raw) : null;
+            } catch {
+                return null;
+            }
+        }
+
+        function renderReservationScreen(payload) {
+            if (!payload) return;
+
+            const codeEl = document.getElementById('persist-code');
+            if (codeEl) codeEl.textContent = payload.code || 'AF-0000';
+
+            const clientEl = document.getElementById('persist-client');
+            if (clientEl) clientEl.textContent = payload.client || '--';
+
+            const phoneEl = document.getElementById('persist-phone');
+            if (phoneEl) phoneEl.textContent = payload.phone || '--';
+
+            const profEl = document.getElementById('persist-prof');
+            if (profEl) profEl.textContent = payload.professional || '--';
+
+            const timeEl = document.getElementById('persist-time');
+            if (timeEl) timeEl.textContent = payload.time || '--';
+
+            const dateEl = document.getElementById('persist-date');
+            if (dateEl) {
+                const parsedDate = payload.dateISO ? new Date(payload.dateISO) : null;
+                dateEl.textContent = parsedDate ? formatDateForSummary(parsedDate) : '--';
+            }
+
+            const countEl = document.getElementById('persist-services-count');
+            if (countEl) {
+                const amount = payload.services?.length || 0;
+                countEl.textContent = amount === 1 ? '1 servicio' : `${amount} servicios`;
+            }
+
+            const servicesEl = document.getElementById('persist-services');
+            if (servicesEl) {
+                if (!payload.services?.length) {
+                    servicesEl.innerHTML = '<p class="text-slate-400">--</p>';
+                } else {
+                    servicesEl.innerHTML = payload.services.map(s => `
+                        <div class="flex justify-between">
+                            <span>${s.name}</span>
+                            <span class="text-indigo-600">$${Number(s.price).toLocaleString('es-CO')}</span>
+                        </div>
+                    `).join('');
+                }
+            }
+
+            const totalEl = document.getElementById('persist-total');
+            if (totalEl) totalEl.textContent = `$${Number(payload.total || 0).toLocaleString('es-CO')}`;
+
+            const noteDisplay = document.getElementById('persist-note-display');
+            if (noteDisplay) noteDisplay.textContent = payload.note || 'Sin nota adicional.';
+
+            document.getElementById('reservation-screen').classList.add('show');
+            lucide.createIcons();
+        }
+
+        function backToHomeFromReservation() {
+            document.getElementById('reservation-screen').classList.remove('show');
+            resetBookingFlow();
+        }
+
+        function resetBookingFlow() {
+            services = [];
+            professional = null;
+            professionalSeed = null;
+            time = null;
+            selectedDate = null;
+            reservationNote = '';
+
+            document.querySelectorAll('.service-card, .prof-card, .time-btn').forEach((el) => {
+                el.classList.remove('card-active');
+            });
+
+            const nameInput = document.getElementById('input-name');
+            if (nameInput) nameInput.value = '';
+
+            const phoneInput = document.getElementById('input-phone');
+            if (phoneInput) phoneInput.value = '';
+
+            const noteInput = document.getElementById('review-note');
+            if (noteInput) noteInput.value = '';
+
+            const selectedDateLabel = document.getElementById('selected-date-label');
+            if (selectedDateLabel) {
+                selectedDateLabel.textContent = '';
+                selectedDateLabel.classList.add('hidden');
+            }
+
+            const calToggleLabel = document.getElementById('cal-toggle-label');
+            if (calToggleLabel) calToggleLabel.textContent = 'Seleccionar fecha';
+
+            const reviewNotePreview = document.getElementById('review-note-preview');
+            if (reviewNotePreview) reviewNotePreview.textContent = 'Sin nota adicional.';
+
+            const reviewModal = document.getElementById('review-modal');
+            if (reviewModal) reviewModal.classList.remove('show');
+
+            const bookingLoader = document.getElementById('booking-loader');
+            if (bookingLoader) bookingLoader.classList.remove('show');
+
+            updateTotal();
+            updateStep3Summary();
+            updateReviewNoteCounter();
+            updateDatosConfirmSummary();
+            updateProgressSummary();
+            renderCalendar();
+            renderStrip();
+            updateTimeLock();
+            goToIntro();
+        }
+
+        function updateReviewNoteCounter() {
+            const noteInput = document.getElementById('review-note');
+            const countEl = document.getElementById('review-note-count');
+            if (!noteInput || !countEl) return;
+            const length = noteInput.value.length;
+            countEl.textContent = `${length}/160`;
+            reservationNote = noteInput.value.trim();
+
+            const reviewNotePreview = document.getElementById('review-note-preview');
+            if (reviewNotePreview) {
+                reviewNotePreview.textContent = reservationNote || 'Sin nota adicional.';
+            }
+        }
+
+        function updateSuccessSummary() {
+            const name = document.getElementById('input-name')?.value.trim() || '--';
+            const phone = document.getElementById('input-phone')?.value.trim() || '--';
+            const total = services.reduce((acc, s) => acc + s.price, 0);
+
+            const codeEl = document.getElementById('success-booking-code');
+            if (codeEl) codeEl.textContent = generateBookingCode();
+
+            const clientEl = document.getElementById('success-client');
+            if (clientEl) clientEl.textContent = name;
+
+            const phoneEl = document.getElementById('success-phone');
+            if (phoneEl) phoneEl.textContent = phone;
+
+            const profEl = document.getElementById('success-prof');
+            if (profEl) profEl.textContent = professional || '--';
+
+            const timeEl = document.getElementById('success-time');
+            if (timeEl) timeEl.textContent = time || '--';
+
+            const dateEl = document.getElementById('success-date');
+            if (dateEl) dateEl.textContent = selectedDate ? formatDateForSummary(selectedDate) : '--';
+
+            const countEl = document.getElementById('success-services-count');
+            if (countEl) {
+                countEl.textContent = services.length === 1 ? '1 servicio' : `${services.length} servicios`;
+            }
+
+            const servicesEl = document.getElementById('success-services-list');
+            if (servicesEl) {
+                if (!services.length) {
+                    servicesEl.innerHTML = '<p class="text-slate-400">--</p>';
+                } else {
+                    servicesEl.innerHTML = services.map(s => `
+                        <div class="flex justify-between">
+                            <span>${s.name}</span>
+                            <span class="text-indigo-600">$${s.price.toLocaleString('es-CO')}</span>
+                        </div>
+                    `).join('');
+                }
+            }
+
+            const totalEl = document.getElementById('success-total');
+            if (totalEl) totalEl.textContent = `$${total.toLocaleString('es-CO')}`;
+
+            const noteDisplay = document.getElementById('success-note-display');
+            if (noteDisplay) {
+                noteDisplay.textContent = reservationNote || 'Sin nota adicional.';
+            }
+        }
+
         function confirmAppointment() {
+            updateReviewNoteCounter();
             document.getElementById('review-modal').classList.remove('show');
             setTimeout(() => {
-                document.getElementById('success-modal').classList.add('show');
-                lucide.createIcons();
+                updateSuccessSummary();
+                const payload = createReservationPayload();
+                saveReservationPayload(payload);
+                document.getElementById('booking-loader').classList.add('show');
+                setTimeout(() => {
+                    document.getElementById('booking-loader').classList.remove('show');
+                    renderReservationScreen(payload);
+                }, 1100);
             }, 350);
         }
 
@@ -2702,6 +3295,8 @@
         setConfirmServicesExpanded(false);
         updateDatosConfirmSummary();
         updateProgressSummary();
+        updateReviewNoteCounter();
+
     </script>
 
 </body>
