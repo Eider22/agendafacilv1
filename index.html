@@ -144,11 +144,55 @@
             box-shadow: var(--shadow-soft);
             transition: all .25s cubic-bezier(.4, 0, .2, 1);
         }
+        .service-card {
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border-soft);
+            background: white;
+            box-shadow: var(--shadow-soft);
+            transition: all .25s cubic-bezier(.4, 0, .2, 1);
+            max-width: 100%;
+            width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
+            min-height: 110px;
+        }
 
         .service-card:hover,
         .prof-card:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-float);
+        }
+
+        .service-thumb {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            object-fit: cover;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 6px 14px rgba(15, 23, 42, .1);
+            flex-shrink: 0;
+        }
+
+        .service-duration {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 8px;
+            border-radius: 999px;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            color: #64748b;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .04em;
+            text-transform: uppercase;
+            line-height: 1;
+        }
+
+        .service-duration i {
+            width: 12px;
+            height: 12px;
+            color: #6366f1;
         }
 
         .time-btn:hover {
@@ -311,23 +355,23 @@
             border: 1px solid #dbe3ee;
             border-radius: 16px;
             background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-            padding: 10px;
+            padding: 8px 10px;
         }
 
         .reservation-brand-logo {
-            width: 52px;
-            height: 52px;
-            border-radius: 14px;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
             object-fit: cover;
             border: 1px solid #e2e8f0;
-            box-shadow: 0 10px 20px rgba(15, 23, 42, .14);
+            box-shadow: 0 8px 14px rgba(15, 23, 42, .12);
             flex-shrink: 0;
         }
 
         .reservation-ticket-separator {
             position: relative;
             border-top: 1px dashed #cbd5e1;
-            margin: 14px 0 12px;
+            margin: 10px 0 8px;
         }
 
         .reservation-ticket-separator::before,
@@ -348,6 +392,64 @@
 
         .reservation-ticket-separator::after {
             right: -7px;
+        }
+
+        .reservation-priority-card {
+            border: 1px solid #c7d2fe;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #eef2ff 0%, #f8fafc 100%);
+            padding: 10px 11px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .8);
+        }
+
+        .reservation-priority-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            align-items: end;
+            gap: 8px;
+        }
+
+        .reservation-priority-time {
+            font-size: clamp(1.05rem, 4.8vw, 1.45rem);
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            color: #312e81;
+        }
+
+        .reservation-meta-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        .reservation-meta-item {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            background: #f8fafc;
+            padding: 7px 8px;
+            min-height: 58px;
+        }
+
+        .reservation-code-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 9px;
+            border-radius: 999px;
+            background: #0f172a;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            white-space: nowrap;
+            line-height: 1;
+        }
+
+        @media (max-width: 640px) {
+            .reservation-meta-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
         }
 
         /* BRAND ROW (integrado en el hero) */
@@ -1322,7 +1424,7 @@
                         <!-- Carrusel de fotos -->
                         <div class="carousel-container">
                             <div id="carousel-track" class="carousel-track">
-                                <img src="./images/logo.jpeg" alt="Logo Barbería 017">
+                                <img src="agendafacilv1/images/logo.jpeg" alt="Logo Barbería 017">
                                 <img src="https://images.unsplash.com/photo-1759134198561-e2041049419c?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Interior barbería">
                                 <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&h=340&fit=crop" alt="Corte de cabello">
                                 <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=600&h=340&fit=crop" alt="Estilo y barba">
@@ -1337,7 +1439,7 @@
                             </div> -->
 
                             <div class="hero-brand-block" aria-label="Marca Barbería 017">
-                                <img src="./images/logo2.jpeg" alt="Logo Barbería 017" class="hero-brand-logo">
+                                <img src="agendafacilv1/images/logo2.jpeg" alt="Logo Barbería 017" class="hero-brand-logo">
                                 <div class="hero-brand-copy">
                                     <p class="hero-brand-kicker">Tu estilo, tu sello</p>
                                     <p class="hero-brand-title">Barbería 017</p>
@@ -1518,81 +1620,81 @@
                     <div class="max-w-xl mx-auto grid gap-4 mt-6">
 
                         <div onclick="toggleService(this,'Corte Clásico',25000)"
-                            class="service-card p-5 flex justify-between items-center cursor-pointer">
-                            <div>
-                                <h4 class="font-bold">Corte Clásico</h4>
-                                <p class="text-[11px] text-slate-400 uppercase font-bold">
-                                    30 min</p>
+                            class="service-card p-4 flex items-center gap-3 cursor-pointer">
+                            <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=160&h=160&fit=crop" alt="Corte clásico" class="service-thumb">
+                            <div class="min-w-0 flex-1">
+                                <h4 class="font-bold truncate">Corte Clásico</h4>
+                                <p class="service-duration mt-1"><i data-lucide="clock-3"></i>30 min</p>
                             </div>
                             <span class="font-black text-xl">$25.000</span>
                         </div>
 
                         <div onclick="toggleService(this,'Corte + Barba',40000)"
-                            class="service-card p-5 flex justify-between items-center cursor-pointer">
-                            <div>
-                                <h4 class="font-bold">Corte + Barba</h4>
-                                <p class="text-[11px] text-slate-400 uppercase font-bold">
-                                    45 min</p>
+                            class="service-card p-4 flex items-center gap-3 cursor-pointer">
+                            <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=160&h=160&fit=crop" alt="Corte y barba" class="service-thumb">
+                            <div class="min-w-0 flex-1">
+                                <h4 class="font-bold truncate">Corte + Barba</h4>
+                                <p class="service-duration mt-1"><i data-lucide="clock-3"></i>45 min</p>
                             </div>
                             <span class="font-black text-xl">$40.000</span>
                         </div>
 
                         <div onclick="toggleService(this,'Arreglo de Barba',18000)"
-                            class="service-card p-5 flex justify-between items-center cursor-pointer">
-                            <div>
-                                <h4 class="font-bold">Arreglo de Barba</h4>
-                                <p class="text-[11px] text-slate-400 uppercase font-bold">
-                                    20 min</p>
+                            class="service-card p-4 flex items-center gap-3 cursor-pointer">
+                            <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=160&h=160&fit=crop" alt="Arreglo de barba" class="service-thumb">
+                            <div class="min-w-0 flex-1">
+                                <h4 class="font-bold truncate">Arreglo de Barba</h4>
+                                <p class="service-duration mt-1"><i data-lucide="clock-3"></i>20 min</p>
                             </div>
                             <span class="font-black text-xl">$18.000</span>
                         </div>
 
                         <div onclick="toggleService(this,'Diseño de Cejas',12000)"
-                            class="service-card p-5 flex justify-between items-center cursor-pointer">
-                            <div>
-                                <h4 class="font-bold">Diseño de Cejas</h4>
-                                <p class="text-[11px] text-slate-400 uppercase font-bold">
-                                    15 min</p>
+                            class="service-card p-4 flex items-center gap-3 cursor-pointer">
+                            <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=160&h=160&fit=crop" alt="Diseño de cejas" class="service-thumb">
+                            <div class="min-w-0 flex-1">
+                                <h4 class="font-bold truncate">Diseño de Cejas</h4>
+                                <p class="service-duration mt-1"><i data-lucide="clock-3"></i>15 min</p>
                             </div>
                             <span class="font-black text-xl">$12.000</span>
                         </div>
 
                         <div onclick="toggleService(this,'Corte Degradado',30000)"
-                            class="service-card p-5 flex justify-between items-center cursor-pointer">
-                            <div>
-                                <h4 class="font-bold">Corte Degradado</h4>
-                                <p class="text-[11px] text-slate-400 uppercase font-bold">
-                                    40 min</p>
+                            class="service-card p-4 flex items-center gap-3 cursor-pointer">
+                            <img src="https://images.unsplash.com/photo-1514336937476-a5b961020a5c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Corte degradado" class="service-thumb">
+                            <div class="min-w-0 flex-1">
+                                <h4 class="font-bold truncate">Corte Degradado</h4>
+                                <p class="service-duration mt-1"><i data-lucide="clock-3"></i>40 min</p>
                             </div>
                             <span class="font-black text-xl">$30.000</span>
                         </div>
 
                         <div onclick="toggleService(this,'Tintura de Cabello',50000)"
-                            class="service-card p-5 flex justify-between items-center cursor-pointer">
-                            <div>
-                                <h4 class="font-bold">Tintura de Cabello</h4>
-                                <p class="text-[11px] text-slate-400 uppercase font-bold">
-                                    60 min</p>
+                            class="service-card p-4 flex items-center gap-3 cursor-pointer">
+                            <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=160&h=160&fit=crop" alt="Tintura de cabello" class="service-thumb">
+                            <div class="min-w-0 flex-1">
+                                <h4 class="font-bold truncate">Tintura de Cabello</h4>
+                                <p class="service-duration mt-1"><i data-lucide="clock-3"></i>60 min</p>
                             </div>
                             <span class="font-black text-xl">$50.000</span>
                         </div>
 
                         <div onclick="toggleService(this,'Tratamiento Capilar',35000)"
-                            class="service-card p-5 flex justify-between items-center cursor-pointer">
-                            <div>
-                                <h4 class="font-bold">Tratamiento Capilar</h4>
-                                <p class="text-[11px] text-slate-400 uppercase font-bold">
-                                    30 min</p>
+                            class="service-card p-4 flex items-center gap-3 cursor-pointer">
+                            <img src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?w=160&h=160&fit=crop" alt="Tratamiento capilar" class="service-thumb">
+                            <div class="min-w-0 flex-1">
+                                <h4 class="font-bold truncate">Tratamiento Capilar</h4>
+                                <p class="service-duration mt-1"><i data-lucide="clock-3"></i>30 min</p>
                             </div>
                             <span class="font-black text-xl">$35.000</span>
                         </div>
 
                         <div onclick="toggleService(this,'Afeitado Clásico',20000)"
-                            class="service-card p-5 flex justify-between items-center cursor-pointer">
-                            <div>
-                                <h4 class="font-bold">Afeitado Clásico</h4>
-                                <p class="text-[11px] text-slate-400 uppercase font-bold">
-                                    25 min</p>
+                            class="service-card p-4 flex items-center gap-3 cursor-pointer">
+                            <img src="https://images.unsplash.com/photo-1517832606299-7ae9b720a186?w=160&h=160&fit=crop" alt="Afeitado clásico" class="service-thumb">
+                            <div class="min-w-0 flex-1">
+                                <h4 class="font-bold truncate">Afeitado Clásico</h4>
+                                <p class="service-duration mt-1"><i data-lucide="clock-3"></i>25 min</p>
                             </div>
                             <span class="font-black text-xl">$20.000</span>
                         </div>
@@ -2255,70 +2357,72 @@
         <div class="reservation-screen-scroll">
             <div class="max-w-xl mx-auto px-5 pt-6">
                 <div class="bg-white border border-slate-200 rounded-3xl shadow-xl overflow-hidden">
-                    <div class="px-5 pt-5 pb-4 border-b border-slate-100 bg-gradient-to-b from-emerald-50 to-white">
-                        <div class="flex items-start gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0">
+                    <div class="px-4 pt-4 pb-3 border-b border-slate-100 bg-gradient-to-b from-emerald-50 to-white">
+                        <div class="flex items-start justify-between gap-2">
+                            <div class="flex items-start gap-2.5 min-w-0">
+                                <div class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0">
                                 <i data-lucide="check" class="w-5 h-5"></i>
+                                </div>
+                                <div class="min-w-0">
+                                    <p class="text-[17px] font-black text-slate-900 leading-tight">Cita agendada con éxito</p>
+                                    <!-- <p class="text-[11px] font-semibold text-slate-500 leading-tight mt-0.5">Resumen final de tu reserva</p> -->
+                                </div>
                             </div>
-                            <div class="min-w-0">
-                                <p class="text-lg font-black text-slate-900 leading-tight">Cita agendada con éxito</p>
+                            <div class="reservation-code-pill">
+                                Codigo <span id="persist-code">AF-0000</span>
                             </div>
-                        </div>
-                        <div class="mt-3 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 text-white text-[10px] font-black uppercase tracking-wider">
-                            Código <span id="persist-code">AF-0000</span>
                         </div>
 
-                        <div class="reservation-ticket-brand mt-3 flex items-center gap-3">
-                            <img src="./images/logo2.jpeg" alt="Logo Barberia 017" class="reservation-brand-logo">
+                        <div class="reservation-ticket-brand mt-2.5 flex items-center gap-2.5">
+                            <img src="agendafacilv1/images/logo2.jpeg" alt="Logo Barberia 017" class="reservation-brand-logo">
                             <div class="min-w-0">
-                                <p class="text-[13px] font-black text-slate-900 leading-tight">Barberia 017</p>
-                                <p class="text-[11px] font-semibold text-slate-500 leading-tight">Calle 17 #45, Dosquebradas</p>
-                                <p class="text-[11px] font-semibold text-slate-500 leading-tight">+57 317 456 7890</p>
+                                <p class="text-[12px] font-black text-slate-900 leading-tight">Barberia 017</p>
+                                <p class="text-[10px] font-semibold text-slate-500 leading-tight">Calle 17 #45, Dosquebradas · +57 317 456 7890</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="p-5 space-y-3">
+                    <div class="px-4 py-3.5 space-y-2.5">
                         <div class="reservation-ticket-separator" aria-hidden="true"></div>
 
-                        <div class="grid grid-cols-2 gap-2 text-[12px]">
-                            <div>
-                                <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Cliente</p>
-                                <p id="persist-client" class="font-bold text-slate-800">--</p>
+                        <div class="reservation-priority-card">
+                            <p class="text-[9px] font-black uppercase tracking-[0.16em] text-indigo-500">Fecha y hora de tu cita</p>
+                            <div class="reservation-priority-grid mt-1.5">
+                                <p id="persist-date" class="text-[13px] font-black text-slate-900 leading-tight">--</p>
+                                <p id="persist-time" class="reservation-priority-time font-black text-right">--</p>
                             </div>
-                            <div>
-                                <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Teléfono</p>
-                                <p id="persist-phone" class="font-bold text-slate-800">--</p>
-                            </div>
-                            <div>
-                                <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Barbero</p>
-                                <p id="persist-prof" class="font-bold text-slate-800">--</p>
-                            </div>
-                            <div>
-                                <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Hora</p>
-                                <p id="persist-time" class="font-bold text-slate-800">--</p>
-                            </div>
-                        </div>
-                        <div class="pt-2 border-t border-slate-100">
-                            <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Fecha</p>
-                            <p id="persist-date" class="font-bold text-slate-800">--</p>
                         </div>
 
-                        <div class="pt-2 border-t border-slate-100">
+                        <div class="reservation-meta-grid text-[12px]">
+                            <div class="reservation-meta-item">
+                                <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Barbero</p>
+                                <p id="persist-prof" class="font-bold text-slate-800 leading-tight">--</p>
+                            </div>
+                            <div class="reservation-meta-item">
+                                <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Cliente</p>
+                                <p id="persist-client" class="font-bold text-slate-800 leading-tight">--</p>
+                            </div>
+                            <div class="reservation-meta-item">
+                                <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Teléfono</p>
+                                <p id="persist-phone" class="font-bold text-slate-800 leading-tight">--</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-1.5 border-t border-slate-100">
                             <div class="flex items-center justify-between mb-1">
                                 <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Servicios</p>
                                 <p id="persist-services-count" class="text-[10px] font-black text-indigo-600">0</p>
                             </div>
                             <div id="persist-services" class="space-y-1 text-[12px] font-bold text-slate-700">--</div>
-                            <div class="mt-2 pt-2 border-t border-slate-100 flex justify-between items-center">
+                            <div class="mt-1.5 pt-1.5 border-t border-slate-100 flex justify-between items-center">
                                 <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">Total</span>
                                 <span id="persist-total" class="text-lg font-black text-indigo-600">$0</span>
                             </div>
                         </div>
 
-                        <div class="pt-2 border-t border-slate-100">
+                        <div class="pt-1.5 border-t border-slate-100">
                             <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Nota</p>
-                            <p id="persist-note-display" class="min-h-[84px] rounded-xl border border-slate-200 bg-slate-100 px-3 py-2 text-[12px] font-semibold text-slate-700 leading-snug">Sin nota adicional.</p>
+                            <p id="persist-note-display" class="min-h-[58px] rounded-xl border border-slate-200 bg-slate-100 px-3 py-2 text-[12px] font-semibold text-slate-700 leading-snug">Sin nota adicional.</p>
                         </div>
                     </div>
                 </div>
