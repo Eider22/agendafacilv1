@@ -146,16 +146,23 @@
             transition: all .25s cubic-bezier(.4, 0, .2, 1);
         }
         .service-card {
-            border-radius: var(--radius-m);
-            border: 1px solid var(--border-soft);
-            background: white;
-            box-shadow: var(--shadow-soft);
-            transition: all .25s cubic-bezier(.4, 0, .2, 1);
+            border-radius: 22px;
+            border: 1.5px solid #e0e7ef;
+            background: linear-gradient(120deg, #f8fafc 60%, #eef2ff 100%);
+            box-shadow: 0 6px 24px rgba(99,102,241,0.07), 0 1.5px 6px rgba(15,23,42,0.04);
+            transition: box-shadow .22s cubic-bezier(.4, 0, .2, 1), transform .18s cubic-bezier(.4, 0, .2, 1);
             max-width: 100%;
             width: 100%;
             min-width: 0;
             box-sizing: border-box;
-            min-height: 110px;
+            min-height: 120px;
+            padding: 1.25rem 1.1rem 1.25rem 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 1.1rem;
+            cursor: pointer;
+            position: relative;
+            overflow: visible;
         }
 
         .service-card:hover,
@@ -165,12 +172,12 @@
         }
 
         .service-thumb {
-            width: 56px;
-            height: 56px;
-            border-radius: 14px;
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
             object-fit: cover;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 6px 14px rgba(15, 23, 42, .1);
+            border: 2px solid #6366f1;
+            box-shadow: 0 8px 18px rgba(99,102,241,0.10);
             flex-shrink: 0;
         }
 
@@ -1621,83 +1628,131 @@
                     <div class="max-w-xl mx-auto grid gap-4 mt-6">
 
                         <div onclick="toggleService(this,'Corte Clásico',25000)"
-                            class="service-card p-4 flex items-center gap-3 cursor-pointer">
-                            <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=160&h=160&fit=crop" alt="Corte clásico" class="service-thumb">
-                            <div class="min-w-0 flex-1">
-                                <h4 class="font-bold truncate">Corte Clásico</h4>
-                                <p class="service-duration mt-1"><i data-lucide="clock-3"></i>30 min</p>
+                            class="service-card">
+                            <!-- <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=160&h=160&fit=crop" alt="Corte clásico" class="service-thumb"> -->
+                            <div class="min-w-0 flex-1 flex flex-col justify-between h-full">
+                                <div>
+                                    <h4 class="font-extrabold text-lg text-slate-900 leading-tight mb-1" style="word-break:break-word;white-space:normal;">Corte Clásico</h4>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <span class="service-duration"><i data-lucide="clock-3"></i>30 min</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end items-end mt-2">
+                                    <span class="font-black text-2xl text-indigo-600 drop-shadow-sm">$25.000</span>
+                                </div>
                             </div>
-                            <span class="font-black text-xl">$25.000</span>
                         </div>
 
                         <div onclick="toggleService(this,'Corte + Barba',40000)"
-                            class="service-card p-4 flex items-center gap-3 cursor-pointer">
-                            <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=160&h=160&fit=crop" alt="Corte y barba" class="service-thumb">
-                            <div class="min-w-0 flex-1">
-                                <h4 class="font-bold truncate">Corte + Barba</h4>
-                                <p class="service-duration mt-1"><i data-lucide="clock-3"></i>45 min</p>
+                            class="service-card">
+                            <!-- <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=160&h=160&fit=crop" alt="Corte y barba" class="service-thumb"> -->
+                            <div class="min-w-0 flex-1 flex flex-col justify-between h-full">
+                                <div>
+                                    <h4 class="font-extrabold text-lg text-slate-900 leading-tight mb-1" style="word-break:break-word;white-space:normal;">Corte + Barba</h4>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <span class="service-duration"><i data-lucide="clock-3"></i>45 min</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end items-end mt-2">
+                                    <span class="font-black text-2xl text-indigo-600 drop-shadow-sm">$40.000</span>
+                                </div>
                             </div>
-                            <span class="font-black text-xl">$40.000</span>
                         </div>
 
                         <div onclick="toggleService(this,'Arreglo de Barba',18000)"
-                            class="service-card p-4 flex items-center gap-3 cursor-pointer">
-                            <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=160&h=160&fit=crop" alt="Arreglo de barba" class="service-thumb">
-                            <div class="min-w-0 flex-1">
-                                <h4 class="font-bold truncate">Arreglo de Barba</h4>
-                                <p class="service-duration mt-1"><i data-lucide="clock-3"></i>20 min</p>
+                            class="service-card">
+                            <!-- <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=160&h=160&fit=crop" alt="Arreglo de barba" class="service-thumb"> -->
+                            <div class="min-w-0 flex-1 flex flex-col justify-between h-full">
+                                <div>
+                                    <h4 class="font-extrabold text-lg text-slate-900 leading-tight mb-1" style="word-break:break-word;white-space:normal;">Arreglo de Barba</h4>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <span class="service-duration"><i data-lucide="clock-3"></i>20 min</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end items-end mt-2">
+                                    <span class="font-black text-2xl text-indigo-600 drop-shadow-sm">$18.000</span>
+                                </div>
                             </div>
-                            <span class="font-black text-xl">$18.000</span>
                         </div>
 
                         <div onclick="toggleService(this,'Diseño de Cejas',12000)"
-                            class="service-card p-4 flex items-center gap-3 cursor-pointer">
-                            <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=160&h=160&fit=crop" alt="Diseño de cejas" class="service-thumb">
-                            <div class="min-w-0 flex-1">
-                                <h4 class="font-bold truncate">Diseño de Cejas</h4>
-                                <p class="service-duration mt-1"><i data-lucide="clock-3"></i>15 min</p>
+                            class="service-card">
+                            <!-- <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=160&h=160&fit=crop" alt="Diseño de cejas" class="service-thumb"> -->
+                            <div class="min-w-0 flex-1 flex flex-col justify-between h-full">
+                                <div>
+                                    <h4 class="font-extrabold text-lg text-slate-900 leading-tight mb-1" style="word-break:break-word;white-space:normal;">Diseño de Cejas</h4>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <span class="service-duration"><i data-lucide="clock-3"></i>15 min</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end items-end mt-2">
+                                    <span class="font-black text-2xl text-indigo-600 drop-shadow-sm">$12.000</span>
+                                </div>
                             </div>
-                            <span class="font-black text-xl">$12.000</span>
                         </div>
 
                         <div onclick="toggleService(this,'Corte Degradado',30000)"
-                            class="service-card p-4 flex items-center gap-3 cursor-pointer">
-                            <img src="https://images.unsplash.com/photo-1514336937476-a5b961020a5c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Corte degradado" class="service-thumb">
-                            <div class="min-w-0 flex-1">
-                                <h4 class="font-bold truncate">Corte Degradado</h4>
-                                <p class="service-duration mt-1"><i data-lucide="clock-3"></i>40 min</p>
+                            class="service-card">
+                            <!-- <img src="https://images.unsplash.com/photo-1514336937476-a5b961020a5c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Corte degradado" class="service-thumb"> -->
+                            <div class="min-w-0 flex-1 flex flex-col justify-between h-full">
+                                <div>
+                                    <h4 class="font-extrabold text-lg text-slate-900 leading-tight mb-1" style="word-break:break-word;white-space:normal;">Corte Degradado</h4>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <span class="service-duration"><i data-lucide="clock-3"></i>40 min</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end items-end mt-2">
+                                    <span class="font-black text-2xl text-indigo-600 drop-shadow-sm">$30.000</span>
+                                </div>
                             </div>
-                            <span class="font-black text-xl">$30.000</span>
                         </div>
 
                         <div onclick="toggleService(this,'Tintura de Cabello',50000)"
-                            class="service-card p-4 flex items-center gap-3 cursor-pointer">
-                            <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=160&h=160&fit=crop" alt="Tintura de cabello" class="service-thumb">
-                            <div class="min-w-0 flex-1">
-                                <h4 class="font-bold truncate">Tintura de Cabello</h4>
-                                <p class="service-duration mt-1"><i data-lucide="clock-3"></i>60 min</p>
+                            class="service-card">
+                            <!-- <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=160&h=160&fit=crop" alt="Tintura de cabello" class="service-thumb"> -->
+                            <div class="min-w-0 flex-1 flex flex-col justify-between h-full">
+                                <div>
+                                    <h4 class="font-extrabold text-lg text-slate-900 leading-tight mb-1" style="word-break:break-word;white-space:normal;">Tintura de Cabello</h4>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <span class="service-duration"><i data-lucide="clock-3"></i>60 min</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end items-end mt-2">
+                                    <span class="font-black text-2xl text-indigo-600 drop-shadow-sm">$50.000</span>
+                                </div>
                             </div>
-                            <span class="font-black text-xl">$50.000</span>
                         </div>
 
                         <div onclick="toggleService(this,'Tratamiento Capilar',35000)"
-                            class="service-card p-4 flex items-center gap-3 cursor-pointer">
-                            <img src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?w=160&h=160&fit=crop" alt="Tratamiento capilar" class="service-thumb">
-                            <div class="min-w-0 flex-1">
-                                <h4 class="font-bold truncate">Tratamiento Capilar</h4>
-                                <p class="service-duration mt-1"><i data-lucide="clock-3"></i>30 min</p>
+                            class="service-card">
+                            <!-- <img src="https://images.unsplash.com/photo-1527799820374-dcf8d9d4a388?w=160&h=160&fit=crop" alt="Tratamiento capilar" class="service-thumb"> -->
+                            <div class="min-w-0 flex-1 flex flex-col justify-between h-full">
+                                <div>
+                                    <h4 class="font-extrabold text-lg text-slate-900 leading-tight mb-1" style="word-break:break-word;white-space:normal;">Tratamiento Capilar</h4>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <span class="service-duration"><i data-lucide="clock-3"></i>30 min</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end items-end mt-2">
+                                    <span class="font-black text-2xl text-indigo-600 drop-shadow-sm">$35.000</span>
+                                </div>
                             </div>
-                            <span class="font-black text-xl">$35.000</span>
                         </div>
 
                         <div onclick="toggleService(this,'Afeitado Clásico',20000)"
-                            class="service-card p-4 flex items-center gap-3 cursor-pointer">
-                            <img src="https://images.unsplash.com/photo-1517832606299-7ae9b720a186?w=160&h=160&fit=crop" alt="Afeitado clásico" class="service-thumb">
-                            <div class="min-w-0 flex-1">
-                                <h4 class="font-bold truncate">Afeitado Clásico</h4>
-                                <p class="service-duration mt-1"><i data-lucide="clock-3"></i>25 min</p>
+                            class="service-card">
+                            <!-- <img src="https://images.unsplash.com/photo-1517832606299-7ae9b720a186?w=160&h=160&fit=crop" alt="Afeitado clásico" class="service-thumb"> -->
+                            <div class="min-w-0 flex-1 flex flex-col justify-between h-full">
+                                <div>
+                                    <h4 class="font-extrabold text-lg text-slate-900 leading-tight mb-1" style="word-break:break-word;white-space:normal;">Afeitado Clásico</h4>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <span class="service-duration"><i data-lucide="clock-3"></i>25 min</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end items-end mt-2">
+                                    <span class="font-black text-2xl text-indigo-600 drop-shadow-sm">$20.000</span>
+                                </div>
                             </div>
-                            <span class="font-black text-xl">$20.000</span>
                         </div>
 
                     </div>
@@ -2931,10 +2986,10 @@
                                 <i data-lucide="calendar-x" class="w-8 h-8 text-slate-300"></i>
                             </div>
                             <p class="font-black text-lg text-slate-700">No hay citas disponibles para la fecha seleccionada</p>
-                            <p class="text-slate-500 text-sm mb-2">Elige otra fecha o ve a la siguiente fecha disponible.</p>
+                            <p class="text-slate-500 text-sm mb-2">Elige otra fecha o ve a la siguiente cita disponible.</p>
                             <button id="btn-jump-next-available" class="mt-2 px-6 py-3 rounded-2xl bg-indigo-600 text-white font-extrabold text-sm uppercase tracking-widest shadow-lg hover:bg-indigo-700 transition-colors flex items-center gap-2" style="box-shadow:0 4px 16px rgba(99,102,241,0.10);">
                                 <i data-lucide="arrow-right-circle" class="w-5 h-5"></i>
-                                Ver siguiente fecha disponible
+                                Ver siguiente cita disponible
                             </button>
                         </div>
                     `;
