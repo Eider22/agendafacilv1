@@ -14,6 +14,7 @@
 
         :root {
             --radius-xl: 28px;
+            --hero-brand-bg: rgba(15, 23, 42, .58);
             --shadow-soft:
                 0 4px 14px rgba(15, 23, 42, 0.04),
                 0 2px 6px rgba(15, 23, 42, 0.03);
@@ -349,42 +350,9 @@
             right: -7px;
         }
 
-        /* HERO OVERLAY */
-        .carousel-overlay {
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            background: linear-gradient(to top,
-                rgba(6, 6, 18, 0.88) 0%,
-                rgba(6, 6, 18, 0.55) 45%,
-                transparent 100%);
-            padding: 36px 14px 14px;
-            border-radius: 0 0 var(--radius-xl) var(--radius-xl);
-            pointer-events: none;
-        }
-
-        .carousel-brand-logo-hero {
-            width: 54px;
-            height: 54px;
-            border-radius: 15px;
-            object-fit: cover;
-            border: 2px solid rgba(255,255,255,0.22);
-            box-shadow:
-                0 4px 20px rgba(0,0,0,0.5),
-                0 0 0 1px rgba(255,255,255,0.08) inset;
-            flex-shrink: 0;
-        }
-
-        .carousel-rating-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 3px;
-            background: rgba(255,255,255,0.12);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 999px;
-            padding: 4px 9px 4px 7px;
-            flex-shrink: 0;
+        /* BRAND ROW (integrado en el hero) */
+        .brand-row {
+            display: none;
         }
 
         .carousel-dots-inset {
@@ -395,10 +363,16 @@
             display: flex;
             gap: 5px;
             margin: 0;
+            z-index: 3;
+            padding: 4px 8px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .24);
+            background: rgba(15, 23, 42, .38);
+            backdrop-filter: blur(6px);
         }
 
         .carousel-dots-inset .carousel-dot {
-            background: rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.5);
         }
 
         .carousel-dots-inset .carousel-dot.active {
@@ -409,7 +383,159 @@
         .carousel-container {
             position: relative;
             overflow: hidden;
-            border-radius: var(--radius-xl);
+            border-radius: 28px;
+            border: 1px solid #dbe3ee;
+            box-shadow:
+                0 14px 28px rgba(15, 23, 42, .1),
+                0 6px 12px rgba(15, 23, 42, .05);
+        }
+
+        .carousel-container::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 46%;
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0) 0%, rgba(15, 23, 42, .65) 100%);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .carousel-container::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(15, 23, 42, .2) 0%, rgba(15, 23, 42, .06) 38%, rgba(15, 23, 42, .18) 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .hero-brand-block {
+            position: absolute;
+            left: 12px;
+            bottom: 12px;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: min(78%, 360px);
+            padding: 6px 8px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, .24);
+            background: var(--hero-brand-bg);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .24);
+        }
+
+        .hero-brand-color-control {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 4;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 8px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .28);
+            background: rgba(15, 23, 42, .5);
+            backdrop-filter: blur(6px);
+            color: #f8fafc;
+        }
+
+        .hero-brand-color-control label {
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .07em;
+        }
+
+        #hero-brand-bg-picker {
+            width: 22px;
+            height: 22px;
+            padding: 0;
+            border: 1px solid rgba(255, 255, 255, .68);
+            border-radius: 999px;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        #hero-brand-bg-picker::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+
+        #hero-brand-bg-picker::-webkit-color-swatch {
+            border: 0;
+            border-radius: 999px;
+        }
+
+        #hero-brand-bg-picker::-moz-color-swatch {
+            border: 0;
+            border-radius: 999px;
+        }
+
+        .hero-brand-logo {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, .68);
+            object-fit: cover;
+            box-shadow:
+                0 8px 16px rgba(0, 0, 0, .34),
+                0 0 0 1px rgba(15, 23, 42, .35);
+            background: rgba(15, 23, 42, .28);
+            flex-shrink: 0;
+        }
+
+        .hero-brand-copy {
+            min-width: 0;
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(2, 6, 23, .9);
+        }
+
+        .hero-brand-kicker {
+            margin: 0;
+            font-size: 8px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            color: rgba(241, 245, 249, .98);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .hero-brand-title {
+            margin: 1px 0 0;
+            font-size: clamp(1.55rem, 2.5vw, 1.95rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            line-height: .98;
+            color: #ffffff;
+            -webkit-text-stroke: .35px rgba(15, 23, 42, .5);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .hero-rating-pill {
+            position: absolute;
+            right: 12px;
+            bottom: 12px;
+            z-index: 3;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .28);
+            background: rgba(15, 23, 42, .62);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: .01em;
+            backdrop-filter: blur(7px);
         }
 
         .carousel-track {
@@ -421,8 +547,7 @@
             width: 100%;
             flex-shrink: 0;
             object-fit: cover;
-            aspect-ratio: 21/9;
-            border-radius: var(--radius-xl);
+            height: clamp(205px, 31vh, 275px);
         }
 
         .carousel-dots {
@@ -436,14 +561,13 @@
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: #e2e8f0;
-            transition: all .3s;
+            background: rgba(255, 255, 255, .45);
             cursor: pointer;
         }
 
         .carousel-dot.active {
-            background: #6366f1;
-            width: 24px;
+            background: rgba(255, 255, 255, .96);
+            width: 22px;
             border-radius: 4px;
         }
 
@@ -649,6 +773,55 @@
         }
 
         @media (max-width: 640px) {
+            .carousel-track img {
+                height: clamp(188px, 26vh, 224px);
+            }
+
+            .hero-brand-color-control {
+                top: 9px;
+                right: 9px;
+                padding: 4px 7px;
+                gap: 5px;
+            }
+
+            .hero-brand-color-control label {
+                font-size: 8px;
+            }
+
+            .carousel-dots-inset {
+                top: 10px;
+                padding: 3px 7px;
+            }
+
+            .hero-brand-block {
+                left: 10px;
+                right: 10px;
+                bottom: 10px;
+                max-width: none;
+                padding: 5px 7px;
+                border-radius: 14px;
+                gap: 8px;
+            }
+
+            .hero-brand-logo {
+                width: 40px;
+                height: 40px;
+                border-radius: 12px;
+            }
+
+            .hero-brand-kicker {
+                font-size: 7px;
+            }
+
+            .hero-brand-title {
+                font-size: clamp(1.32rem, 5.4vw, 1.64rem);
+            }
+
+            .hero-rating-pill {
+                padding: 5px 9px;
+                font-size: 10px;
+            }
+
             .slide:not(:first-child) .slide-header {
                 padding: 6px 7px 7px;
             }
@@ -1099,6 +1272,39 @@
             filter: grayscale(.5);
             pointer-events: none;
         }
+
+        .step4-note-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            color: #475569;
+            border-radius: 999px;
+            padding: 4px 10px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .03em;
+            text-transform: uppercase;
+            transition: all .2s ease;
+        }
+
+        .step4-note-trigger:hover {
+            border-color: #c7d2fe;
+            color: #4338ca;
+            background: #eef2ff;
+        }
+
+        .step4-note-trigger:focus-visible {
+            outline: 2px solid rgba(79, 70, 229, .35);
+            outline-offset: 2px;
+        }
+
+        .step4-note-trigger.has-note {
+            border-color: #6366f1;
+            color: #4338ca;
+            background: #eef2ff;
+        }
     </style>
 </head>
 
@@ -1113,30 +1319,28 @@
                 <div class="slide-header" style="padding-bottom: 10px; padding-top: 12px;">
                     <div class="max-w-xl mx-auto">
 
-                        <!-- Carrusel hero con overlay de marca -->
-                        <div class="carousel-container shadow-[var(--shadow-soft)] border border-[var(--border-soft)]">
+                        <!-- Carrusel de fotos -->
+                        <div class="carousel-container">
                             <div id="carousel-track" class="carousel-track">
+                                <img src="./images/logo.jpeg" alt="Logo Barbería 017">
                                 <img src="https://images.unsplash.com/photo-1759134198561-e2041049419c?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Interior barbería">
                                 <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&h=340&fit=crop" alt="Corte de cabello">
                                 <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=600&h=340&fit=crop" alt="Estilo y barba">
                                 <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=600&h=340&fit=crop" alt="Ambiente barbería">
                             </div>
-
-                            <!-- Dots inside hero -->
                             <div id="carousel-dots" class="carousel-dots-inset"></div>
 
-                            <!-- Brand overlay -->
-                            <div class="carousel-overlay">
-                                <div style="display:flex;align-items:flex-end;gap:10px;">
-                                    <img src="./images/logo.jpeg" alt="Logo Barbería 017" class="carousel-brand-logo-hero">
-                                    <div style="min-width:0;flex:1;">
-                                        <p style="color:rgba(255,255,255,0.6);font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin:0 0 3px;">Barbería · Dosquebradas</p>
-                                        <h2 style="color:#fff;font-size:1.25rem;font-weight:900;line-height:1.05;margin:0;letter-spacing:-0.02em;">Barbería 017</h2>
-                                    </div>
-                                    <div class="carousel-rating-pill">
-                                        <svg width="11" height="11" viewBox="0 0 24 24" fill="#fbbf24" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                                        <span style="color:#fff;font-size:0.68rem;font-weight:800;line-height:1;">4.8</span>
-                                    </div>
+                            <!-- <div class="hero-brand-color-control" aria-label="Cambiar color del fondo del nombre y slogan">
+                                <i data-lucide="palette" class="w-3.5 h-3.5"></i>
+                                <label for="hero-brand-bg-picker">Color</label>
+                                <input id="hero-brand-bg-picker" type="color" value="#0f172a" aria-label="Elegir color del fondo del nombre y slogan">
+                            </div> -->
+
+                            <div class="hero-brand-block" aria-label="Marca Barbería 017">
+                                <img src="./images/logo2.jpeg" alt="Logo Barbería 017" class="hero-brand-logo">
+                                <div class="hero-brand-copy">
+                                    <p class="hero-brand-kicker">Tu estilo, tu sello</p>
+                                    <p class="hero-brand-title">Barbería 017</p>
                                 </div>
                             </div>
                         </div>
@@ -1209,37 +1413,17 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="bg-white rounded-[var(--radius-xl)] border border-[var(--border-soft)] shadow-[var(--shadow-soft)] p-4 flex items-center gap-4">
-                                <div class="w-10 h-10 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center flex-shrink-0">
-                                    <i data-lucide="star" class="w-5 h-5"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-bold text-slate-700">4.8 ★ en Google</p>
-                                    <p class="text-xs text-slate-400">+1,200 clientes satisfechos</p>
-                                </div>
-                            </div>
                         </div>
 
                         <!-- Tab: Contacto -->
                         <div id="panel-contacto" class="info-panel space-y-3 mt-4 hidden">
                             <div class="bg-white rounded-[var(--radius-xl)] border border-[var(--border-soft)] shadow-[var(--shadow-soft)] p-4 flex items-center gap-4">
-                                <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center flex-shrink-0">
-                                    <i data-lucide="phone" class="w-5 h-5"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-bold text-slate-700">+57 317 456 7890</p>
-                                    <p class="text-xs text-slate-400">Llámanos o escríbenos</p>
-                                </div>
-                            </div>
-
-                            <div class="bg-white rounded-[var(--radius-xl)] border border-[var(--border-soft)] shadow-[var(--shadow-soft)] p-4 flex items-center gap-4">
                                 <div class="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center flex-shrink-0">
                                     <i data-lucide="message-circle" class="w-5 h-5"></i>
                                 </div>
                                 <div>
-                                    <p class="text-sm font-bold text-slate-700">WhatsApp disponible</p>
-                                    <p class="text-xs text-slate-400">Confirmación y recordatorios de citas</p>
+                                    <p class="text-sm font-bold text-slate-700">+57 317 456 7890</p>
+                                    <p class="text-xs text-slate-400">Llámanos o escríbenos</p>
                                 </div>
                             </div>
 
@@ -1250,6 +1434,26 @@
                                 <div>
                                     <p class="text-sm font-bold text-slate-700">@barberia017</p>
                                     <p class="text-xs text-slate-400">Síguenos en Instagram</p>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-[var(--radius-xl)] border border-[var(--border-soft)] shadow-[var(--shadow-soft)] p-4 flex items-center gap-4">
+                                <div class="w-10 h-10 bg-sky-50 text-sky-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="music-2" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold text-slate-700">@barberia017</p>
+                                    <p class="text-xs text-slate-400">Encuéntranos en TikTok</p>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-[var(--radius-xl)] border border-[var(--border-soft)] shadow-[var(--shadow-soft)] p-4 flex items-center gap-4">
+                                <div class="w-10 h-10 bg-blue-50 text-blue-700 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="facebook" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold text-slate-700">Barbería 017</p>
+                                    <p class="text-xs text-slate-400">Síguenos en Facebook</p>
                                 </div>
                             </div>
                         </div>
@@ -1684,10 +1888,11 @@
                                     </div>
                                     <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Tus datos</p>
                                 </div>
-                                <span id="step4-data-badge" class="data-card-badge">
-                                    <i data-lucide="arrow-down" class="w-2.5 h-2.5"></i>
-                                    Completa aquí
-                                </span>
+                                <div class="flex items-center gap-2">
+                                    <button id="step4-note-trigger" type="button" class="step4-note-trigger" onclick="openStep4NoteModal()" aria-label="Añadir nota para la cita" aria-haspopup="dialog" aria-controls="step4-note-modal">
+                                        <i data-lucide="notebook-pen" class="w-3.5 h-3.5"></i>
+                                        <span id="step4-note-action" class="tracking-wide">Añadir nota a la cita</span>
+                                    </button>                                </div>
                             </div>
                             <div class="px-4 pt-2 pb-1">
                                 <!-- Nombre -->
@@ -1701,14 +1906,6 @@
                                     <label class="text-[9px] font-black uppercase text-slate-300 tracking-wider block mb-1">Teléfono</label>
                                     <input id="input-phone" type="tel" oninput="validate()" placeholder="300 123 4567"
                                         class="w-full bg-transparent text-sm font-bold text-slate-800 outline-none placeholder:text-slate-300 py-1">
-                                </div>
-
-                                <div class="pt-2 pb-1 border-t border-slate-100 mt-1">
-                                    <div class="flex items-center justify-between mb-1">
-                                        <label class="text-[9px] font-black uppercase text-slate-300 tracking-wider">Nota para la cita (Opcional)</label>
-                                        <span id="review-note-count" class="text-[10px] font-black text-indigo-500">0/160</span>
-                                    </div>
-                                    <textarea id="review-note" maxlength="160" oninput="updateReviewNoteCounter()" placeholder="Ej: perfil de barba, estilo de fade, cuidado especial..." class="w-full min-h-[68px] max-h-28 resize-none rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-[12px] font-semibold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-200"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -1950,6 +2147,33 @@
         </div>
     </div>
 
+    <div id="step4-note-modal" class="modal-overlay" aria-hidden="true">
+        <div class="modal-content bg-white rounded-[2rem] max-w-md mx-4 shadow-2xl w-full max-h-[82vh] flex flex-col overflow-hidden">
+            <div class="flex-shrink-0 px-5 pt-5 pb-3 border-b border-[var(--border-soft)] flex items-center justify-between gap-2">
+                <div>
+                    <h3 class="text-lg font-black tracking-tight text-slate-900">Nota para la cita</h3>
+                    <p class="text-xs text-slate-400">Opcional, máximo 160 caracteres.</p>
+                </div>
+                <button type="button" onclick="closeStep4NoteModal()" class="w-9 h-9 rounded-xl hover:bg-slate-100 text-slate-400 flex items-center justify-center" aria-label="Cerrar editor de nota">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto px-5 pt-4 pb-2">
+                <div class="flex items-center justify-between mb-2">
+                    <label for="review-note" class="text-[10px] font-black uppercase tracking-widest text-slate-400">Mensaje para el profesional</label>
+                    <span id="review-note-count" class="text-[10px] font-black text-indigo-500">0/160</span>
+                </div>
+                <textarea id="review-note" maxlength="160" oninput="updateReviewNoteCounter()" placeholder="Ej: perfil de barba, estilo de fade, cuidado especial..." class="w-full min-h-[120px] max-h-52 resize-none rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-[13px] font-semibold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-200"></textarea>
+            </div>
+
+            <div class="flex-shrink-0 px-5 pb-5 pt-3 border-t border-[var(--border-soft)] flex gap-2">
+                <button type="button" onclick="closeStep4NoteModal()" class="flex-1 py-3 rounded-2xl border border-slate-200 bg-slate-100 text-slate-600 font-extrabold text-[11px] uppercase tracking-widest hover:bg-slate-200 transition-colors">Cancelar</button>
+                <button type="button" onclick="saveStep4Note()" class="flex-1 py-3 rounded-2xl bg-indigo-600 text-white font-extrabold text-[11px] uppercase tracking-widest hover:bg-indigo-700 transition-colors">Guardar nota</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal de Confirmación Exitosa -->
     <div id="success-modal" class="modal-overlay">
         <div class="modal-content bg-white rounded-[2rem] max-w-md mx-4 shadow-2xl w-full max-h-[86vh] flex flex-col overflow-hidden">
@@ -2037,7 +2261,7 @@
                                 <i data-lucide="check" class="w-5 h-5"></i>
                             </div>
                             <div class="min-w-0">
-                                <p class="text-lg font-black text-slate-900 leading-tight">Reserva agendada con éxito</p>
+                                <p class="text-lg font-black text-slate-900 leading-tight">Cita agendada con éxito</p>
                             </div>
                         </div>
                         <div class="mt-3 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 text-white text-[10px] font-black uppercase tracking-wider">
@@ -2045,7 +2269,7 @@
                         </div>
 
                         <div class="reservation-ticket-brand mt-3 flex items-center gap-3">
-                            <img src="./images/logo.jpeg" alt="Logo Barberia 017" class="reservation-brand-logo">
+                            <img src="./images/logo2.jpeg" alt="Logo Barberia 017" class="reservation-brand-logo">
                             <div class="min-w-0">
                                 <p class="text-[13px] font-black text-slate-900 leading-tight">Barberia 017</p>
                                 <p class="text-[11px] font-semibold text-slate-500 leading-tight">Calle 17 #45, Dosquebradas</p>
@@ -3018,9 +3242,35 @@
             closeReviewModal();
             goToStep(4);
             setTimeout(() => {
-                const noteInput = document.getElementById('review-note');
-                if (noteInput) noteInput.focus();
+                openStep4NoteModal(true);
             }, 320);
+        }
+
+        function openStep4NoteModal(autofocus = false) {
+            const modal = document.getElementById('step4-note-modal');
+            if (!modal) return;
+            modal.classList.add('show');
+            modal.setAttribute('aria-hidden', 'false');
+            updateReviewNoteCounter();
+            if (autofocus) {
+                setTimeout(() => {
+                    const noteInput = document.getElementById('review-note');
+                    if (noteInput) noteInput.focus();
+                }, 140);
+            }
+            lucide.createIcons();
+        }
+
+        function closeStep4NoteModal() {
+            const modal = document.getElementById('step4-note-modal');
+            if (!modal) return;
+            modal.classList.remove('show');
+            modal.setAttribute('aria-hidden', 'true');
+        }
+
+        function saveStep4Note() {
+            updateReviewNoteCounter();
+            closeStep4NoteModal();
         }
 
         function generateBookingCode() {
@@ -3157,6 +3407,12 @@
             const reviewModal = document.getElementById('review-modal');
             if (reviewModal) reviewModal.classList.remove('show');
 
+            const noteModal = document.getElementById('step4-note-modal');
+            if (noteModal) {
+                noteModal.classList.remove('show');
+                noteModal.setAttribute('aria-hidden', 'true');
+            }
+
             const bookingLoader = document.getElementById('booking-loader');
             if (bookingLoader) bookingLoader.classList.remove('show');
 
@@ -3182,6 +3438,17 @@
             const reviewNotePreview = document.getElementById('review-note-preview');
             if (reviewNotePreview) {
                 reviewNotePreview.textContent = reservationNote || 'Sin nota adicional.';
+            }
+
+            const noteTrigger = document.getElementById('step4-note-trigger');
+            if (noteTrigger) {
+                noteTrigger.classList.toggle('has-note', !!reservationNote);
+                noteTrigger.setAttribute('aria-label', reservationNote ? 'Editar nota de la cita' : 'Añadir nota a la cita');
+            }
+
+            const noteAction = document.getElementById('step4-note-action');
+            if (noteAction) {
+                noteAction.textContent = reservationNote ? 'Editar nota de la cita' : 'Añadir nota a la cita';
             }
         }
 
@@ -3256,6 +3523,40 @@
             setTimeout(() => location.reload(), 300);
         }
 
+        const HERO_BRAND_BG_STORAGE_KEY = 'af-hero-brand-bg-color';
+
+        function isValidHexColor(value) {
+            return typeof value === 'string' && /^#[0-9a-fA-F]{6}$/.test(value);
+        }
+
+        function hexToRgba(hex, alpha = 0.58) {
+            const safeHex = isValidHexColor(hex) ? hex : '#0f172a';
+            const r = parseInt(safeHex.slice(1, 3), 16);
+            const g = parseInt(safeHex.slice(3, 5), 16);
+            const b = parseInt(safeHex.slice(5, 7), 16);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+
+        function applyHeroBrandBackgroundColor(hex) {
+            const normalizedHex = isValidHexColor(hex) ? hex : '#0f172a';
+            document.documentElement.style.setProperty('--hero-brand-bg', hexToRgba(normalizedHex));
+            localStorage.setItem(HERO_BRAND_BG_STORAGE_KEY, normalizedHex);
+        }
+
+        function initHeroBrandBackgroundPicker() {
+            const picker = document.getElementById('hero-brand-bg-picker');
+            if (!picker) return;
+
+            const savedHex = localStorage.getItem(HERO_BRAND_BG_STORAGE_KEY);
+            const initialHex = isValidHexColor(savedHex) ? savedHex : '#0f172a';
+            picker.value = initialHex;
+            applyHeroBrandBackgroundColor(initialHex);
+
+            picker.addEventListener('input', () => {
+                applyHeroBrandBackgroundColor(picker.value);
+            });
+        }
+
         /* ===============================
            CARRUSEL DE FOTOS
         =============================== */
@@ -3292,10 +3593,20 @@
             }
         });
 
+        const step4NoteModalEl = document.getElementById('step4-note-modal');
+        if (step4NoteModalEl) {
+            step4NoteModalEl.addEventListener('click', (event) => {
+                if (event.target === step4NoteModalEl) {
+                    closeStep4NoteModal();
+                }
+            });
+        }
+
         setConfirmServicesExpanded(false);
         updateDatosConfirmSummary();
         updateProgressSummary();
         updateReviewNoteCounter();
+        initHeroBrandBackgroundPicker();
 
     </script>
 
