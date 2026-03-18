@@ -1983,34 +1983,43 @@
                         <div class="step4-sticky-stack">
 
                         <!-- Tus datos -->
-                        <div id="step4-data-card" class="bg-white rounded-2xl border border-[var(--border-soft)] shadow-[var(--shadow-soft)] overflow-hidden">
-                            <div class="px-4 pt-3 pb-2 border-b border-slate-100 flex items-center justify-between gap-2">
-                                <div class="flex items-center gap-2">
-                                    <div class="w-6 h-6 bg-indigo-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <i data-lucide="user" class="w-3.5 h-3.5 text-indigo-500"></i>
-                                    </div>
-                                    <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Tus datos</p>
+                        <div id="step4-data-card" class="bg-white rounded-2xl border border-[var(--border-soft)] shadow-[var(--shadow-soft)] overflow-hidden card-active">
+                            <div class="px-5 pt-4 pb-2 border-b border-slate-100 flex items-center gap-3">
+                                <div class="w-8 h-8 bg-indigo-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="user" class="w-5 h-5 text-indigo-600"></i>
                                 </div>
-                                <div class="flex items-center gap-2">
-                                    <button id="step4-note-trigger" type="button" class="step4-note-trigger" onclick="openStep4NoteModal()" aria-label="Añadir nota para la cita" aria-haspopup="dialog" aria-controls="step4-note-modal">
-                                        <i data-lucide="notebook-pen" class="w-3.5 h-3.5"></i>
-                                        <span id="step4-note-action" class="tracking-wide">Añadir nota a la cita</span>
-                                    </button>                                </div>
+                                <h3 class="text-base font-extrabold text-slate-900 tracking-tight">Tus datos</h3>
                             </div>
-                            <div class="px-4 pt-2 pb-1">
+                            <div class="px-5 pt-3 pb-2 bg-slate-50/60">
                                 <!-- Nombre -->
-                                <div class="pb-2 border-b border-slate-100">
-                                    <label class="text-[9px] font-black uppercase text-slate-300 tracking-wider block mb-1">Nombre completo</label>
-                                    <input id="input-name" type="text" oninput="validate()" placeholder="Ej: Juan Pérez"
-                                        class="w-full bg-transparent text-sm font-bold text-slate-800 outline-none placeholder:text-slate-300 py-1">
+                                <div class="mb-3">
+                                    <label for="input-name" class="block text-[13px] font-bold text-slate-900 mb-1 tracking-wide">Nombre completo <span class="text-indigo-500">*</span></label>
+                                    <div class="relative">
+                                        <input id="input-name" type="text" oninput="validate()" placeholder="Ej: Juan Pérez"
+                                            class="w-full bg-white text-[15px] font-semibold text-slate-900 outline-none placeholder:text-slate-400 py-2 px-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 transition shadow-sm" autocomplete="name">
+                                        <i class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300" data-lucide="user"></i>
+                                    </div>
                                 </div>
                                 <!-- Teléfono -->
-                                <div class="pt-2 pb-1">
-                                    <label class="text-[9px] font-black uppercase text-slate-300 tracking-wider block mb-1">Teléfono</label>
-                                    <input id="input-phone" type="tel" oninput="validate()" placeholder="300 123 4567"
-                                        class="w-full bg-transparent text-sm font-bold text-slate-800 outline-none placeholder:text-slate-300 py-1">
+                                <div class="mb-3">
+                                    <label for="input-phone" class="block text-[13px] font-bold text-slate-900 mb-1 tracking-wide">Teléfono <span class="text-indigo-500">*</span></label>
+                                    <div class="relative">
+                                        <input id="input-phone" type="tel" oninput="validate()" placeholder="300 123 4567"
+                                            class="w-full bg-white text-[15px] font-semibold text-slate-900 outline-none placeholder:text-slate-400 py-2 px-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 transition shadow-sm" autocomplete="tel">
+                                        <i class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-300" data-lucide="phone"></i>
+                                    </div>
                                 </div>
                             </div>
+                            <script>
+                            // Renderizar iconos lucide en inputs
+                            if (window.lucide) {
+                                lucide.createIcons();
+                            } else {
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    if (window.lucide) lucide.createIcons();
+                                });
+                            }
+                            </script>
                         </div>
 
                         <!-- Resumen de cita -->
@@ -2019,7 +2028,11 @@
                                 <div class="w-6 h-6 bg-indigo-50 rounded-lg flex items-center justify-center flex-shrink-0">
                                     <i data-lucide="calendar-check" class="w-3.5 h-3.5 text-indigo-500"></i>
                                 </div>
-                                <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Resumen de cita</p>
+                                <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-0">Resumen de cita</p>
+                                <button id="step4-note-trigger" type="button" class="step4-note-trigger ml-auto" onclick="openStep4NoteModal()" aria-label="Añadir nota para la cita" aria-haspopup="dialog" aria-controls="step4-note-modal">
+                                    <i data-lucide="notebook-pen" class="w-3.5 h-3.5"></i>
+                                    <span id="step4-note-action" class="tracking-wide">Añadir nota a la cita</span>
+                                </button>
                             </div>
 
                             <!-- Barbero -->
