@@ -2909,8 +2909,62 @@
         function updateTimeLock() {
             const section = document.getElementById('time-section');
             if (!section) return;
+            // Remove any previous custom message
+            let noCitasMsg = document.getElementById('no-citas-msg');
+            if (noCitasMsg) noCitasMsg.remove();
+            // Hide all time groups by default
+            section.querySelectorAll('.time-group').forEach(g => g.style.display = '');
+            // Check if selectedDate is before 2026-03-23
             if (selectedDate) {
-                section.classList.remove('time-locked');
+                const minDate = new Date(2026, 2, 23); // March is month 2 (0-based)
+                if (selectedDate < minDate) {
+                    section.classList.remove('time-locked');
+                    // Hide time groups
+                    section.querySelectorAll('.time-group').forEach(g => g.style.display = 'none');
+                    // Show custom message and button
+                    const msg = document.createElement('div');
+                    msg.id = 'no-citas-msg';
+                    msg.className = 'flex flex-col items-center justify-center py-10';
+                    msg.innerHTML = `
+                        <div class="flex flex-col items-center gap-3 max-w-xs text-center">
+                            <div class="w-14 h-14 rounded-2xl bg-slate-50 flex items-center justify-center mb-2">
+                                <i data-lucide="calendar-x" class="w-8 h-8 text-slate-300"></i>
+                            </div>
+                            <p class="font-black text-lg text-slate-700">No hay citas disponibles para la fecha seleccionada</p>
+                            <p class="text-slate-500 text-sm mb-2">Elige otra fecha o ve a la siguiente cita disponible.</p>
+                            <button id="btn-jump-next-available" class="mt-2 px-6 py-3 rounded-2xl bg-indigo-600 text-white font-extrabold text-sm uppercase tracking-widest shadow-lg hover:bg-indigo-700 transition-colors flex items-center gap-2" style="box-shadow:0 4px 16px rgba(99,102,241,0.10);">
+                                <i data-lucide="arrow-right-circle" class="w-5 h-5"></i>
+                                Ver siguiente cita disponible
+                            </button>
+                        </div>
+                    `;
+                    section.appendChild(msg);
+                    lucide.createIcons();
+                    document.getElementById('btn-jump-next-available').onclick = function() {
+                        // Set selectedDate to March 23, 2026 and update UI
+                        const jumpDate = new Date(2026, 2, 23);
+                        selectedDate = jumpDate;
+                        const months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+                        const days = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+                        const label = document.getElementById('selected-date-label');
+                        const dateText = `${days[jumpDate.getDay()]} ${jumpDate.getDate()} de ${months[jumpDate.getMonth()]}`;
+                        label.textContent = dateText;
+                        label.classList.remove('hidden');
+                        document.getElementById('cal-toggle-label').textContent = dateText;
+                        calYear = jumpDate.getFullYear();
+                        calMonth = jumpDate.getMonth();
+                        renderCalendar();
+                        renderStrip();
+                        updateTimeLock();
+                        validate();
+                    };
+                    // Reset any previously selected time
+                    document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('card-active'));
+                    time = null;
+                    return;
+                } else {
+                    section.classList.remove('time-locked');
+                }
             } else {
                 section.classList.add('time-locked');
                 // Reset any previously selected time when date is cleared
