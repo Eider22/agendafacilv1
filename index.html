@@ -857,10 +857,10 @@
             animation: calMonthFadeIn .22s ease;
         }
 
-        /* CONTENEDOR DE HORARIOS (MULTILÍNEA) */
+        /* CONTENEDOR DE HORARIOS (VERTICAL) */
         .time-strip {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+            display: flex;
+            flex-direction: column;
             gap: 10px;
         }
 
@@ -2144,14 +2144,14 @@
 
                             <!-- Strip horizontal (visible cuando colapsado) -->
                             <div id="cal-strip" class="px-5 pb-4 relative group">
-                                <button onclick="scrollCalStrip(-1)" class="hidden lg:flex absolute left-2 top-[40%] -translate-y-1/2 w-8 h-8 bg-white/95 shadow-[0_4px_12px_rgba(0,0,0,0.15)] border border-slate-100 rounded-full items-center justify-center text-slate-600 hover:text-indigo-600 z-10 opacity-0 group-hover:opacity-100 transition-all hover:scale-105">
-                                    <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                                <button onclick="scrollCalStrip(-1)" class="hidden lg:flex absolute left-2 top-[40%] -translate-y-1/2 w-9 h-9 bg-white shadow-[0_4px_15px_rgba(99,102,241,0.25)] border border-indigo-100 rounded-full items-center justify-center text-indigo-600 hover:bg-indigo-50 hover:text-indigo-700 z-10 transition-all hover:scale-110">
+                                    <i data-lucide="chevron-left" class="w-5 h-5"></i>
                                 </button>
                                 
                                 <div id="cal-strip-days" class="date-strip"></div>
                                 
-                                <button onclick="scrollCalStrip(1)" class="hidden lg:flex absolute right-2 top-[40%] -translate-y-1/2 w-8 h-8 bg-white/95 shadow-[0_4px_12px_rgba(0,0,0,0.15)] border border-slate-100 rounded-full items-center justify-center text-slate-600 hover:text-indigo-600 z-10 opacity-0 group-hover:opacity-100 transition-all hover:scale-105">
-                                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                                <button onclick="scrollCalStrip(1)" class="hidden lg:flex absolute right-2 top-[40%] -translate-y-1/2 w-9 h-9 bg-white shadow-[0_4px_15px_rgba(99,102,241,0.25)] border border-indigo-100 rounded-full items-center justify-center text-indigo-600 hover:bg-indigo-50 hover:text-indigo-700 z-10 transition-all hover:scale-110">
+                                    <i data-lucide="chevron-right" class="w-5 h-5"></i>
                                 </button>
                             </div>
 
@@ -2197,7 +2197,9 @@
                     <div class="max-w-xl mx-auto">
                         <div id="time-section" class="time-locked">
 
-                            <!-- Mañana -->
+                            <!-- Contenedor de 3 columnas -->
+                            <div class="grid grid-cols-3 gap-2 sm:gap-4 items-start">
+                                <!-- Mañana -->
                             <div class="time-group mt-3">
                                 <div class="flex items-center gap-2 mb-2">
                                     <div
@@ -2274,6 +2276,7 @@
                                         class="time-btn py-3 px-5 font-bold text-sm">10:00</button>
                                 </div>
                             </div>
+                            </div><!-- /Contenedor de 3 columnas -->
 
                         </div><!-- /#time-section -->
 
