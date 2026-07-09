@@ -861,12 +861,14 @@
         .step-3-slide .slide-content {
             display: flex;
             flex-direction: column;
-            overflow: hidden; /* Evita doble scroll */
+            overflow: hidden;
+            /* Evita doble scroll */
             padding-left: 12px !important;
             padding-right: 12px !important;
             width: 100% !important;
         }
-        .step-3-slide .slide-content > .max-w-xl {
+
+        .step-3-slide .slide-content>.max-w-xl {
             display: flex;
             flex-direction: column;
             flex: 1;
@@ -917,7 +919,8 @@
             position: relative;
             transition: opacity .25s ease;
         }
-        #time-section > .grid {
+
+        #time-section>.grid {
             flex: 1;
             min-height: 0;
         }
@@ -2192,13 +2195,15 @@
 
                             <!-- Strip horizontal (visible cuando colapsado) -->
                             <div id="cal-strip" class="px-5 pb-4 relative group">
-                                <button onclick="scrollCalStrip(-1)" class="hidden lg:flex absolute left-2 top-[40%] -translate-y-1/2 w-9 h-9 bg-white shadow-[0_4px_15px_rgba(99,102,241,0.25)] border border-indigo-100 rounded-full items-center justify-center text-indigo-600 hover:bg-indigo-50 hover:text-indigo-700 z-10 transition-all hover:scale-110">
+                                <button onclick="scrollCalStrip(-1)"
+                                    class="hidden lg:flex absolute left-2 top-[40%] -translate-y-1/2 w-9 h-9 bg-white shadow-[0_4px_15px_rgba(99,102,241,0.25)] border border-indigo-100 rounded-full items-center justify-center text-indigo-600 hover:bg-indigo-50 hover:text-indigo-700 z-10 transition-all hover:scale-110">
                                     <i data-lucide="chevron-left" class="w-5 h-5"></i>
                                 </button>
-                                
+
                                 <div id="cal-strip-days" class="date-strip"></div>
-                                
-                                <button onclick="scrollCalStrip(1)" class="hidden lg:flex absolute right-2 top-[40%] -translate-y-1/2 w-9 h-9 bg-white shadow-[0_4px_15px_rgba(99,102,241,0.25)] border border-indigo-100 rounded-full items-center justify-center text-indigo-600 hover:bg-indigo-50 hover:text-indigo-700 z-10 transition-all hover:scale-110">
+
+                                <button onclick="scrollCalStrip(1)"
+                                    class="hidden lg:flex absolute right-2 top-[40%] -translate-y-1/2 w-9 h-9 bg-white shadow-[0_4px_15px_rgba(99,102,241,0.25)] border border-indigo-100 rounded-full items-center justify-center text-indigo-600 hover:bg-indigo-50 hover:text-indigo-700 z-10 transition-all hover:scale-110">
                                     <i data-lucide="chevron-right" class="w-5 h-5"></i>
                                 </button>
                             </div>
@@ -2207,14 +2212,17 @@
                             <div id="cal-body" class="px-4 pb-3 hide-fluid">
                                 <div class="flex items-center justify-between mb-2">
                                     <button onclick="event.stopPropagation(); changeMonth(-1)"
-                                        class="w-9 h-9 flex items-center justify-center rounded-xl hover:bg-slate-100 transition-colors text-slate-500">
-                                        <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                                        class="flex items-center gap-1 px-3 py-1.5 bg-white border border-slate-200 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200 transition-colors text-slate-600 shadow-[0_2px_4px_rgba(0,0,0,0.02)]">
+                                        <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                                        <span class="text-[10px] font-bold uppercase tracking-wider"></span>
                                     </button>
                                     <h4 id="cal-month-label"
-                                        class="font-black text-sm text-slate-800 uppercase tracking-wider"></h4>
+                                        class="font-black text-sm text-slate-800 uppercase tracking-wider text-center flex-1">
+                                    </h4>
                                     <button onclick="event.stopPropagation(); changeMonth(1)"
-                                        class="w-9 h-9 flex items-center justify-center rounded-xl hover:bg-slate-100 transition-colors text-slate-500">
-                                        <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                                        class="flex items-center gap-1 px-3 py-1.5 bg-white border border-slate-200 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200 transition-colors text-slate-600 shadow-[0_2px_4px_rgba(0,0,0,0.02)]">
+                                        <span class="text-[10px] font-bold uppercase tracking-wider"></span>
+                                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
                                     </button>
                                 </div>
                                 <div class="cal-grid">
@@ -2248,87 +2256,133 @@
                             <!-- Contenedor de 3 columnas -->
                             <div class="grid grid-cols-3 gap-2 sm:gap-4">
                                 <!-- Mañana -->
-                            <div class="time-group mt-3">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <div
-                                        class="w-6 h-6 bg-amber-50 text-amber-500 rounded-lg flex items-center justify-center">
-                                        <i data-lucide="sunrise" class="w-3.5 h-3.5"></i>
+                                <div class="time-group mt-3">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <div
+                                            class="w-6 h-6 bg-amber-50 text-amber-500 rounded-lg flex items-center justify-center">
+                                            <i data-lucide="sunrise" class="w-3.5 h-3.5"></i>
+                                        </div>
+                                        <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">
+                                            Mañana
+                                        </p>
                                     </div>
-                                    <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Mañana
-                                    </p>
+                                    <div class="time-strip">
+                                        <button onclick="selectTime(this,'08:00 AM')"
+                                            class="time-btn py-3 font-bold text-sm">8:00</button>
+                                        <button onclick="selectTime(this,'08:20 AM')"
+                                            class="time-btn py-3 font-bold text-sm">8:20</button>
+                                        <button onclick="selectTime(this,'08:40 AM')"
+                                            class="time-btn py-3 font-bold text-sm">8:40</button>
+                                        <button onclick="selectTime(this,'09:00 AM')"
+                                            class="time-btn py-3 font-bold text-sm">9:00</button>
+                                        <button onclick="selectTime(this,'09:20 AM')"
+                                            class="time-btn py-3 font-bold text-sm">9:20</button>
+                                        <button onclick="selectTime(this,'09:40 AM')"
+                                            class="time-btn py-3 font-bold text-sm">9:40</button>
+                                        <button onclick="selectTime(this,'10:00 AM')"
+                                            class="time-btn py-3 font-bold text-sm">10:00</button>
+                                        <button onclick="selectTime(this,'10:20 AM')"
+                                            class="time-btn py-3 font-bold text-sm">10:20</button>
+                                        <button onclick="selectTime(this,'10:40 AM')"
+                                            class="time-btn py-3 font-bold text-sm">10:40</button>
+                                        <button onclick="selectTime(this,'11:00 AM')"
+                                            class="time-btn py-3 font-bold text-sm">11:00</button>
+                                        <button onclick="selectTime(this,'11:20 AM')"
+                                            class="time-btn py-3 font-bold text-sm">11:20</button>
+                                        <button onclick="selectTime(this,'11:40 AM')"
+                                            class="time-btn py-3 font-bold text-sm">11:40</button>
+                                    </div>
                                 </div>
-                                <div class="time-strip">
-                                    <button onclick="selectTime(this,'08:00 AM')" class="time-btn py-3 font-bold text-sm">8:00</button>
-                                    <button onclick="selectTime(this,'08:20 AM')" class="time-btn py-3 font-bold text-sm">8:20</button>
-                                    <button onclick="selectTime(this,'08:40 AM')" class="time-btn py-3 font-bold text-sm">8:40</button>
-                                    <button onclick="selectTime(this,'09:00 AM')" class="time-btn py-3 font-bold text-sm">9:00</button>
-                                    <button onclick="selectTime(this,'09:20 AM')" class="time-btn py-3 font-bold text-sm">9:20</button>
-                                    <button onclick="selectTime(this,'09:40 AM')" class="time-btn py-3 font-bold text-sm">9:40</button>
-                                    <button onclick="selectTime(this,'10:00 AM')" class="time-btn py-3 font-bold text-sm">10:00</button>
-                                    <button onclick="selectTime(this,'10:20 AM')" class="time-btn py-3 font-bold text-sm">10:20</button>
-                                    <button onclick="selectTime(this,'10:40 AM')" class="time-btn py-3 font-bold text-sm">10:40</button>
-                                    <button onclick="selectTime(this,'11:00 AM')" class="time-btn py-3 font-bold text-sm">11:00</button>
-                                    <button onclick="selectTime(this,'11:20 AM')" class="time-btn py-3 font-bold text-sm">11:20</button>
-                                    <button onclick="selectTime(this,'11:40 AM')" class="time-btn py-3 font-bold text-sm">11:40</button>
-                                </div>
-                            </div>
 
-                            <!-- Tarde -->
-                            <div class="time-group mt-3">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <div
-                                        class="w-6 h-6 bg-orange-50 text-orange-500 rounded-lg flex items-center justify-center">
-                                        <i data-lucide="sun" class="w-3.5 h-3.5"></i>
+                                <!-- Tarde -->
+                                <div class="time-group mt-3">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <div
+                                            class="w-6 h-6 bg-orange-50 text-orange-500 rounded-lg flex items-center justify-center">
+                                            <i data-lucide="sun" class="w-3.5 h-3.5"></i>
+                                        </div>
+                                        <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Tarde
+                                        </p>
                                     </div>
-                                    <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Tarde</p>
+                                    <div class="time-strip">
+                                        <button onclick="selectTime(this,'12:00 PM')"
+                                            class="time-btn py-3 font-bold text-sm">12:00</button>
+                                        <button onclick="selectTime(this,'12:20 PM')"
+                                            class="time-btn py-3 font-bold text-sm">12:20</button>
+                                        <button onclick="selectTime(this,'12:40 PM')"
+                                            class="time-btn py-3 font-bold text-sm">12:40</button>
+                                        <button onclick="selectTime(this,'01:00 PM')"
+                                            class="time-btn py-3 font-bold text-sm">1:00</button>
+                                        <button onclick="selectTime(this,'01:20 PM')"
+                                            class="time-btn py-3 font-bold text-sm">1:20</button>
+                                        <button onclick="selectTime(this,'01:40 PM')"
+                                            class="time-btn py-3 font-bold text-sm">1:40</button>
+                                        <button onclick="selectTime(this,'02:00 PM')"
+                                            class="time-btn py-3 font-bold text-sm">2:00</button>
+                                        <button onclick="selectTime(this,'02:20 PM')"
+                                            class="time-btn py-3 font-bold text-sm">2:20</button>
+                                        <button onclick="selectTime(this,'02:40 PM')"
+                                            class="time-btn py-3 font-bold text-sm">2:40</button>
+                                        <button onclick="selectTime(this,'03:00 PM')"
+                                            class="time-btn py-3 font-bold text-sm">3:00</button>
+                                        <button onclick="selectTime(this,'03:20 PM')"
+                                            class="time-btn py-3 font-bold text-sm">3:20</button>
+                                        <button onclick="selectTime(this,'03:40 PM')"
+                                            class="time-btn py-3 font-bold text-sm">3:40</button>
+                                        <button onclick="selectTime(this,'04:00 PM')"
+                                            class="time-btn py-3 font-bold text-sm">4:00</button>
+                                        <button onclick="selectTime(this,'04:20 PM')"
+                                            class="time-btn py-3 font-bold text-sm">4:20</button>
+                                        <button onclick="selectTime(this,'04:40 PM')"
+                                            class="time-btn py-3 font-bold text-sm">4:40</button>
+                                        <button onclick="selectTime(this,'05:00 PM')"
+                                            class="time-btn py-3 font-bold text-sm">5:00</button>
+                                        <button onclick="selectTime(this,'05:20 PM')"
+                                            class="time-btn py-3 font-bold text-sm">5:20</button>
+                                        <button onclick="selectTime(this,'05:40 PM')"
+                                            class="time-btn py-3 font-bold text-sm">5:40</button>
+                                        <button onclick="selectTime(this,'06:00 PM')"
+                                            class="time-btn py-3 font-bold text-sm">6:00</button>
+                                        <button onclick="selectTime(this,'06:20 PM')"
+                                            class="time-btn py-3 font-bold text-sm">6:20</button>
+                                        <button onclick="selectTime(this,'06:40 PM')"
+                                            class="time-btn py-3 font-bold text-sm">6:40</button>
+                                    </div>
                                 </div>
-                                <div class="time-strip">
-                                    <button onclick="selectTime(this,'12:00 PM')" class="time-btn py-3 font-bold text-sm">12:00</button>
-                                    <button onclick="selectTime(this,'12:20 PM')" class="time-btn py-3 font-bold text-sm">12:20</button>
-                                    <button onclick="selectTime(this,'12:40 PM')" class="time-btn py-3 font-bold text-sm">12:40</button>
-                                    <button onclick="selectTime(this,'01:00 PM')" class="time-btn py-3 font-bold text-sm">1:00</button>
-                                    <button onclick="selectTime(this,'01:20 PM')" class="time-btn py-3 font-bold text-sm">1:20</button>
-                                    <button onclick="selectTime(this,'01:40 PM')" class="time-btn py-3 font-bold text-sm">1:40</button>
-                                    <button onclick="selectTime(this,'02:00 PM')" class="time-btn py-3 font-bold text-sm">2:00</button>
-                                    <button onclick="selectTime(this,'02:20 PM')" class="time-btn py-3 font-bold text-sm">2:20</button>
-                                    <button onclick="selectTime(this,'02:40 PM')" class="time-btn py-3 font-bold text-sm">2:40</button>
-                                    <button onclick="selectTime(this,'03:00 PM')" class="time-btn py-3 font-bold text-sm">3:00</button>
-                                    <button onclick="selectTime(this,'03:20 PM')" class="time-btn py-3 font-bold text-sm">3:20</button>
-                                    <button onclick="selectTime(this,'03:40 PM')" class="time-btn py-3 font-bold text-sm">3:40</button>
-                                    <button onclick="selectTime(this,'04:00 PM')" class="time-btn py-3 font-bold text-sm">4:00</button>
-                                    <button onclick="selectTime(this,'04:20 PM')" class="time-btn py-3 font-bold text-sm">4:20</button>
-                                    <button onclick="selectTime(this,'04:40 PM')" class="time-btn py-3 font-bold text-sm">4:40</button>
-                                    <button onclick="selectTime(this,'05:00 PM')" class="time-btn py-3 font-bold text-sm">5:00</button>
-                                    <button onclick="selectTime(this,'05:20 PM')" class="time-btn py-3 font-bold text-sm">5:20</button>
-                                    <button onclick="selectTime(this,'05:40 PM')" class="time-btn py-3 font-bold text-sm">5:40</button>
-                                    <button onclick="selectTime(this,'06:00 PM')" class="time-btn py-3 font-bold text-sm">6:00</button>
-                                    <button onclick="selectTime(this,'06:20 PM')" class="time-btn py-3 font-bold text-sm">6:20</button>
-                                    <button onclick="selectTime(this,'06:40 PM')" class="time-btn py-3 font-bold text-sm">6:40</button>
-                                </div>
-                            </div>
 
-                            <!-- Noche -->
-                            <div class="time-group mt-3">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <div
-                                        class="w-6 h-6 bg-indigo-50 text-indigo-500 rounded-lg flex items-center justify-center">
-                                        <i data-lucide="moon" class="w-3.5 h-3.5"></i>
+                                <!-- Noche -->
+                                <div class="time-group mt-3">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <div
+                                            class="w-6 h-6 bg-indigo-50 text-indigo-500 rounded-lg flex items-center justify-center">
+                                            <i data-lucide="moon" class="w-3.5 h-3.5"></i>
+                                        </div>
+                                        <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Noche
+                                        </p>
                                     </div>
-                                    <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Noche</p>
+                                    <div class="time-strip">
+                                        <button onclick="selectTime(this,'07:00 PM')"
+                                            class="time-btn py-3 font-bold text-sm">7:00</button>
+                                        <button onclick="selectTime(this,'07:20 PM')"
+                                            class="time-btn py-3 font-bold text-sm">7:20</button>
+                                        <button onclick="selectTime(this,'07:40 PM')"
+                                            class="time-btn py-3 font-bold text-sm">7:40</button>
+                                        <button onclick="selectTime(this,'08:00 PM')"
+                                            class="time-btn py-3 font-bold text-sm">8:00</button>
+                                        <button onclick="selectTime(this,'08:20 PM')"
+                                            class="time-btn py-3 font-bold text-sm">8:20</button>
+                                        <button onclick="selectTime(this,'08:40 PM')"
+                                            class="time-btn py-3 font-bold text-sm">8:40</button>
+                                        <button onclick="selectTime(this,'09:00 PM')"
+                                            class="time-btn py-3 font-bold text-sm">9:00</button>
+                                        <button onclick="selectTime(this,'09:20 PM')"
+                                            class="time-btn py-3 font-bold text-sm">9:20</button>
+                                        <button onclick="selectTime(this,'09:40 PM')"
+                                            class="time-btn py-3 font-bold text-sm">9:40</button>
+                                        <button onclick="selectTime(this,'10:00 PM')"
+                                            class="time-btn py-3 font-bold text-sm">10:00</button>
+                                    </div>
                                 </div>
-                                <div class="time-strip">
-                                    <button onclick="selectTime(this,'07:00 PM')" class="time-btn py-3 font-bold text-sm">7:00</button>
-                                    <button onclick="selectTime(this,'07:20 PM')" class="time-btn py-3 font-bold text-sm">7:20</button>
-                                    <button onclick="selectTime(this,'07:40 PM')" class="time-btn py-3 font-bold text-sm">7:40</button>
-                                    <button onclick="selectTime(this,'08:00 PM')" class="time-btn py-3 font-bold text-sm">8:00</button>
-                                    <button onclick="selectTime(this,'08:20 PM')" class="time-btn py-3 font-bold text-sm">8:20</button>
-                                    <button onclick="selectTime(this,'08:40 PM')" class="time-btn py-3 font-bold text-sm">8:40</button>
-                                    <button onclick="selectTime(this,'09:00 PM')" class="time-btn py-3 font-bold text-sm">9:00</button>
-                                    <button onclick="selectTime(this,'09:20 PM')" class="time-btn py-3 font-bold text-sm">9:20</button>
-                                    <button onclick="selectTime(this,'09:40 PM')" class="time-btn py-3 font-bold text-sm">9:40</button>
-                                    <button onclick="selectTime(this,'10:00 PM')" class="time-btn py-3 font-bold text-sm">10:00</button>
-                                </div>
-                            </div>
                             </div><!-- /Contenedor de 3 columnas -->
 
                         </div><!-- /#time-section -->
