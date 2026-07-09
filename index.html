@@ -1415,6 +1415,48 @@
             color: #4338ca;
             background: #eef2ff;
         }
+
+        /* DISEÑO PARA ESCRITORIO - CONTENEDOR TIPO MÓVIL */
+        @media (min-width: 1024px) {
+            body {
+                background-color: #f1f5f9;
+                background-image: 
+                    radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+                    radial-gradient(at 100% 100%, rgba(79, 70, 229, 0.12) 0px, transparent 50%);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 2rem;
+            }
+            
+            main {
+                width: 100% !important;
+                max-width: 420px !important;
+                height: 850px !important;
+                max-height: calc(100vh - 4rem) !important;
+                border-radius: 40px !important;
+                box-shadow: 
+                    0 25px 50px -12px rgba(15, 23, 42, 0.25),
+                    0 0 0 10px rgba(255, 255, 255, 0.8),
+                    0 0 0 11px rgba(203, 213, 225, 0.5) !important;
+                transform: translateZ(0); /* Contiene elementos position: fixed */
+                margin: 0 auto;
+                background: #f8fafc;
+            }
+
+            .modal-overlay,
+            .booking-loader,
+            .reservation-screen {
+                position: absolute;
+                border-radius: 40px;
+            }
+
+            .reservation-home-footer {
+                position: absolute;
+                border-bottom-left-radius: 40px;
+                border-bottom-right-radius: 40px;
+            }
+        }
     </style>
 </head>
 
