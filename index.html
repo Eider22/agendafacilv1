@@ -857,11 +857,20 @@
             animation: calMonthFadeIn .22s ease;
         }
 
-        /* CONTENEDOR DE HORARIOS (VERTICAL) */
+        /* CONTENEDOR DE HORARIOS (VERTICAL CON SCROLL PROPIO) */
         .time-strip {
             display: flex;
             flex-direction: column;
             gap: 10px;
+            max-height: 250px;
+            overflow-y: auto;
+            padding-bottom: 20px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .time-strip::-webkit-scrollbar {
+            display: none;
         }
 
         .time-strip .time-btn {
