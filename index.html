@@ -1744,32 +1744,101 @@
 
             main {
                 width: 100% !important;
-                max-width: 420px !important;
-                height: 850px !important;
-                max-height: calc(100vh - 4rem) !important;
-                border-radius: 40px !important;
-                box-shadow:
-                    0 25px 50px -12px rgba(15, 23, 42, 0.25),
-                    0 0 0 10px rgba(255, 255, 255, 0.8),
-                    0 0 0 11px rgba(203, 213, 225, 0.5) !important;
+                max-width: 840px !important;
+                height: calc(100vh - 4rem) !important;
+                border-radius: 28px !important;
+                box-shadow: var(--shadow-soft) !important;
                 transform: translateZ(0);
-                /* Contiene elementos position: fixed */
+                /* Contiene elementos position: fixed (barra inferior, modales) */
                 margin: 0;
                 flex-shrink: 0;
-                background: #f8fafc;
+                background: #fff;
             }
 
             .modal-overlay,
             .booking-loader,
             .reservation-screen {
                 position: absolute;
-                border-radius: 40px;
+                border-radius: 28px;
             }
 
             .reservation-home-footer {
                 position: absolute;
-                border-bottom-left-radius: 40px;
-                border-bottom-right-radius: 40px;
+                border-bottom-left-radius: 28px;
+                border-bottom-right-radius: 28px;
+            }
+
+            /* Encabezados de paso (título + ayuda): mismo ancho que su
+               contenido (grilla de servicios/barberos, franjas horarias) */
+            .step-head-wide {
+                max-width: 100% !important;
+            }
+
+            /* Paso 2: Servicios en grilla responsiva en vez de columna única */
+            .services-grid {
+                max-width: 100% !important;
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+
+            /* Paso 3: Barberos en grilla en vez de pila vertical */
+            .professionals-grid {
+                max-width: 100% !important;
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                gap: 16px;
+            }
+
+            .professionals-grid>* {
+                margin-top: 0 !important;
+            }
+
+            /* Paso 4: calendario y franjas horarias usan todo el ancho disponible */
+            .step4-wide {
+                max-width: 100% !important;
+            }
+
+            .time-strip {
+                flex-wrap: wrap;
+                overflow: visible;
+                padding-bottom: 0;
+                cursor: default !important;
+                /* !important necesario: el script de drag-to-scroll inyecta un
+                   <style> con cursor:grab al final de <head> en tiempo de
+                   ejecución, después de esta hoja de estilos estática. */
+            }
+
+            .time-strip::after {
+                content: none;
+            }
+
+            .time-group::after {
+                display: none;
+            }
+
+            .time-nav-btn {
+                display: none !important;
+            }
+
+            /* La barrita de progreso pequeña por paso queda reemplazada por el
+               stepper del panel de resumen a la derecha */
+            .booking-progress-wrap {
+                display: none;
+            }
+
+            /* El resumen de la tarjeta de "Datos y Confirmación" queda oculto:
+               el panel de resumen de la derecha ya muestra lo mismo */
+            #confirm-summary-card {
+                display: none;
+            }
+
+            /* Pasos del stepper del panel de resumen: clicables solo cuando
+               ese paso ya tiene información válida (ver onclick en el HTML) */
+            .desktop-step.done {
+                cursor: pointer;
+            }
+
+            .desktop-step.done:hover .desktop-step-label {
+                color: #4338ca;
             }
         }
 
@@ -1834,6 +1903,21 @@
                 flex-direction: column;
                 min-height: 0;
                 flex: 1 1 auto;
+                position: relative;
+            }
+
+            /* Insinúa que hay más servicios para hacer scroll cuando la
+               lista no alcanza a mostrarse completa (mismo patrón que
+               .time-group::after en el paso de horarios) */
+            .desktop-summary-services-block::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                right: 8px;
+                bottom: 0;
+                height: 18px;
+                background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
+                pointer-events: none;
             }
 
             .desktop-summary-services-block .desktop-summary-label {
@@ -1855,7 +1939,7 @@
             }
 
             .desktop-summary-services-scroll::-webkit-scrollbar-thumb {
-                background: #e2e8f0;
+                background: #cbd5e1;
                 border-radius: 999px;
             }
 
@@ -1886,11 +1970,11 @@
                 display: flex;
                 align-items: center;
                 gap: 6px;
-                font-size: 10px;
+                font-size: 11px;
                 font-weight: 800;
                 text-transform: uppercase;
                 letter-spacing: .08em;
-                color: rgba(255, 255, 255, .8);
+                color: rgba(255, 255, 255, .9);
             }
 
             .desktop-summary-live-dot {
@@ -1975,9 +2059,9 @@
             }
 
             .desktop-step-label {
-                font-size: 13px;
+                font-size: 14px;
                 font-weight: 700;
-                color: #94a3b8;
+                color: #64748b;
                 transition: color .25s ease;
             }
 
@@ -2032,7 +2116,7 @@
                 text-align: center;
                 gap: 10px;
                 padding: 18px 6px 6px;
-                color: #94a3b8;
+                color: #64748b;
             }
 
             .desktop-summary-empty svg {
@@ -2043,7 +2127,7 @@
 
             .desktop-summary-empty p {
                 margin: 0;
-                font-size: 12.5px;
+                font-size: 13.5px;
                 font-weight: 600;
                 line-height: 1.5;
             }
@@ -2054,18 +2138,18 @@
 
             .desktop-summary-label {
                 margin: 0 0 8px;
-                font-size: 10px;
+                font-size: 11px;
                 font-weight: 800;
                 text-transform: uppercase;
                 letter-spacing: .06em;
-                color: #94a3b8;
+                color: #64748b;
             }
 
             .desktop-summary-service-row {
                 display: flex;
                 justify-content: space-between;
                 gap: 10px;
-                font-size: 12.5px;
+                font-size: 13.5px;
                 font-weight: 700;
                 color: #334155;
                 padding: 6px 0;
@@ -2090,14 +2174,14 @@
             }
 
             .desktop-summary-prof span {
-                font-size: 13px;
+                font-size: 14px;
                 font-weight: 800;
                 color: #0f172a;
             }
 
             .desktop-summary-value {
                 margin: 0;
-                font-size: 13px;
+                font-size: 14px;
                 font-weight: 700;
                 color: #0f172a;
             }
@@ -2112,11 +2196,11 @@
             }
 
             .desktop-summary-total-row span:first-child {
-                font-size: 11px;
+                font-size: 12px;
                 font-weight: 800;
                 text-transform: uppercase;
                 letter-spacing: .06em;
-                color: #64748b;
+                color: #475569;
             }
 
             .desktop-summary-total-row span:last-child {
@@ -2133,16 +2217,16 @@
                 justify-content: center;
                 gap: 5px;
                 text-align: center;
-                font-size: 11px;
+                font-size: 12.5px;
                 font-weight: 600;
-                color: #94a3b8;
+                color: #64748b;
             }
 
             .desktop-summary-footnote svg {
-                width: 11px;
-                height: 11px;
+                width: 12px;
+                height: 12px;
                 flex-shrink: 0;
-                color: #cbd5e1;
+                color: #94a3b8;
             }
         }
     </style>
@@ -2467,7 +2551,7 @@
             <!-- PASO 1 -->
             <div class="slide">
                 <div class="slide-header">
-                    <div class="max-w-xl mx-auto">
+                    <div class="max-w-xl mx-auto step-head-wide">
                         <div class="step-head">
                             <h2 class="step-head-title">Servicios</h2>
                             <p class="step-head-help">Selecciona los servicios que deseas agendar.</p>
@@ -2485,7 +2569,7 @@
                 </div>
 
                 <div class="slide-content">
-                    <div class="max-w-xl mx-auto grid gap-4 mt-6">
+                    <div class="max-w-xl mx-auto grid gap-4 mt-6 services-grid">
 
                         <div onclick="toggleService(this,'Corte Clásico',25000)" class="service-card">
                             <!-- <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=160&h=160&fit=crop" alt="Corte clásico" class="service-thumb"> -->
@@ -2772,7 +2856,7 @@
             <div class="slide">
 
                 <div class="slide-header">
-                    <div class="max-w-xl mx-auto">
+                    <div class="max-w-xl mx-auto step-head-wide">
                         <div class="step-head">
                             <h2 class="step-head-title">Barbero</h2>
                             <p class="step-head-help">Elige el barbero con quien quieres atenderte.</p>
@@ -2791,7 +2875,7 @@
 
                 <!-- PASO 2 -->
                 <div class="slide-content">
-                    <div class="max-w-xl mx-auto space-y-4 mt-6">
+                    <div class="max-w-xl mx-auto space-y-4 mt-6 professionals-grid">
 
                         <div onclick="selectProf(this,'Santiago Ríos','Santiago')"
                             class="prof-card p-5 flex items-center cursor-pointer">
@@ -2877,7 +2961,7 @@
             <div class="slide step-3-slide">
 
                 <div class="slide-header">
-                    <div class="max-w-xl mx-auto">
+                    <div class="max-w-xl mx-auto step-head-wide">
                         <div class="step-head mb-3">
                             <h2 class="step-head-title step-3-title">Fecha y Hora</h2>
                             <p class="step-head-help">Selecciona una fecha y luego un horario disponible.</p>
@@ -2908,7 +2992,7 @@
                     </div>
 
                     <!-- Calendario (fijo, no hace scroll) -->
-                    <div class="max-w-xl mx-auto">
+                    <div class="max-w-xl mx-auto step4-wide">
                         <div
                             class="step-3-calendar-box bg-white rounded-[var(--radius-xl)] border border-[var(--border-soft)] shadow-[var(--shadow-soft)] overflow-hidden">
                             <!-- Header colapsable -->
@@ -2985,7 +3069,7 @@
                 </div>
 
                 <div class="slide-content w-full px-3">
-                    <div class="max-w-xl mx-auto w-full">
+                    <div class="max-w-xl mx-auto w-full step4-wide">
                         <div id="time-section" class="time-locked w-full">
 
                             <!-- Contenedor de 3 filas -->
@@ -3000,7 +3084,7 @@
                                         <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">
                                             Mañana
                                         </p>
-                                        <div class="ml-auto hidden lg:flex items-center gap-1.5">
+                                        <div class="ml-auto hidden lg:flex items-center gap-1.5 time-nav-btn">
                                             <button onclick="scrollTimeStrip(this, -1)"
                                                 class="w-7 h-7 bg-white shadow-sm border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-slate-800 hover:shadow-md transition-all">
                                                 <i data-lucide="chevron-left" class="w-4 h-4 -ml-0.5"></i>
@@ -3048,7 +3132,7 @@
                                         </div>
                                         <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Tarde
                                         </p>
-                                        <div class="ml-auto hidden lg:flex items-center gap-1.5">
+                                        <div class="ml-auto hidden lg:flex items-center gap-1.5 time-nav-btn">
                                             <button onclick="scrollTimeStrip(this, -1)"
                                                 class="w-7 h-7 bg-white shadow-sm border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-slate-800 hover:shadow-md transition-all">
                                                 <i data-lucide="chevron-left" class="w-4 h-4 -ml-0.5"></i>
@@ -3114,7 +3198,7 @@
                                         </div>
                                         <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Noche
                                         </p>
-                                        <div class="ml-auto hidden lg:flex items-center gap-1.5">
+                                        <div class="ml-auto hidden lg:flex items-center gap-1.5 time-nav-btn">
                                             <button onclick="scrollTimeStrip(this, -1)"
                                                 class="w-7 h-7 bg-white shadow-sm border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-slate-800 hover:shadow-md transition-all">
                                                 <i data-lucide="chevron-left" class="w-4 h-4 -ml-0.5"></i>
@@ -3390,15 +3474,18 @@
             </div>
 
             <ol class="desktop-steps">
-                <li class="desktop-step" data-progress-key="services">
+                <li class="desktop-step" data-progress-key="services"
+                    onclick="if (services.length) goToStep(2)">
                     <span class="desktop-step-marker"><span>1</span><i data-lucide="check"></i></span>
                     <span class="desktop-step-label">Servicios</span>
                 </li>
-                <li class="desktop-step" data-progress-key="professional">
+                <li class="desktop-step" data-progress-key="professional"
+                    onclick="if (professional) goToStep(3)">
                     <span class="desktop-step-marker"><span>2</span><i data-lucide="check"></i></span>
                     <span class="desktop-step-label">Barbero</span>
                 </li>
-                <li class="desktop-step" data-progress-key="datetime">
+                <li class="desktop-step" data-progress-key="datetime"
+                    onclick="if (selectedDate && time) goToStep(4)">
                     <span class="desktop-step-marker"><span>3</span><i data-lucide="check"></i></span>
                     <span class="desktop-step-label">Fecha y hora</span>
                 </li>
@@ -3411,7 +3498,7 @@
             <div class="desktop-summary-divider"></div>
 
             <div id="desktop-summary-empty" class="desktop-summary-empty">
-                <i data-lucide="sparkles"></i>
+                <i data-lucide="clipboard-list"></i>
                 <p id="desktop-summary-empty-text">Presiona "Agendar Cita" para comenzar.</p>
             </div>
 
@@ -3446,10 +3533,6 @@
             </div>
         </div>
 
-        <p class="desktop-summary-footnote">
-            <i data-lucide="lock" class="w-3 h-3"></i>
-            Se actualiza automáticamente mientras completas tu reserva
-        </p>
     </aside>
 
     </div>
@@ -4245,6 +4328,10 @@
                 // --- Scroll con rueda del ratón ---
                 strip.addEventListener('wheel', function (e) {
                     if (e.deltaY === 0) return;
+                    // Si la franja ya no tiene overflow horizontal (p.ej. las
+                    // horas envueltas en grid en escritorio), no interceptar
+                    // el scroll: dejar que la página se desplace normalmente.
+                    if (strip.scrollWidth <= strip.clientWidth) return;
                     e.preventDefault();
                     strip.scrollBy({ left: e.deltaY * 1.5, behavior: 'auto' });
                 }, { passive: false });
@@ -4256,6 +4343,7 @@
                 let moved = false;
 
                 strip.addEventListener('mousedown', (e) => {
+                    if (strip.scrollWidth <= strip.clientWidth) return;
                     isDown = true;
                     moved = false;
                     startX = e.pageX - strip.offsetLeft;
