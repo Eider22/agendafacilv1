@@ -874,6 +874,7 @@
             padding-left: 12px !important;
             padding-right: 12px !important;
             width: 100% !important;
+            padding-bottom: 0 !important;
         }
 
         .step-3-slide .slide-content>.max-w-xl {
@@ -881,7 +882,17 @@
             flex-direction: column;
             flex: 1;
             min-height: 0;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior-y: contain;
             width: 100% !important;
+        }
+
+        .step-3-slide .slide-content>.max-w-xl::after {
+            content: '';
+            display: block;
+            flex-shrink: 0;
+            height: 120px;
         }
 
         /* CONTENEDOR DE HORARIOS (HORIZONTAL CON SCROLL PROPIO) */
@@ -1659,7 +1670,38 @@
         }
 
         /* DISEÑO PARA ESCRITORIO - CONTENEDOR TIPO MÓVIL */
-        @media (min-width: 1024px) {
+        /* ============================================
+           RESPONSIVE TABLET (640px - 1279px)
+           Ajusta márgenes y max-width para que el
+           contenido aproveche el ancho de la pantalla
+        ============================================ */
+        @media (min-width: 640px) and (max-width: 1279px) {
+            /* Quitar el max-width fijo de los contenedores internos
+               y dejar que se expandan con un padding lateral cómodo */
+            .slide-content {
+                padding-left: clamp(16px, 4vw, 48px);
+                padding-right: clamp(16px, 4vw, 48px);
+            }
+
+            .max-w-xl {
+                max-width: 100% !important;
+            }
+
+            /* Cabeceras de paso y slide-header */
+            .slide-header {
+                padding-left: clamp(12px, 3vw, 40px);
+                padding-right: clamp(12px, 3vw, 40px);
+            }
+
+            /* Barra de navegación inferior */
+            .fixed.bottom-0 {
+                padding-left: clamp(16px, 4vw, 48px);
+                padding-right: clamp(16px, 4vw, 48px);
+            }
+        }
+
+        /* Solo en pantallas >= 1280px (laptops/desktops). Tablets como iPad Pro quedan responsive */
+        @media (min-width: 1280px) {
             body {
                 background-color: #f1f5f9;
                 background-image:
@@ -3435,6 +3477,73 @@
                 }
             }
         }
+
+        // Solo en desktop (pointer: fine = ratón, no touch)
+        // Convierte el scroll vertical del ratón en scroll horizontal y activa drag-to-scroll
+        (function initTimeStripWheelScroll() {
+            if (!window.matchMedia('(pointer: fine)').matches) return;
+
+            document.querySelectorAll('.time-strip, .date-strip').forEach(strip => {
+
+                // --- Scroll con rueda del ratón ---
+                strip.addEventListener('wheel', function (e) {
+                    if (e.deltaY === 0) return;
+                    e.preventDefault();
+                    strip.scrollBy({ left: e.deltaY * 1.5, behavior: 'auto' });
+                }, { passive: false });
+
+                // --- Drag-to-scroll (click + arrastre) ---
+                let isDown = false;
+                let startX = 0;
+                let scrollLeft = 0;
+                let moved = false;
+
+                strip.addEventListener('mousedown', (e) => {
+                    isDown = true;
+                    moved = false;
+                    startX = e.pageX - strip.offsetLeft;
+                    scrollLeft = strip.scrollLeft;
+                    strip.style.cursor = 'grabbing';
+                    strip.style.userSelect = 'none';
+                });
+
+                document.addEventListener('mouseup', () => {
+                    if (!isDown) return;
+                    isDown = false;
+                    strip.style.cursor = 'grab';
+                    strip.style.userSelect = '';
+                    // Pequeño delay para que el click en time-btn no se dispare si hubo arrastre
+                    if (moved) {
+                        strip.dataset.dragging = '1';
+                        setTimeout(() => delete strip.dataset.dragging, 50);
+                    }
+                });
+
+                document.addEventListener('mousemove', (e) => {
+                    if (!isDown) return;
+                    e.preventDefault();
+                    const x = e.pageX - strip.offsetLeft;
+                    const walk = (x - startX) * 1.2;
+                    if (Math.abs(walk) > 4) moved = true;
+                    strip.scrollLeft = scrollLeft - walk;
+                });
+
+                // Cancelar click en botones si hubo arrastre
+                strip.addEventListener('click', (e) => {
+                    if (strip.dataset.dragging) e.stopPropagation();
+                }, true);
+            });
+
+            // Cursor grab en reposo para indicar que es arrastrable
+            const style = document.createElement('style');
+            style.textContent = `
+                @media (pointer: fine) {
+                    .time-strip, .date-strip { cursor: grab; }
+                    .time-strip:active, .date-strip:active { cursor: grabbing; }
+                }
+            `;
+            document.head.appendChild(style);
+        })();
 
         /* ===============================
            SERVICIOS
