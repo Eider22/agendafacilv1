@@ -135,6 +135,7 @@
 
         .slide-content {
             flex: 1;
+            min-height: 0;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
             padding: 0 24px 130px;
@@ -2286,7 +2287,7 @@
                             <div class="flex flex-col gap-4">
                                 <!-- Mañana -->
                                 <div class="time-group mt-3">
-                                    <div class="flex items-center gap-2 mb-2">
+                                    <div class="flex items-center gap-2 mb-2 relative z-10">
                                         <div
                                             class="w-6 h-6 bg-amber-50 text-amber-500 rounded-lg flex items-center justify-center">
                                             <i data-lucide="sunrise" class="w-3.5 h-3.5"></i>
@@ -2294,6 +2295,14 @@
                                         <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">
                                             Mañana
                                         </p>
+                                        <div class="ml-auto hidden lg:flex items-center gap-1.5">
+                                            <button onclick="scrollTimeStrip(this, -1)" class="w-7 h-7 bg-white shadow-sm border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-slate-800 hover:shadow-md transition-all">
+                                                <i data-lucide="chevron-left" class="w-4 h-4 -ml-0.5"></i>
+                                            </button>
+                                            <button onclick="scrollTimeStrip(this, 1)" class="w-7 h-7 bg-white shadow-sm border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-slate-800 hover:shadow-md transition-all">
+                                                <i data-lucide="chevron-right" class="w-4 h-4 -mr-0.5"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                     <div class="time-strip">
                                         <button onclick="selectTime(this,'08:00 AM')"
@@ -2325,13 +2334,21 @@
 
                                 <!-- Tarde -->
                                 <div class="time-group mt-3">
-                                    <div class="flex items-center gap-2 mb-2">
+                                    <div class="flex items-center gap-2 mb-2 relative z-10">
                                         <div
                                             class="w-6 h-6 bg-orange-50 text-orange-500 rounded-lg flex items-center justify-center">
                                             <i data-lucide="sun" class="w-3.5 h-3.5"></i>
                                         </div>
                                         <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Tarde
                                         </p>
+                                        <div class="ml-auto hidden lg:flex items-center gap-1.5">
+                                            <button onclick="scrollTimeStrip(this, -1)" class="w-7 h-7 bg-white shadow-sm border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-slate-800 hover:shadow-md transition-all">
+                                                <i data-lucide="chevron-left" class="w-4 h-4 -ml-0.5"></i>
+                                            </button>
+                                            <button onclick="scrollTimeStrip(this, 1)" class="w-7 h-7 bg-white shadow-sm border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-slate-800 hover:shadow-md transition-all">
+                                                <i data-lucide="chevron-right" class="w-4 h-4 -mr-0.5"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                     <div class="time-strip">
                                         <button onclick="selectTime(this,'12:00 PM')"
@@ -2381,13 +2398,21 @@
 
                                 <!-- Noche -->
                                 <div class="time-group mt-3">
-                                    <div class="flex items-center gap-2 mb-2">
+                                    <div class="flex items-center gap-2 mb-2 relative z-10">
                                         <div
                                             class="w-6 h-6 bg-indigo-50 text-indigo-500 rounded-lg flex items-center justify-center">
                                             <i data-lucide="moon" class="w-3.5 h-3.5"></i>
                                         </div>
                                         <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Noche
                                         </p>
+                                        <div class="ml-auto hidden lg:flex items-center gap-1.5">
+                                            <button onclick="scrollTimeStrip(this, -1)" class="w-7 h-7 bg-white shadow-sm border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-slate-800 hover:shadow-md transition-all">
+                                                <i data-lucide="chevron-left" class="w-4 h-4 -ml-0.5"></i>
+                                            </button>
+                                            <button onclick="scrollTimeStrip(this, 1)" class="w-7 h-7 bg-white shadow-sm border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-slate-800 hover:shadow-md transition-all">
+                                                <i data-lucide="chevron-right" class="w-4 h-4 -mr-0.5"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                     <div class="time-strip">
                                         <button onclick="selectTime(this,'07:00 PM')"
@@ -3392,6 +3417,16 @@
                     el.classList.toggle('current', step > 1 && idx === currentIndex);
                 });
             });
+        }
+
+        function scrollTimeStrip(btn, dir) {
+            const group = btn.closest('.time-group');
+            if (group) {
+                const strip = group.querySelector('.time-strip');
+                if (strip) {
+                    strip.scrollBy({ left: dir * 180, behavior: 'smooth' });
+                }
+            }
         }
 
         /* ===============================
