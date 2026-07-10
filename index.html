@@ -28,8 +28,8 @@
 
         html,
         body {
-            overscroll-behavior-y: none;
-            /* Previene el pull-to-refresh en móviles */
+            overscroll-behavior: none;
+            /* Previene pull-to-refresh y gestos nativos de navegación (atrás/adelante) en móviles */
         }
 
         body {
@@ -887,6 +887,7 @@
             scrollbar-width: none;
             -ms-overflow-style: none;
             -webkit-overflow-scrolling: touch;
+            overscroll-behavior-x: contain;
         }
 
         .time-strip::after {
@@ -895,7 +896,17 @@
         }
 
         .time-strip::-webkit-scrollbar {
-            display: none;
+            height: 4px;
+            display: block;
+        }
+
+        .time-strip::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .time-strip::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.35);
+            border-radius: 10px;
         }
 
         .time-strip .time-btn {
@@ -913,20 +924,7 @@
             position: relative;
         }
 
-        .time-group::before {
-            content: 'Desliza \2192';
-            position: absolute;
-            right: 4px;
-            top: 6px;
-            font-size: 9px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: #94a3b8;
-            pointer-events: none;
-            opacity: 0.8;
-            z-index: 5;
-        }
+
 
         .time-group::after {
             content: '';
@@ -982,6 +980,7 @@
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
             padding: 4px 0;
+            overscroll-behavior-x: contain;
         }
 
         .date-strip::-webkit-scrollbar {
@@ -3147,8 +3146,8 @@
             main.addEventListener('touchstart', (e) => {
                 if (e.touches.length !== 1) return;
 
-                // Block slide swipe inside horizontally scrollable elements (only date strip now)
-                blockSliderSwipe = !!e.target.closest('#cal-strip-days');
+                // Block slide swipe inside horizontally scrollable elements
+                blockSliderSwipe = !!e.target.closest('#cal-strip-days, .time-strip');
                 if (blockSliderSwipe) {
                     tracking = false;
                     return;
