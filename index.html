@@ -138,8 +138,15 @@
             min-height: 0;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            padding: 0 24px 130px;
+            padding: 0 24px;
             scroll-behavior: smooth;
+        }
+
+        .slide-content::after {
+            content: '';
+            display: block;
+            height: 130px;
+            flex-shrink: 0;
         }
 
         /* CARDS */
