@@ -876,17 +876,22 @@
             width: 100% !important;
         }
 
-        /* CONTENEDOR DE HORARIOS (VERTICAL CON SCROLL PROPIO) */
+        /* CONTENEDOR DE HORARIOS (HORIZONTAL CON SCROLL PROPIO) */
         .time-strip {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             gap: 10px;
-            flex: 1;
-            min-height: 0;
-            overflow-y: auto;
+            overflow-x: auto;
+            overflow-y: hidden;
             padding-bottom: 12px;
             scrollbar-width: none;
             -ms-overflow-style: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .time-strip::after {
+            content: '';
+            flex: 0 0 40px;
         }
 
         .time-strip::-webkit-scrollbar {
@@ -895,19 +900,44 @@
 
         .time-strip .time-btn {
             white-space: nowrap;
-            width: 100% !important;
+            flex-shrink: 0;
+            padding-left: 16px !important;
+            padding-right: 16px !important;
             text-align: center !important;
-            padding-left: 4px !important;
-            padding-right: 4px !important;
         }
 
         .time-group {
             display: flex;
             flex-direction: column;
-            height: 100%;
-            min-height: 0;
             width: 100% !important;
-            align-items: stretch !important;
+            position: relative;
+        }
+
+        .time-group::before {
+            content: 'Desliza \2192';
+            position: absolute;
+            right: 4px;
+            top: 6px;
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #94a3b8;
+            pointer-events: none;
+            opacity: 0.8;
+            z-index: 5;
+        }
+
+        .time-group::after {
+            content: '';
+            position: absolute;
+            right: -4px;
+            top: 32px;
+            bottom: 12px;
+            width: 54px;
+            background: linear-gradient(to left, #f8fafc 25%, transparent 100%);
+            pointer-events: none;
+            z-index: 10;
         }
 
         /* BLOQUEO DE HORARIOS cuando no hay fecha seleccionada */
@@ -2253,8 +2283,8 @@
                     <div class="max-w-xl mx-auto w-full">
                         <div id="time-section" class="time-locked w-full">
 
-                            <!-- Contenedor de 3 columnas -->
-                            <div class="grid grid-cols-3 gap-2 sm:gap-4">
+                            <!-- Contenedor de 3 filas -->
+                            <div class="flex flex-col gap-4">
                                 <!-- Mañana -->
                                 <div class="time-group mt-3">
                                     <div class="flex items-center gap-2 mb-2">
@@ -2373,7 +2403,7 @@
                                             class="time-btn py-3 font-bold text-sm">8:20</button>
                                     </div>
                                 </div>
-                            </div><!-- /Contenedor de 3 columnas -->
+                            </div><!-- /Contenedor de 3 filas -->
 
                         </div><!-- /#time-section -->
 
