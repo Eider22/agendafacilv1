@@ -883,9 +883,16 @@
             flex: 1;
             min-height: 0;
             overflow-y: auto;
+            overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
             overscroll-behavior-y: contain;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
             width: 100% !important;
+        }
+
+        .step-3-slide .slide-content>.max-w-xl::-webkit-scrollbar {
+            display: none;
         }
 
         .step-3-slide .slide-content>.max-w-xl::after {
@@ -915,17 +922,7 @@
         }
 
         .time-strip::-webkit-scrollbar {
-            height: 4px;
-            display: block;
-        }
-
-        .time-strip::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .time-strip::-webkit-scrollbar-thumb {
-            background: rgba(148, 163, 184, 0.35);
-            border-radius: 10px;
+            display: none;
         }
 
         .time-strip .time-btn {
@@ -1676,6 +1673,7 @@
            contenido aproveche el ancho de la pantalla
         ============================================ */
         @media (min-width: 640px) and (max-width: 1279px) {
+
             /* Quitar el max-width fijo de los contenedores internos
                y dejar que se expandan con un padding lateral cómodo */
             .slide-content {
@@ -2345,10 +2343,12 @@
                                             Mañana
                                         </p>
                                         <div class="ml-auto hidden lg:flex items-center gap-1.5">
-                                            <button onclick="scrollTimeStrip(this, -1)" class="w-7 h-7 bg-white shadow-sm border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-slate-800 hover:shadow-md transition-all">
+                                            <button onclick="scrollTimeStrip(this, -1)"
+                                                class="w-7 h-7 bg-white shadow-sm border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-slate-800 hover:shadow-md transition-all">
                                                 <i data-lucide="chevron-left" class="w-4 h-4 -ml-0.5"></i>
                                             </button>
-                                            <button onclick="scrollTimeStrip(this, 1)" class="w-7 h-7 bg-white shadow-sm border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-slate-800 hover:shadow-md transition-all">
+                                            <button onclick="scrollTimeStrip(this, 1)"
+                                                class="w-7 h-7 bg-white shadow-sm border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-slate-800 hover:shadow-md transition-all">
                                                 <i data-lucide="chevron-right" class="w-4 h-4 -mr-0.5"></i>
                                             </button>
                                         </div>
@@ -2391,10 +2391,12 @@
                                         <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Tarde
                                         </p>
                                         <div class="ml-auto hidden lg:flex items-center gap-1.5">
-                                            <button onclick="scrollTimeStrip(this, -1)" class="w-7 h-7 bg-white shadow-sm border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-slate-800 hover:shadow-md transition-all">
+                                            <button onclick="scrollTimeStrip(this, -1)"
+                                                class="w-7 h-7 bg-white shadow-sm border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-slate-800 hover:shadow-md transition-all">
                                                 <i data-lucide="chevron-left" class="w-4 h-4 -ml-0.5"></i>
                                             </button>
-                                            <button onclick="scrollTimeStrip(this, 1)" class="w-7 h-7 bg-white shadow-sm border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-slate-800 hover:shadow-md transition-all">
+                                            <button onclick="scrollTimeStrip(this, 1)"
+                                                class="w-7 h-7 bg-white shadow-sm border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-slate-800 hover:shadow-md transition-all">
                                                 <i data-lucide="chevron-right" class="w-4 h-4 -mr-0.5"></i>
                                             </button>
                                         </div>
@@ -2455,10 +2457,12 @@
                                         <p class="text-[10px] font-black uppercase text-slate-400 tracking-widest">Noche
                                         </p>
                                         <div class="ml-auto hidden lg:flex items-center gap-1.5">
-                                            <button onclick="scrollTimeStrip(this, -1)" class="w-7 h-7 bg-white shadow-sm border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-slate-800 hover:shadow-md transition-all">
+                                            <button onclick="scrollTimeStrip(this, -1)"
+                                                class="w-7 h-7 bg-white shadow-sm border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-slate-800 hover:shadow-md transition-all">
                                                 <i data-lucide="chevron-left" class="w-4 h-4 -ml-0.5"></i>
                                             </button>
-                                            <button onclick="scrollTimeStrip(this, 1)" class="w-7 h-7 bg-white shadow-sm border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-slate-800 hover:shadow-md transition-all">
+                                            <button onclick="scrollTimeStrip(this, 1)"
+                                                class="w-7 h-7 bg-white shadow-sm border border-slate-200 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-50 hover:text-slate-800 hover:shadow-md transition-all">
                                                 <i data-lucide="chevron-right" class="w-4 h-4 -mr-0.5"></i>
                                             </button>
                                         </div>
