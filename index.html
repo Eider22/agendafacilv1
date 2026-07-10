@@ -1681,6 +1681,13 @@
         }
 
         /* DISEÑO PARA ESCRITORIO - CONTENEDOR TIPO MÓVIL */
+        /* app-shell envuelve el simulador móvil y el panel de resumen.
+           En móvil/tablet no debe alterar el layout: se "desvanece" con
+           display:contents para que <main> siga siendo hijo directo del body. */
+        .app-shell {
+            display: contents;
+        }
+
         /* ============================================
            RESPONSIVE TABLET (640px - 1279px)
            Ajusta márgenes y max-width para que el
@@ -1723,6 +1730,16 @@
                 align-items: center;
                 justify-content: center;
                 padding: 2rem;
+                height: auto !important;
+                min-height: 100vh;
+            }
+
+            .app-shell {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                gap: 40px;
             }
 
             main {
@@ -1737,7 +1754,8 @@
                     0 0 0 11px rgba(203, 213, 225, 0.5) !important;
                 transform: translateZ(0);
                 /* Contiene elementos position: fixed */
-                margin: 0 auto;
+                margin: 0;
+                flex-shrink: 0;
                 background: #f8fafc;
             }
 
@@ -1754,10 +1772,385 @@
                 border-bottom-right-radius: 40px;
             }
         }
+
+        /* ============================================
+           PANEL DE RESUMEN EN ESCRITORIO
+           Refleja en vivo el progreso del agendamiento
+           junto al simulador de móvil (>=1280px)
+        ============================================ */
+        #desktop-summary-panel {
+            display: none;
+        }
+
+        @media (min-width: 1280px) {
+            #desktop-summary-panel {
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+                width: 340px;
+                flex-shrink: 0;
+                max-height: calc(100vh - 4rem);
+                min-height: 0;
+            }
+
+            .desktop-summary-card {
+                background: #fff;
+                border-radius: 28px;
+                border: 1px solid var(--border-soft);
+                box-shadow: var(--shadow-soft);
+                padding: 28px 26px;
+                display: flex;
+                flex-direction: column;
+                flex: 1 1 auto;
+                min-height: 0;
+                overflow: hidden;
+            }
+
+            .desktop-summary-footnote {
+                flex-shrink: 0;
+            }
+
+            .desktop-summary-header,
+            .desktop-steps,
+            .desktop-summary-divider,
+            .desktop-summary-empty,
+            .desktop-summary-total-row {
+                flex-shrink: 0;
+            }
+
+            .desktop-summary-dynamic-body {
+                display: flex;
+                flex-direction: column;
+                min-height: 0;
+                flex: 1 1 auto;
+            }
+
+            .desktop-summary-block {
+                flex-shrink: 0;
+            }
+
+            .desktop-summary-services-block {
+                display: flex;
+                flex-direction: column;
+                min-height: 0;
+                flex: 1 1 auto;
+            }
+
+            .desktop-summary-services-block .desktop-summary-label {
+                flex-shrink: 0;
+            }
+
+            .desktop-summary-services-scroll {
+                flex: 1 1 auto;
+                min-height: 0;
+                max-height: 232px;
+                overflow-y: auto;
+                overflow-x: hidden;
+                margin: 0 -8px;
+                padding: 0 8px;
+            }
+
+            .desktop-summary-services-scroll::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .desktop-summary-services-scroll::-webkit-scrollbar-thumb {
+                background: #e2e8f0;
+                border-radius: 999px;
+            }
+
+            .desktop-summary-header {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin: -28px -26px 22px;
+                padding: 20px 26px;
+                background: linear-gradient(135deg, #4338ca 0%, #4f46e5 55%, #6366f1 100%);
+            }
+
+            .desktop-summary-badge {
+                width: 40px;
+                height: 40px;
+                border-radius: 12px;
+                background: rgba(255, 255, 255, .16);
+                border: 1px solid rgba(255, 255, 255, .28);
+                color: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            }
+
+            .desktop-summary-eyebrow {
+                margin: 0;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-size: 10px;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: .08em;
+                color: rgba(255, 255, 255, .8);
+            }
+
+            .desktop-summary-live-dot {
+                width: 6px;
+                height: 6px;
+                border-radius: 999px;
+                background: #34d399;
+                flex-shrink: 0;
+                animation: desktopSummaryPulse 2s ease-in-out infinite;
+            }
+
+            @keyframes desktopSummaryPulse {
+
+                0%,
+                100% {
+                    box-shadow: 0 0 0 0 rgba(52, 211, 153, .55);
+                }
+
+                50% {
+                    box-shadow: 0 0 0 4px rgba(52, 211, 153, 0);
+                }
+            }
+
+            .desktop-summary-title {
+                margin: 2px 0 0;
+                font-size: 16px;
+                font-weight: 800;
+                color: #fff;
+            }
+
+            .desktop-steps {
+                list-style: none;
+                margin: 0 0 22px;
+                padding: 0;
+            }
+
+            .desktop-step {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                position: relative;
+                padding-bottom: 22px;
+            }
+
+            .desktop-step:last-child {
+                padding-bottom: 0;
+            }
+
+            .desktop-step:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                left: 13px;
+                top: 30px;
+                bottom: -4px;
+                width: 2px;
+                background: #e2e8f0;
+                transition: background .25s ease;
+            }
+
+            .desktop-step-marker {
+                width: 28px;
+                height: 28px;
+                border-radius: 999px;
+                background: #f8fafc;
+                border: 2px solid #e2e8f0;
+                color: #94a3b8;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 12px;
+                font-weight: 800;
+                flex-shrink: 0;
+                position: relative;
+                z-index: 1;
+                transition: .25s ease;
+            }
+
+            .desktop-step-marker svg {
+                width: 14px;
+                height: 14px;
+                display: none;
+            }
+
+            .desktop-step-label {
+                font-size: 13px;
+                font-weight: 700;
+                color: #94a3b8;
+                transition: color .25s ease;
+            }
+
+            .desktop-step.done:not(:last-child)::after {
+                background: linear-gradient(180deg, #4f46e5, #6366f1);
+            }
+
+            .desktop-step.done .desktop-step-marker {
+                background: linear-gradient(135deg, #4f46e5, #6366f1);
+                border-color: transparent;
+                color: #fff;
+            }
+
+            .desktop-step.done .desktop-step-marker span {
+                display: none;
+            }
+
+            .desktop-step.done .desktop-step-marker svg {
+                display: block;
+            }
+
+            .desktop-step.done .desktop-step-label {
+                color: #1e293b;
+            }
+
+            .desktop-step.current .desktop-step-marker {
+                box-shadow: 0 0 0 4px rgba(79, 70, 229, .15);
+                border-color: #4f46e5;
+                background: #eef2ff;
+                color: #4f46e5;
+            }
+
+            .desktop-step.current .desktop-step-label {
+                color: #4338ca;
+            }
+
+            .desktop-step.current.done .desktop-step-marker {
+                background: linear-gradient(135deg, #4f46e5, #6366f1);
+                color: #fff;
+            }
+
+            .desktop-summary-divider {
+                height: 1px;
+                background: var(--border-soft);
+                margin: 4px 0 18px;
+            }
+
+            .desktop-summary-empty {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 10px;
+                padding: 18px 6px 6px;
+                color: #94a3b8;
+            }
+
+            .desktop-summary-empty svg {
+                width: 26px;
+                height: 26px;
+                color: #c7d2fe;
+            }
+
+            .desktop-summary-empty p {
+                margin: 0;
+                font-size: 12.5px;
+                font-weight: 600;
+                line-height: 1.5;
+            }
+
+            .desktop-summary-block+.desktop-summary-block {
+                margin-top: 16px;
+            }
+
+            .desktop-summary-label {
+                margin: 0 0 8px;
+                font-size: 10px;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: .06em;
+                color: #94a3b8;
+            }
+
+            .desktop-summary-service-row {
+                display: flex;
+                justify-content: space-between;
+                gap: 10px;
+                font-size: 12.5px;
+                font-weight: 700;
+                color: #334155;
+                padding: 6px 0;
+            }
+
+            .desktop-summary-service-row+.desktop-summary-service-row {
+                border-top: 1px dashed #e2e8f0;
+            }
+
+            .desktop-summary-prof {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .desktop-summary-prof img {
+                width: 34px;
+                height: 34px;
+                border-radius: 999px;
+                border: 2px solid #eef2ff;
+                background: #eef2ff;
+            }
+
+            .desktop-summary-prof span {
+                font-size: 13px;
+                font-weight: 800;
+                color: #0f172a;
+            }
+
+            .desktop-summary-value {
+                margin: 0;
+                font-size: 13px;
+                font-weight: 700;
+                color: #0f172a;
+            }
+
+            .desktop-summary-total-row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-top: 20px;
+                padding-top: 16px;
+                border-top: 1.5px dashed #cbd5e1;
+            }
+
+            .desktop-summary-total-row span:first-child {
+                font-size: 11px;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: .06em;
+                color: #64748b;
+            }
+
+            .desktop-summary-total-row span:last-child {
+                font-size: 22px;
+                font-weight: 900;
+                color: #4f46e5;
+                letter-spacing: -.02em;
+            }
+
+            .desktop-summary-footnote {
+                margin: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 5px;
+                text-align: center;
+                font-size: 11px;
+                font-weight: 600;
+                color: #94a3b8;
+            }
+
+            .desktop-summary-footnote svg {
+                width: 11px;
+                height: 11px;
+                flex-shrink: 0;
+                color: #cbd5e1;
+            }
+        }
     </style>
 </head>
 
 <body class="h-screen flex flex-col">
+
+    <div class="app-shell">
 
     <main class="relative flex flex-col overflow-hidden h-[100dvh]">
 
@@ -2218,6 +2611,156 @@
                                 </div>
                                 <div class="flex justify-end items-end mt-2">
                                     <span class="font-black text-lg text-indigo-600 drop-shadow-sm">$20.000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div onclick="toggleService(this,'Corte Infantil',18000)" class="service-card">
+                            <div class="min-w-0 flex-1 flex flex-col justify-between h-full">
+                                <div>
+                                    <h4 class="font-extrabold text-lg text-slate-900 leading-tight mb-1"
+                                        style="word-break:break-word;white-space:normal;">Corte Infantil</h4>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <span class="service-duration"><i data-lucide="clock-3"></i>20 min</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end items-end mt-2">
+                                    <span class="font-black text-lg text-indigo-600 drop-shadow-sm">$18.000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div onclick="toggleService(this,'Perfilado de Barba',15000)" class="service-card">
+                            <div class="min-w-0 flex-1 flex flex-col justify-between h-full">
+                                <div>
+                                    <h4 class="font-extrabold text-lg text-slate-900 leading-tight mb-1"
+                                        style="word-break:break-word;white-space:normal;">Perfilado de Barba</h4>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <span class="service-duration"><i data-lucide="clock-3"></i>15 min</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end items-end mt-2">
+                                    <span class="font-black text-lg text-indigo-600 drop-shadow-sm">$15.000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div onclick="toggleService(this,'Mascarilla Facial',22000)" class="service-card">
+                            <div class="min-w-0 flex-1 flex flex-col justify-between h-full">
+                                <div>
+                                    <h4 class="font-extrabold text-lg text-slate-900 leading-tight mb-1"
+                                        style="word-break:break-word;white-space:normal;">Mascarilla Facial</h4>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <span class="service-duration"><i data-lucide="clock-3"></i>20 min</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end items-end mt-2">
+                                    <span class="font-black text-lg text-indigo-600 drop-shadow-sm">$22.000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div onclick="toggleService(this,'Lavado y Peinado',14000)" class="service-card">
+                            <div class="min-w-0 flex-1 flex flex-col justify-between h-full">
+                                <div>
+                                    <h4 class="font-extrabold text-lg text-slate-900 leading-tight mb-1"
+                                        style="word-break:break-word;white-space:normal;">Lavado y Peinado</h4>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <span class="service-duration"><i data-lucide="clock-3"></i>15 min</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end items-end mt-2">
+                                    <span class="font-black text-lg text-indigo-600 drop-shadow-sm">$14.000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div onclick="toggleService(this,'Corte a Máquina',16000)" class="service-card">
+                            <div class="min-w-0 flex-1 flex flex-col justify-between h-full">
+                                <div>
+                                    <h4 class="font-extrabold text-lg text-slate-900 leading-tight mb-1"
+                                        style="word-break:break-word;white-space:normal;">Corte a Máquina</h4>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <span class="service-duration"><i data-lucide="clock-3"></i>20 min</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end items-end mt-2">
+                                    <span class="font-black text-lg text-indigo-600 drop-shadow-sm">$16.000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div onclick="toggleService(this,'Diseño de Barba',28000)" class="service-card">
+                            <div class="min-w-0 flex-1 flex flex-col justify-between h-full">
+                                <div>
+                                    <h4 class="font-extrabold text-lg text-slate-900 leading-tight mb-1"
+                                        style="word-break:break-word;white-space:normal;">Diseño de Barba</h4>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <span class="service-duration"><i data-lucide="clock-3"></i>25 min</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end items-end mt-2">
+                                    <span class="font-black text-lg text-indigo-600 drop-shadow-sm">$28.000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div onclick="toggleService(this,'Alisado de Barba',32000)" class="service-card">
+                            <div class="min-w-0 flex-1 flex flex-col justify-between h-full">
+                                <div>
+                                    <h4 class="font-extrabold text-lg text-slate-900 leading-tight mb-1"
+                                        style="word-break:break-word;white-space:normal;">Alisado de Barba</h4>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <span class="service-duration"><i data-lucide="clock-3"></i>30 min</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end items-end mt-2">
+                                    <span class="font-black text-lg text-indigo-600 drop-shadow-sm">$32.000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div onclick="toggleService(this,'Exfoliación Facial',24000)" class="service-card">
+                            <div class="min-w-0 flex-1 flex flex-col justify-between h-full">
+                                <div>
+                                    <h4 class="font-extrabold text-lg text-slate-900 leading-tight mb-1"
+                                        style="word-break:break-word;white-space:normal;">Exfoliación Facial</h4>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <span class="service-duration"><i data-lucide="clock-3"></i>20 min</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end items-end mt-2">
+                                    <span class="font-black text-lg text-indigo-600 drop-shadow-sm">$24.000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div onclick="toggleService(this,'Corte + Diseño de Cejas',34000)" class="service-card">
+                            <div class="min-w-0 flex-1 flex flex-col justify-between h-full">
+                                <div>
+                                    <h4 class="font-extrabold text-lg text-slate-900 leading-tight mb-1"
+                                        style="word-break:break-word;white-space:normal;">Corte + Diseño de Cejas</h4>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <span class="service-duration"><i data-lucide="clock-3"></i>35 min</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end items-end mt-2">
+                                    <span class="font-black text-lg text-indigo-600 drop-shadow-sm">$34.000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div onclick="toggleService(this,'Full Look (Corte + Barba + Cejas)',65000)" class="service-card">
+                            <div class="min-w-0 flex-1 flex flex-col justify-between h-full">
+                                <div>
+                                    <h4 class="font-extrabold text-lg text-slate-900 leading-tight mb-1"
+                                        style="word-break:break-word;white-space:normal;">Full Look (Corte + Barba + Cejas)</h4>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <span class="service-duration"><i data-lucide="clock-3"></i>60 min</span>
+                                    </div>
+                                </div>
+                                <div class="flex justify-end items-end mt-2">
+                                    <span class="font-black text-lg text-indigo-600 drop-shadow-sm">$65.000</span>
                                 </div>
                             </div>
                         </div>
@@ -2829,6 +3372,87 @@
             </div>
         </div>
     </main>
+
+    <!-- Panel de resumen en vivo, visible solo en escritorio (>=1280px) -->
+    <aside id="desktop-summary-panel" aria-label="Resumen de tu cita">
+        <div class="desktop-summary-card">
+            <div class="desktop-summary-header">
+                <div class="desktop-summary-badge">
+                    <i data-lucide="calendar-check-2" class="w-5 h-5"></i>
+                </div>
+                <div class="min-w-0">
+                    <p class="desktop-summary-eyebrow">
+                        <span class="desktop-summary-live-dot" aria-hidden="true"></span>
+                        En vivo
+                    </p>
+                    <h3 class="desktop-summary-title">Resumen de tu cita</h3>
+                </div>
+            </div>
+
+            <ol class="desktop-steps">
+                <li class="desktop-step" data-progress-key="services">
+                    <span class="desktop-step-marker"><span>1</span><i data-lucide="check"></i></span>
+                    <span class="desktop-step-label">Servicios</span>
+                </li>
+                <li class="desktop-step" data-progress-key="professional">
+                    <span class="desktop-step-marker"><span>2</span><i data-lucide="check"></i></span>
+                    <span class="desktop-step-label">Barbero</span>
+                </li>
+                <li class="desktop-step" data-progress-key="datetime">
+                    <span class="desktop-step-marker"><span>3</span><i data-lucide="check"></i></span>
+                    <span class="desktop-step-label">Fecha y hora</span>
+                </li>
+                <li class="desktop-step" data-progress-key="customer">
+                    <span class="desktop-step-marker"><span>4</span><i data-lucide="check"></i></span>
+                    <span class="desktop-step-label">Tus datos</span>
+                </li>
+            </ol>
+
+            <div class="desktop-summary-divider"></div>
+
+            <div id="desktop-summary-empty" class="desktop-summary-empty">
+                <i data-lucide="sparkles"></i>
+                <p>Elige tus servicios en el simulador para comenzar a armar tu cita.</p>
+            </div>
+
+            <div id="desktop-summary-body" class="desktop-summary-dynamic-body hidden">
+                <div class="desktop-summary-block desktop-summary-services-block">
+                    <p class="desktop-summary-label">Servicios</p>
+                    <div id="desktop-summary-services" class="desktop-summary-services-scroll"></div>
+                </div>
+
+                <div id="desktop-summary-prof-block" class="desktop-summary-block hidden">
+                    <p class="desktop-summary-label">Profesional</p>
+                    <div class="desktop-summary-prof">
+                        <img id="desktop-summary-prof-avatar" src="" alt="Profesional">
+                        <span id="desktop-summary-prof-name"></span>
+                    </div>
+                </div>
+
+                <div id="desktop-summary-datetime-block" class="desktop-summary-block hidden">
+                    <p class="desktop-summary-label">Fecha y hora</p>
+                    <p id="desktop-summary-datetime" class="desktop-summary-value"></p>
+                </div>
+
+                <div id="desktop-summary-customer-block" class="desktop-summary-block hidden">
+                    <p class="desktop-summary-label">Datos de contacto</p>
+                    <p id="desktop-summary-customer" class="desktop-summary-value"></p>
+                </div>
+            </div>
+
+            <div class="desktop-summary-total-row">
+                <span>Total</span>
+                <span id="desktop-summary-total">$0</span>
+            </div>
+        </div>
+
+        <p class="desktop-summary-footnote">
+            <i data-lucide="lock" class="w-3 h-3"></i>
+            Este panel solo refleja tu selección — agenda desde el simulador
+        </p>
+    </aside>
+
+    </div>
 
     <!-- Modal de Revisión y Confirmación -->
     <div id="step3-summary-modal" class="modal-overlay">
@@ -3988,9 +4612,64 @@
             updateIntroCta();
             updateProgressSummary();
             updateDatosConfirmSummary();
+            updateDesktopSummary();
 
             btnNext.innerText =
                 step === 5 ? "Confirmar Cita" : step === 1 ? "Agendar Cita" : "Continuar";
+        }
+
+        /* ===============================
+           PANEL DE RESUMEN EN ESCRITORIO
+        =============================== */
+
+        function updateDesktopSummary() {
+            const panel = document.getElementById('desktop-summary-panel');
+            if (!panel) return;
+
+            const hasServices = services.length > 0;
+            document.getElementById('desktop-summary-empty').classList.toggle('hidden', hasServices);
+            document.getElementById('desktop-summary-body').classList.toggle('hidden', !hasServices);
+
+            const totalEl = document.getElementById('desktop-summary-total');
+            if (!hasServices) {
+                totalEl.textContent = '$0';
+                return;
+            }
+
+            document.getElementById('desktop-summary-services').innerHTML = services.map(s => `
+                <div class="desktop-summary-service-row">
+                    <span>${s.name}</span>
+                    <span>$${s.price.toLocaleString('es-CO')}</span>
+                </div>
+            `).join('');
+
+            const profBlock = document.getElementById('desktop-summary-prof-block');
+            profBlock.classList.toggle('hidden', !professional);
+            if (professional) {
+                document.getElementById('desktop-summary-prof-avatar').src =
+                    `https://api.dicebear.com/7.x/avataaars/svg?seed=${professionalSeed || 'placeholder'}`;
+                document.getElementById('desktop-summary-prof-name').textContent = professional;
+            }
+
+            const datetimeBlock = document.getElementById('desktop-summary-datetime-block');
+            const hasDatetime = !!selectedDate && !!time;
+            datetimeBlock.classList.toggle('hidden', !hasDatetime);
+            if (hasDatetime) {
+                document.getElementById('desktop-summary-datetime').textContent =
+                    `${formatDateForSummary(selectedDate)} · ${time}`;
+            }
+
+            const customerBlock = document.getElementById('desktop-summary-customer-block');
+            const name = document.getElementById('input-name')?.value.trim() || '';
+            const phone = document.getElementById('input-phone')?.value.trim() || '';
+            const hasCustomer = name.length > 0 && phone.length > 0;
+            customerBlock.classList.toggle('hidden', !hasCustomer);
+            if (hasCustomer) {
+                document.getElementById('desktop-summary-customer').textContent = `${name} · ${phone}`;
+            }
+
+            const total = services.reduce((acc, s) => acc + s.price, 0);
+            totalEl.textContent = `$${total.toLocaleString('es-CO')}`;
         }
 
         function setStatusDot(dotEl, done) {
