@@ -3412,7 +3412,7 @@
 
             <div id="desktop-summary-empty" class="desktop-summary-empty">
                 <i data-lucide="sparkles"></i>
-                <p>Elige tus servicios en el simulador para comenzar a armar tu cita.</p>
+                <p id="desktop-summary-empty-text">Presiona "Agendar Cita" para comenzar.</p>
             </div>
 
             <div id="desktop-summary-body" class="desktop-summary-dynamic-body hidden">
@@ -3448,7 +3448,7 @@
 
         <p class="desktop-summary-footnote">
             <i data-lucide="lock" class="w-3 h-3"></i>
-            Este panel solo refleja tu selección — agenda desde el simulador
+            Se actualiza automáticamente mientras completas tu reserva
         </p>
     </aside>
 
@@ -4632,6 +4632,12 @@
 
             const totalEl = document.getElementById('desktop-summary-total');
             if (!hasServices) {
+                const emptyTextEl = document.getElementById('desktop-summary-empty-text');
+                if (emptyTextEl) {
+                    emptyTextEl.textContent = step === 1
+                        ? 'Presiona "Agendar Cita" para comenzar.'
+                        : 'Elige tus servicios a la izquierda para comenzar a armar tu cita.';
+                }
                 totalEl.textContent = '$0';
                 return;
             }
