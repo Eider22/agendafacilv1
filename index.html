@@ -24,6 +24,12 @@
                 0 20px 40px rgba(15, 23, 42, 0.08);
 
             --border-soft: #f1f5f9;
+
+            /* Tokens de la landing de escritorio (solo se usan >=1280px) */
+            --landing-max: 1200px;
+            --landing-pad: clamp(28px, 4vw, 72px);
+            --landing-ink: #0b1023;
+            --accent-grad: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
         }
 
         html,
@@ -377,6 +383,241 @@
 
         .modal-overlay.show .modal-content {
             transform: scale(1) translateY(0);
+        }
+
+        /* ============================================
+           GALERÍA: preview + modal tipo lightbox
+           Base mobile-first; el bloque desktop (>=1280px)
+           ajusta tamaños/proporciones más abajo.
+        ============================================ */
+        .landing-gallery-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .landing-gallery-heading .landing-section-title {
+            margin-bottom: 0;
+        }
+
+        .landing-gallery-viewall {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-shrink: 0;
+            padding: 8px 14px;
+            border-radius: 999px;
+            border: 1px solid var(--border-soft);
+            background: #fff;
+            color: #4f46e5;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+            cursor: pointer;
+            transition: .18s ease;
+        }
+
+        .landing-gallery-viewall:hover {
+            background: #eef2ff;
+            border-color: #c7d2fe;
+        }
+
+        .landing-gallery-tile {
+            position: relative;
+            display: block;
+            width: 100%;
+            height: 100%;
+            aspect-ratio: 1 / 1;
+            padding: 0;
+            border: none;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            background: #eef2ff;
+        }
+
+        .landing-gallery-tile img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform .5s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .landing-gallery-tile:hover img {
+            transform: scale(1.06);
+        }
+
+        .landing-gallery-more {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: rgba(15, 23, 42, .58);
+            backdrop-filter: blur(2px);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 800;
+            text-align: center;
+            transition: background .25s ease;
+        }
+
+        .landing-gallery-tile:hover .landing-gallery-more {
+            background: rgba(15, 23, 42, .72);
+        }
+
+        .landing-gallery-more svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        /* Modal / lightbox: a pantalla completa en móvil para una
+           experiencia inmersiva; se centra en tarjeta en escritorio
+           (ver override dentro del media query >=1280px). */
+        .gallery-modal {
+            z-index: 300;
+            padding: 0;
+        }
+
+        .gallery-modal-content {
+            width: 100vw;
+            height: 100dvh;
+            background: #0b1120;
+            display: flex;
+            flex-direction: column;
+            transform: scale(1);
+            transition: .35s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .gallery-modal-top {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 18px;
+        }
+
+        .gallery-modal-counter {
+            color: rgba(255, 255, 255, .75);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+        }
+
+        .gallery-modal-close {
+            width: 38px;
+            height: 38px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .18);
+            background: rgba(255, 255, 255, .08);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: .18s ease;
+        }
+
+        .gallery-modal-close:hover {
+            background: rgba(255, 255, 255, .18);
+        }
+
+        .gallery-modal-stage {
+            flex: 1;
+            min-height: 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0 8px;
+        }
+
+        .gallery-modal-nav {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .18);
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: .18s ease;
+        }
+
+        .gallery-modal-nav:hover {
+            background: rgba(255, 255, 255, .22);
+        }
+
+        .gallery-modal-frame {
+            flex: 1;
+            min-width: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .gallery-modal-frame img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 14px;
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, .55);
+            opacity: 1;
+            transition: opacity .2s ease;
+        }
+
+        .gallery-modal-thumbs {
+            flex-shrink: 0;
+            display: flex;
+            gap: 8px;
+            padding: 12px 16px 16px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .gallery-modal-thumbs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .gallery-modal-thumb {
+            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid transparent;
+            padding: 0;
+            cursor: pointer;
+            opacity: .5;
+            transition: .18s ease;
+        }
+
+        .gallery-modal-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-modal-thumb:hover {
+            opacity: .8;
+        }
+
+        .gallery-modal-thumb.active {
+            opacity: 1;
+            border-color: #818cf8;
         }
 
         .booking-loader,
@@ -1719,6 +1960,27 @@
             }
         }
 
+        /* CTA del hero de escritorio: oculto por defecto (móvil/tablet usan
+           el botón "Agendar Cita" de la barra inferior) */
+        .landing-hero-cta {
+            display: none;
+        }
+
+        /* Títulos de sección: solo tienen sentido en escritorio, donde las
+           5 secciones se muestran a la vez sin tabs */
+        .landing-section-title {
+            display: none;
+        }
+
+        /* Elementos exclusivos de la landing de escritorio: ocultos por
+           defecto en móvil/tablet */
+        .landing-topbar,
+        .landing-quickfacts-bar,
+        .landing-closing-cta,
+        .landing-hero-overlay {
+            display: none;
+        }
+
         /* Solo en pantallas >= 1280px (laptops/desktops). Tablets como iPad Pro quedan responsive */
         @media (min-width: 1280px) {
             body {
@@ -1772,6 +2034,662 @@
                contenido (grilla de servicios/barberos, franjas horarias) */
             .step-head-wide {
                 max-width: 100% !important;
+            }
+
+            /* ============================================
+               Paso 1 (Intro): landing page de la barbería
+               en vez del widget angosto de móvil
+
+               Mientras step===1 el body lleva la clase
+               "is-landing-step" (ver validate() en el script). En ese
+               estado la app deja de verse como una tarjeta de celular y
+               se comporta como una landing moderna de página completa:
+               topbar flotante fija, hero casi a pantalla completa con el
+               CTA como protagonista, tarjeta de datos clave superpuesta,
+               secciones en grilla tipo bento y banner de cierre. El
+               scroll es el de una página normal: el propio slide es el
+               contenedor de scroll y el hero se desplaza con el
+               contenido. Al avanzar de paso la clase se quita y todo
+               vuelve a verse exactamente como antes.
+            ============================================ */
+
+            body.is-landing-step {
+                padding: 0 !important;
+                /* body{align-items:center} normalmente centra .app-shell
+                   sin darle un ancho definido (así main queda acotado por
+                   su propio max-width en los demás pasos). En landing,
+                   main ya no tiene ese tope, así que sin "stretch" acá
+                   .app-shell/main terminan creciendo según su contenido
+                   en vez de llenar el viewport. */
+                align-items: stretch !important;
+            }
+
+            body.is-landing-step #desktop-summary-panel {
+                display: none !important;
+            }
+
+            body.is-landing-step main {
+                max-width: 100% !important;
+                height: 100vh !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+                background: #f6f8fc !important;
+            }
+
+            body.is-landing-step main>.fixed.bottom-0 {
+                display: none !important;
+            }
+
+            /* Scroll de página completa: el slide de la landing es el
+               contenedor de scroll (el hero se desplaza junto con el
+               resto en vez de quedar fijo arriba). */
+            body.is-landing-step #main-slider .slide:first-child {
+                display: block;
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+
+            body.is-landing-step .slide-header {
+                position: static;
+                z-index: auto;
+                padding: 0 !important;
+                background: none !important;
+                box-shadow: none !important;
+                border-bottom: 0 !important;
+            }
+
+            body.is-landing-step .slide-content {
+                flex: none;
+                min-height: 0;
+                overflow: visible;
+                padding: 0 !important;
+            }
+
+            body.is-landing-step .slide-content::after {
+                content: none;
+            }
+
+            /* Barra de marca flotante tipo píldora, fija sobre el hero
+               (solo visible mientras el paso 1 está activo) */
+            body.is-landing-step .landing-topbar {
+                position: fixed;
+                top: 18px;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 40;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: min(var(--landing-max), calc(100% - 2 * var(--landing-pad)));
+                padding: 10px 12px 10px 18px;
+                border-radius: 999px;
+                background: rgba(9, 13, 28, .55);
+                border: 1px solid rgba(255, 255, 255, .14);
+                backdrop-filter: blur(18px) saturate(1.4);
+                -webkit-backdrop-filter: blur(18px) saturate(1.4);
+                box-shadow: 0 16px 40px -12px rgba(2, 6, 23, .45);
+            }
+
+            .landing-topbar-brand {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .landing-topbar-logo {
+                width: 38px;
+                height: 38px;
+                border-radius: 12px;
+                object-fit: cover;
+                box-shadow: 0 0 0 2px rgba(255, 255, 255, .22);
+            }
+
+            .landing-topbar-name {
+                font-size: 16px;
+                font-weight: 800;
+                color: #fff;
+                letter-spacing: -.01em;
+            }
+
+            .landing-topbar-cta {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 11px 22px;
+                border-radius: 999px;
+                background: var(--accent-grad);
+                color: #fff;
+                font-size: 12.5px;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: .06em;
+                border: none;
+                cursor: pointer;
+                box-shadow: 0 8px 20px -6px rgba(99, 102, 241, .6);
+                transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+            }
+
+            .landing-topbar-cta:hover {
+                transform: translateY(-1px);
+                filter: brightness(1.08);
+                box-shadow: 0 12px 26px -6px rgba(99, 102, 241, .75);
+            }
+
+            /* Hero casi a pantalla completa, a sangre total */
+            .landing-hero-wrap {
+                max-width: 100% !important;
+            }
+
+            .carousel-container {
+                border-radius: 0;
+                border: none;
+                box-shadow: none;
+            }
+
+            .carousel-track img {
+                height: clamp(560px, 88vh, 920px) !important;
+            }
+
+            /* Veladura editorial: más oscura a la izquierda (texto) y en
+               la base (transición hacia la tarjeta de datos) */
+            .carousel-container::before {
+                background:
+                    linear-gradient(78deg, rgba(4, 7, 18, .82) 0%, rgba(4, 7, 18, .55) 34%, rgba(4, 7, 18, .12) 66%, rgba(4, 7, 18, .04) 100%),
+                    linear-gradient(180deg, rgba(4, 7, 18, .42) 0%, rgba(4, 7, 18, 0) 28%);
+            }
+
+            .carousel-container::after {
+                height: 62%;
+                background: linear-gradient(180deg, rgba(4, 7, 18, 0) 0%, rgba(4, 7, 18, .5) 60%, rgba(4, 7, 18, .82) 100%);
+            }
+
+            /* La tarjetita de marca de móvil se reemplaza por el overlay
+               tipográfico del hero (la marca vive en la topbar) */
+            .landing-hero-wrap .hero-brand-block {
+                display: none;
+            }
+
+            .carousel-dots-inset {
+                top: auto;
+                left: auto;
+                transform: none;
+                right: max(var(--landing-pad), calc((100% - var(--landing-max)) / 2));
+                bottom: 108px;
+            }
+
+            /* Overlay de contenido del hero: titular grande + CTA
+               protagonista (oculto en móvil/tablet) */
+            .landing-hero-overlay {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                position: absolute;
+                z-index: 3;
+                left: max(var(--landing-pad), calc((100% - var(--landing-max)) / 2));
+                right: max(var(--landing-pad), calc((100% - var(--landing-max)) / 2));
+                bottom: clamp(116px, 15vh, 170px);
+                pointer-events: none;
+            }
+
+            .landing-hero-overlay>* {
+                pointer-events: auto;
+            }
+
+            .landing-hero-eyebrow {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 8px 16px;
+                border-radius: 999px;
+                border: 1px solid rgba(255, 255, 255, .22);
+                background: rgba(255, 255, 255, .1);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                color: #e2e8f0;
+                font-size: 11px;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: .16em;
+            }
+
+            .landing-hero-eyebrow i,
+            .landing-hero-eyebrow svg {
+                width: 14px;
+                height: 14px;
+                color: #a5b4fc;
+            }
+
+            .landing-hero-heading {
+                margin: 22px 0 0;
+                max-width: 800px;
+                font-size: clamp(3.4rem, 5.4vw, 5rem);
+                font-weight: 800;
+                line-height: 1.02;
+                letter-spacing: -.045em;
+                color: #fff;
+            }
+
+            .landing-hero-heading em {
+                font-style: normal;
+                background: linear-gradient(92deg, #a5b4fc 0%, #c4b5fd 55%, #e9d5ff 100%);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+            }
+
+            .landing-hero-sub {
+                margin: 20px 0 0;
+                max-width: 560px;
+                font-size: 17px;
+                line-height: 1.65;
+                font-weight: 500;
+                color: rgba(226, 232, 240, .92);
+            }
+
+            .landing-hero-actions {
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 26px;
+                margin-top: 36px;
+            }
+
+            /* CTA protagonista del hero (oculto en móvil/tablet) */
+            .landing-hero-cta {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 12px;
+                padding: 19px 34px;
+                border-radius: 18px;
+                background: var(--accent-grad);
+                color: #fff;
+                font-size: 16px;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: .05em;
+                border: none;
+                cursor: pointer;
+                box-shadow:
+                    0 22px 44px -14px rgba(99, 102, 241, .75),
+                    inset 0 1px 0 rgba(255, 255, 255, .25);
+                transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+            }
+
+            .landing-hero-cta:hover {
+                transform: translateY(-2px) scale(1.015);
+                filter: brightness(1.07);
+                box-shadow:
+                    0 28px 52px -14px rgba(99, 102, 241, .85),
+                    inset 0 1px 0 rgba(255, 255, 255, .25);
+            }
+
+            .landing-hero-cta .landing-cta-arrow {
+                transition: transform .18s ease;
+            }
+
+            .landing-hero-cta:hover .landing-cta-arrow {
+                transform: translateX(4px);
+            }
+
+            .landing-hero-trust {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .landing-hero-trust-stars {
+                display: flex;
+                gap: 2px;
+            }
+
+            .landing-hero-trust-text {
+                font-size: 13px;
+                font-weight: 600;
+                color: rgba(226, 232, 240, .88);
+            }
+
+            .landing-hero-trust-text strong {
+                color: #fff;
+                font-weight: 800;
+            }
+
+            /* Tarjeta de datos clave: vidrio flotante que se superpone a
+               la base del hero */
+            .landing-quickfacts-bar {
+                position: relative;
+                z-index: 8;
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+                align-items: center;
+                gap: 20px;
+                width: min(var(--landing-max), calc(100% - 2 * var(--landing-pad)));
+                margin: -72px auto 0;
+                padding: 22px 26px;
+                border-radius: 26px;
+                background: rgba(255, 255, 255, .86);
+                border: 1px solid rgba(255, 255, 255, .85);
+                backdrop-filter: blur(22px) saturate(1.3);
+                -webkit-backdrop-filter: blur(22px) saturate(1.3);
+                box-shadow: 0 30px 60px -20px rgba(2, 6, 23, .28);
+            }
+
+            .landing-quickfact {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                min-width: 0;
+            }
+
+            .landing-quickfact i,
+            .landing-quickfact svg {
+                width: 20px;
+                height: 20px;
+                padding: 12px;
+                box-sizing: content-box;
+                border-radius: 15px;
+                background: linear-gradient(135deg, #eef2ff 0%, #ede9fe 100%);
+                color: #4f46e5;
+                flex-shrink: 0;
+            }
+
+            .landing-quickfact-copy {
+                display: flex;
+                flex-direction: column;
+                gap: 1px;
+                min-width: 0;
+            }
+
+            .landing-quickfact-label {
+                font-size: 10.5px;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: .1em;
+                color: #94a3b8;
+            }
+
+            .landing-quickfact-value {
+                font-size: 14.5px;
+                font-weight: 700;
+                color: #0f172a;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .landing-quickfact-cta {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 15px 26px;
+                border-radius: 16px;
+                background: var(--accent-grad);
+                color: #fff;
+                font-size: 13px;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: .05em;
+                border: none;
+                cursor: pointer;
+                box-shadow: 0 12px 24px -8px rgba(99, 102, 241, .55);
+                transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+            }
+
+            .landing-quickfact-cta:hover {
+                transform: translateY(-1px);
+                filter: brightness(1.08);
+                box-shadow: 0 16px 30px -8px rgba(99, 102, 241, .7);
+            }
+
+            /* Los tabs ya no hacen falta: todas las secciones quedan visibles */
+            .landing-tabs-wrap {
+                display: none;
+            }
+
+            /* Secciones en grilla tipo bento de 12 columnas, centrada y
+               con ancho máximo consistente con topbar y quickfacts */
+            .landing-sections-grid {
+                max-width: none !important;
+                width: min(var(--landing-max), calc(100% - 2 * var(--landing-pad)));
+                margin: 0 auto !important;
+                display: grid;
+                grid-template-columns: repeat(12, minmax(0, 1fr));
+                gap: 26px;
+                align-items: stretch;
+                padding-top: 72px;
+                padding-bottom: 8px;
+            }
+
+            .landing-sections-grid .info-panel.hidden {
+                display: block !important;
+            }
+
+            .landing-sections-grid .info-panel {
+                margin-top: 0 !important;
+            }
+
+            .landing-section-title {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin: 0 0 18px;
+                font-size: 21px;
+                font-weight: 800;
+                letter-spacing: -.02em;
+                color: #0f172a;
+            }
+
+            .landing-section-title::before {
+                content: '';
+                width: 6px;
+                height: 22px;
+                border-radius: 4px;
+                background: var(--accent-grad);
+                flex-shrink: 0;
+            }
+
+            /* Distribución bento (sin tocar el DOM, para no afectar el
+               orden de los tabs en móvil):
+               Ubicación+Horarios | Galería
+               Reseñas            | Contacto
+               Comodidades (franja completa) */
+            #panel-info {
+                grid-column: span 5;
+                order: 1;
+            }
+
+            #panel-galeria {
+                grid-column: span 7;
+                order: 2;
+                /* !important para ganarle a ".info-panel.hidden{display:block!important}"
+                   cuando el panel llega con la clase "hidden" del estado de tabs móvil */
+                display: flex !important;
+                flex-direction: column;
+            }
+
+            #panel-resenas {
+                grid-column: span 8;
+                order: 3;
+            }
+
+            #panel-contacto {
+                grid-column: span 4;
+                order: 4;
+            }
+
+            #panel-comodidades {
+                grid-column: 1 / -1;
+                order: 5;
+            }
+
+            /* Tarjetas: más aire, hover con elevación sutil */
+            .landing-sections-grid .info-panel .bg-white {
+                border-radius: 20px;
+                border-color: #e6ebf4;
+                padding: 20px 22px;
+                transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+            }
+
+            .landing-sections-grid .info-panel .bg-white:hover {
+                transform: translateY(-3px);
+                border-color: #dde5f2;
+                box-shadow: 0 18px 36px -14px rgba(15, 23, 42, .14);
+            }
+
+            /* Comodidades: insignias horizontales en vez de tarjetas apiladas */
+            .landing-badge-row {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 16px;
+            }
+
+            .landing-badge-row>div {
+                flex: 1 1 280px;
+            }
+
+            /* Galería: mosaico fijo 2x2 que llena la altura de su fila
+               bento. Solo muestra 4 fotos de vista previa (la última con
+               overlay "+N fotos"); para ver el resto, el usuario abre el
+               modal tipo lightbox — el mosaico en sí nunca crece. */
+            .landing-gallery-grid {
+                flex: 1;
+                min-height: 420px;
+                grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+                grid-template-rows: repeat(2, minmax(0, 1fr));
+                gap: 16px !important;
+            }
+
+            /* En escritorio el modal se centra en una tarjeta grande en
+               vez de ocupar toda la pantalla (eso queda para móvil). */
+            .gallery-modal {
+                padding: 32px;
+            }
+
+            .gallery-modal-content {
+                width: min(92vw, 1080px);
+                height: min(88vh, 720px);
+                border-radius: 28px;
+                transform: scale(.95);
+                box-shadow: 0 40px 100px -20px rgba(0, 0, 0, .6);
+            }
+
+            .gallery-modal.show .gallery-modal-content {
+                transform: scale(1);
+            }
+
+            .gallery-modal-stage {
+                gap: 14px;
+                padding: 0 18px;
+            }
+
+            .gallery-modal-nav {
+                width: 46px;
+                height: 46px;
+            }
+
+            .gallery-modal-thumb {
+                width: 58px;
+                height: 58px;
+            }
+
+            /* Reseñas: resumen de calificación + testimonios lado a lado */
+            .landing-rating-summary {
+                display: inline-flex !important;
+                margin-bottom: 14px;
+            }
+
+            .landing-testimonial-row {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 20px;
+            }
+
+            /* Banner de cierre: tarjeta oscura con brillos radiales */
+            .landing-closing-cta {
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 40px;
+                width: min(var(--landing-max), calc(100% - 2 * var(--landing-pad)));
+                margin: 80px auto 72px;
+                padding: 60px 64px;
+                border-radius: 32px;
+                overflow: hidden;
+                background:
+                    radial-gradient(90% 160% at 88% -10%, rgba(139, 92, 246, .55) 0%, rgba(139, 92, 246, 0) 60%),
+                    radial-gradient(70% 140% at 0% 110%, rgba(79, 70, 229, .5) 0%, rgba(79, 70, 229, 0) 55%),
+                    linear-gradient(135deg, #0b1023 0%, #1e1b4b 60%, #312e81 100%);
+                box-shadow: 0 40px 80px -32px rgba(30, 27, 75, .55);
+            }
+
+            .landing-closing-cta::after {
+                content: '';
+                position: absolute;
+                inset: 0;
+                border-radius: inherit;
+                border: 1px solid rgba(255, 255, 255, .1);
+                pointer-events: none;
+            }
+
+            .landing-closing-cta-kicker {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                margin: 0 0 14px;
+                font-size: 11px;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: .16em;
+                color: #a5b4fc;
+            }
+
+            .landing-closing-cta-kicker i,
+            .landing-closing-cta-kicker svg {
+                width: 14px;
+                height: 14px;
+            }
+
+            .landing-closing-cta-title {
+                margin: 0;
+                font-size: clamp(28px, 2.6vw, 38px);
+                font-weight: 800;
+                color: #fff;
+                letter-spacing: -.03em;
+                line-height: 1.1;
+            }
+
+            .landing-closing-cta-copy {
+                margin: 12px 0 0;
+                max-width: 520px;
+                font-size: 16px;
+                line-height: 1.6;
+                font-weight: 500;
+                color: rgba(199, 210, 254, .85);
+            }
+
+            .landing-closing-cta-btn {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                flex-shrink: 0;
+                padding: 20px 36px;
+                border-radius: 18px;
+                background: #fff;
+                color: #312e81;
+                font-size: 16px;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: .05em;
+                border: none;
+                cursor: pointer;
+                box-shadow: 0 20px 40px -16px rgba(2, 6, 23, .5);
+                transition: transform .18s ease, box-shadow .18s ease;
+            }
+
+            .landing-closing-cta-btn:hover {
+                transform: translateY(-2px) scale(1.02);
+                box-shadow: 0 26px 48px -16px rgba(2, 6, 23, .6);
             }
 
             /* Paso 2: Servicios en grilla responsiva en vez de columna única */
@@ -1856,7 +2774,7 @@
                 display: flex;
                 flex-direction: column;
                 gap: 14px;
-                width: 340px;
+                width: 420px;
                 flex-shrink: 0;
                 max-height: calc(100vh - 4rem);
                 min-height: 0;
@@ -1880,29 +2798,59 @@
             }
 
             .desktop-summary-header,
-            .desktop-steps,
+            .desktop-summary-columns,
             .desktop-summary-divider,
-            .desktop-summary-empty,
             .desktop-summary-total-row {
                 flex-shrink: 0;
             }
 
-            .desktop-summary-dynamic-body {
-                display: flex;
-                flex-direction: column;
+            /* Grid de 2 columnas: el stepper a la izquierda y, a la
+               derecha, los datos de profesional/fecha/contacto. Ambas
+               columnas tienen alto acotado (no dependen del número de
+               servicios elegidos), así que esta fila puede quedarse fija
+               (flex-shrink:0) sin riesgo de crecer sin control. */
+            .desktop-summary-columns {
+                display: grid;
+                grid-template-columns: 138px 1fr;
+                gap: 18px;
+                margin-bottom: 18px;
+            }
+
+            .desktop-steps {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            .desktop-summary-col-details {
+                min-width: 0;
                 min-height: 0;
-                flex: 1 1 auto;
             }
 
             .desktop-summary-block {
                 flex-shrink: 0;
             }
 
+            .desktop-summary-aux-row {
+                display: flex;
+                flex-direction: column;
+            }
+
+            /* La lista de servicios es la ÚNICA parte elástica del panel
+               (flex:1 1 auto + min-height acotado): crece o se encoge
+               según el espacio que sobre, con su propio scroll interno
+               (tope de altura), mientras que el separador, las columnas
+               de arriba y el total nunca se encogen ni quedan ocultos,
+               sin importar cuántos servicios se elijan. */
+            #desktop-summary-empty,
+            .desktop-summary-services-block {
+                flex: 1 1 auto;
+                min-height: 90px;
+            }
+
             .desktop-summary-services-block {
                 display: flex;
                 flex-direction: column;
-                min-height: 0;
-                flex: 1 1 auto;
                 position: relative;
             }
 
@@ -1926,8 +2874,8 @@
 
             .desktop-summary-services-scroll {
                 flex: 1 1 auto;
-                min-height: 0;
-                max-height: 232px;
+                min-height: 60px;
+                max-height: 260px;
                 overflow-y: auto;
                 overflow-x: hidden;
                 margin: 0 -8px;
@@ -2005,16 +2953,10 @@
                 color: #fff;
             }
 
-            .desktop-steps {
-                list-style: none;
-                margin: 0 0 22px;
-                padding: 0;
-            }
-
             .desktop-step {
                 display: flex;
                 align-items: center;
-                gap: 12px;
+                gap: 10px;
                 position: relative;
                 padding-bottom: 22px;
             }
@@ -2059,9 +3001,10 @@
             }
 
             .desktop-step-label {
-                font-size: 14px;
+                font-size: 12.5px;
                 font-weight: 700;
                 color: #64748b;
+                line-height: 1.25;
                 transition: color .25s ease;
             }
 
@@ -2113,10 +3056,14 @@
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+                justify-content: center;
                 text-align: center;
                 gap: 10px;
-                padding: 18px 6px 6px;
+                padding: 18px 10px;
                 color: #64748b;
+                background: #f8fafc;
+                border: 1px dashed #e2e8f0;
+                border-radius: 16px;
             }
 
             .desktop-summary-empty svg {
@@ -2148,11 +3095,24 @@
             .desktop-summary-service-row {
                 display: flex;
                 justify-content: space-between;
-                gap: 10px;
-                font-size: 13.5px;
+                align-items: baseline;
+                gap: 8px;
+                font-size: 13px;
                 font-weight: 700;
                 color: #334155;
-                padding: 6px 0;
+                padding: 7px 0;
+            }
+
+            .desktop-summary-service-row span:first-child {
+                min-width: 0;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .desktop-summary-service-row span:last-child {
+                flex-shrink: 0;
+                color: #4f46e5;
             }
 
             .desktop-summary-service-row+.desktop-summary-service-row {
@@ -2232,30 +3192,46 @@
     </style>
 </head>
 
-<body class="h-screen flex flex-col">
+<body class="h-screen flex flex-col is-landing-step">
 
     <div class="app-shell">
 
     <main class="relative flex flex-col overflow-hidden h-[100dvh]">
+
+        <!-- Barra de marca flotante de la landing de escritorio. Vive fuera
+             del slider para poder fijarse sobre el hero sin que el
+             translateX del slider la arrastre (solo visible en escritorio
+             mientras body lleva .is-landing-step). Deja el espacio listo
+             para un futuro acceso de inicio de sesión del dueño. -->
+        <div class="landing-topbar">
+            <div class="landing-topbar-brand">
+                <img src="./images/logo2.jpeg" alt="Logo Barbería 017" class="landing-topbar-logo">
+                <span class="landing-topbar-name">Barbería 017</span>
+            </div>
+            <button onclick="moveSlide(1)" class="landing-topbar-cta">
+                <i id="topbar-cta-icon" data-lucide="calendar-plus" class="w-4 h-4"></i>
+                <span id="topbar-cta-text">Agendar Cita</span>
+            </button>
+        </div>
 
         <div id="main-slider" class="slider-container">
 
             <!-- SLIDE INTRO: EMPRESA -->
             <div class="slide">
                 <div class="slide-header" style="padding-bottom: 10px; padding-top: 12px;">
-                    <div class="max-w-xl mx-auto">
+                    <div class="max-w-xl mx-auto landing-hero-wrap">
 
                         <!-- Carrusel de fotos -->
                         <div class="carousel-container">
                             <div id="carousel-track" class="carousel-track">
                                 <img src="./images/logo.jpeg" alt="Logo Barbería 017">
-                                <img src="https://images.unsplash.com/photo-1759134198561-e2041049419c?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                <img src="https://images.unsplash.com/photo-1759134198561-e2041049419c?q=80&w=2400&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                                     alt="Interior barbería">
-                                <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&h=340&fit=crop"
+                                <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=2400&auto=format&fit=crop&q=80"
                                     alt="Corte de cabello">
-                                <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=600&h=340&fit=crop"
+                                <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=2400&auto=format&fit=crop&q=80"
                                     alt="Estilo y barba">
-                                <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=600&h=340&fit=crop"
+                                <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=2400&auto=format&fit=crop&q=80"
                                     alt="Ambiente barbería">
                             </div>
                             <div id="carousel-dots" class="carousel-dots-inset"></div>
@@ -2273,12 +3249,42 @@
                                     <p class="hero-brand-title">Barbería 017</p>
                                 </div>
                             </div>
+
+                            <!-- Overlay de hero, solo escritorio: titular grande +
+                                 CTA protagonista + prueba social -->
+                            <div class="landing-hero-overlay">
+                                <span class="landing-hero-eyebrow">
+                                    <i data-lucide="scissors"></i>
+                                    Barbería premium · Dosquebradas
+                                </span>
+                                <h1 class="landing-hero-heading">Tu estilo,<br><em>tu sello.</em></h1>
+                                <p class="landing-hero-sub">Cortes precisos, barbas perfiladas y un ambiente pensado
+                                    para que salgas impecable. Reserva tu cita online en menos de un minuto.</p>
+                                <div class="landing-hero-actions">
+                                    <button onclick="moveSlide(1)" class="landing-hero-cta">
+                                        <i id="hero-cta-icon" data-lucide="calendar-plus" class="w-6 h-6"></i>
+                                        <span id="hero-cta-text">Agendar Cita</span>
+                                        <i data-lucide="arrow-right" class="w-5 h-5 landing-cta-arrow"></i>
+                                    </button>
+                                    <div class="landing-hero-trust">
+                                        <div class="landing-hero-trust-stars">
+                                            <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+                                            <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+                                            <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+                                            <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+                                            <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+                                        </div>
+                                        <span class="landing-hero-trust-text"><strong>4.8</strong> / 5 · 127 reseñas
+                                            de clientes</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
 
                     <!-- Tabs (scrollable, muestra 3 a la vez) -->
-                    <div class="max-w-xl mx-auto mt-2">
+                    <div class="max-w-xl mx-auto mt-2 landing-tabs-wrap">
                         <div id="tabs-bar"
                             class="flex bg-white rounded-[var(--radius-xl)] border border-[var(--border-soft)] shadow-[var(--shadow-soft)] p-1.5 gap-1.5 overflow-x-auto scrollbar-hide">
                             <button onclick="switchTab('info')" id="tab-info"
@@ -2287,9 +3293,9 @@
                             <button onclick="switchTab('contacto')" id="tab-contacto"
                                 class="info-tab flex flex-shrink-0 items-center justify-center text-center py-2.5 px-2 [overflow-wrap:anywhere] text-[11px] font-extrabold uppercase tracking-wider leading-tight rounded-2xl transition-all duration-300 text-slate-400 hover:text-slate-600 hover:bg-slate-50"
                                 style="width: calc((100% - 12px) / 3)">Contacto</button>
-                            <button onclick="switchTab('fotos')" id="tab-fotos"
+                            <button onclick="switchTab('galeria')" id="tab-galeria"
                                 class="info-tab flex flex-shrink-0 items-center justify-center text-center py-2.5 px-2 [overflow-wrap:anywhere] text-[11px] font-extrabold uppercase tracking-wider leading-tight rounded-2xl transition-all duration-300 text-slate-400 hover:text-slate-600 hover:bg-slate-50"
-                                style="width: calc((100% - 12px) / 3)">Fotos</button>
+                                style="width: calc((100% - 12px) / 3)">Galería</button>
                             <button onclick="switchTab('comodidades')" id="tab-comodidades"
                                 class="info-tab flex flex-shrink-0 items-center justify-center text-center py-2.5 px-2 [overflow-wrap:anywhere] text-[11px] font-extrabold uppercase tracking-wider leading-tight rounded-2xl transition-all duration-300 text-slate-400 hover:text-slate-600 hover:bg-slate-50"
                                 style="width: calc((100% - 12px) / 3)">Comodidades</button>                                
@@ -2301,10 +3307,41 @@
 
                 </div>
                 <div class="slide-content">
-                    <div class="max-w-xl mx-auto">
+
+                    <!-- Tarjeta de datos clave superpuesta al hero, solo en escritorio -->
+                    <div class="landing-quickfacts-bar">
+                        <div class="landing-quickfact">
+                            <i data-lucide="map-pin"></i>
+                            <div class="landing-quickfact-copy">
+                                <span class="landing-quickfact-label">Ubicación</span>
+                                <span class="landing-quickfact-value">Calle 17 #45, Dosquebradas</span>
+                            </div>
+                        </div>
+                        <div class="landing-quickfact">
+                            <i data-lucide="clock"></i>
+                            <div class="landing-quickfact-copy">
+                                <span class="landing-quickfact-label">Horario</span>
+                                <span class="landing-quickfact-value">Mar - Sáb · 9:00 AM - 7:00 PM</span>
+                            </div>
+                        </div>
+                        <div class="landing-quickfact">
+                            <i data-lucide="phone"></i>
+                            <div class="landing-quickfact-copy">
+                                <span class="landing-quickfact-label">Contacto</span>
+                                <span class="landing-quickfact-value">+57 317 456 7890</span>
+                            </div>
+                        </div>
+                        <button onclick="moveSlide(1)" class="landing-quickfact-cta">
+                            <i id="quickfact-cta-icon" data-lucide="calendar-plus" class="w-4 h-4"></i>
+                            <span id="quickfact-cta-text">Agendar ahora</span>
+                        </button>
+                    </div>
+
+                    <div class="max-w-xl mx-auto landing-sections-grid">
 
                         <!-- Tab: Información -->
                         <div id="panel-info" class="info-panel space-y-3 mt-4">
+                            <h3 class="landing-section-title">Ubicación y horarios</h3>
                             <div
                                 class="bg-white rounded-[var(--radius-xl)] border border-[var(--border-soft)] shadow-[var(--shadow-soft)] p-4 flex items-center gap-4">
                                 <div
@@ -2364,6 +3401,7 @@
 
                         <!-- Tab: Contacto -->
                         <div id="panel-contacto" class="info-panel space-y-3 mt-4 hidden">
+                            <h3 class="landing-section-title">Contacto</h3>
                             <div
                                 class="bg-white rounded-[var(--radius-xl)] border border-[var(--border-soft)] shadow-[var(--shadow-soft)] p-4 flex items-center gap-4">
                                 <div
@@ -2415,47 +3453,51 @@
 
                         <!-- Tab: Comodidades -->
                         <div id="panel-comodidades" class="info-panel space-y-3 mt-4 hidden">
-                            <div
-                                class="bg-white rounded-[var(--radius-xl)] border border-[var(--border-soft)] shadow-[var(--shadow-soft)] p-4 flex items-center gap-4">
+                            <h3 class="landing-section-title">Comodidades</h3>
+                            <div class="landing-badge-row">
                                 <div
-                                    class="w-10 h-10 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center flex-shrink-0">
-                                    <i data-lucide="car" class="w-5 h-5"></i>
+                                    class="bg-white rounded-[var(--radius-xl)] border border-[var(--border-soft)] shadow-[var(--shadow-soft)] p-4 flex items-center gap-4">
+                                    <div
+                                        class="w-10 h-10 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="car" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-bold text-slate-700">Parqueadero gratuito</p>
+                                        <p class="text-xs text-slate-400">Disponible para clientes</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p class="text-sm font-bold text-slate-700">Parqueadero gratuito</p>
-                                    <p class="text-xs text-slate-400">Disponible para clientes</p>
-                                </div>
-                            </div>
 
-                            <div
-                                class="bg-white rounded-[var(--radius-xl)] border border-[var(--border-soft)] shadow-[var(--shadow-soft)] p-4 flex items-center gap-4">
                                 <div
-                                    class="w-10 h-10 bg-cyan-50 text-cyan-600 rounded-xl flex items-center justify-center flex-shrink-0">
-                                    <i data-lucide="wifi" class="w-5 h-5"></i>
+                                    class="bg-white rounded-[var(--radius-xl)] border border-[var(--border-soft)] shadow-[var(--shadow-soft)] p-4 flex items-center gap-4">
+                                    <div
+                                        class="w-10 h-10 bg-cyan-50 text-cyan-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="wifi" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-bold text-slate-700">Wi-Fi gratis</p>
+                                        <p class="text-xs text-slate-400">Conéctate mientras esperas</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <p class="text-sm font-bold text-slate-700">Wi-Fi gratis</p>
-                                    <p class="text-xs text-slate-400">Conéctate mientras esperas</p>
-                                </div>
-                            </div>
 
-                            <div
-                                class="bg-white rounded-[var(--radius-xl)] border border-[var(--border-soft)] shadow-[var(--shadow-soft)] p-4 flex items-center gap-4">
                                 <div
-                                    class="w-10 h-10 bg-orange-50 text-orange-600 rounded-xl flex items-center justify-center flex-shrink-0">
-                                    <i data-lucide="credit-card" class="w-5 h-5"></i>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-bold text-slate-700">Todos los medios de pago</p>
-                                    <p class="text-xs text-slate-400">Efectivo, tarjeta, Nequi, Daviplata</p>
+                                    class="bg-white rounded-[var(--radius-xl)] border border-[var(--border-soft)] shadow-[var(--shadow-soft)] p-4 flex items-center gap-4">
+                                    <div
+                                        class="w-10 h-10 bg-orange-50 text-orange-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                                        <i data-lucide="credit-card" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-bold text-slate-700">Todos los medios de pago</p>
+                                        <p class="text-xs text-slate-400">Efectivo, tarjeta, Nequi, Daviplata</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Tab: Reseñas -->
                         <div id="panel-resenas" class="info-panel space-y-3 mt-4 hidden">
+                            <h3 class="landing-section-title">Lo que dicen nuestros clientes</h3>
                             <div
-                                class="bg-white rounded-[var(--radius-xl)] border border-[var(--border-soft)] shadow-[var(--shadow-soft)] p-4">
+                                class="bg-white rounded-[var(--radius-xl)] border border-[var(--border-soft)] shadow-[var(--shadow-soft)] p-4 landing-rating-summary">
                                 <div class="flex items-center gap-3 mb-3">
                                     <div
                                         class="w-10 h-10 bg-amber-50 text-amber-500 rounded-xl flex items-center justify-center flex-shrink-0">
@@ -2471,79 +3513,84 @@
                                 </div>
                             </div>
 
-                            <div
-                                class="bg-white rounded-[var(--radius-xl)] border border-[var(--border-soft)] shadow-[var(--shadow-soft)] p-4">
-                                <div class="flex items-start gap-3">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=carlos" alt="Avatar"
-                                        class="w-9 h-9 rounded-full flex-shrink-0">
-                                    <div>
-                                        <div class="flex items-center gap-2">
-                                            <p class="text-sm font-bold text-slate-700">Carlos M.</p>
-                                            <div class="flex gap-0.5">
-                                                <i data-lucide="star" class="w-3 h-3 text-amber-400 fill-amber-400"></i>
-                                                <i data-lucide="star" class="w-3 h-3 text-amber-400 fill-amber-400"></i>
-                                                <i data-lucide="star" class="w-3 h-3 text-amber-400 fill-amber-400"></i>
-                                                <i data-lucide="star" class="w-3 h-3 text-amber-400 fill-amber-400"></i>
-                                                <i data-lucide="star" class="w-3 h-3 text-amber-400 fill-amber-400"></i>
+                            <div class="landing-testimonial-row">
+                                <div
+                                    class="bg-white rounded-[var(--radius-xl)] border border-[var(--border-soft)] shadow-[var(--shadow-soft)] p-4">
+                                    <div class="flex items-start gap-3">
+                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=carlos" alt="Avatar"
+                                            class="w-9 h-9 rounded-full flex-shrink-0">
+                                        <div>
+                                            <div class="flex items-center gap-2">
+                                                <p class="text-sm font-bold text-slate-700">Carlos M.</p>
+                                                <div class="flex gap-0.5">
+                                                    <i data-lucide="star" class="w-3 h-3 text-amber-400 fill-amber-400"></i>
+                                                    <i data-lucide="star" class="w-3 h-3 text-amber-400 fill-amber-400"></i>
+                                                    <i data-lucide="star" class="w-3 h-3 text-amber-400 fill-amber-400"></i>
+                                                    <i data-lucide="star" class="w-3 h-3 text-amber-400 fill-amber-400"></i>
+                                                    <i data-lucide="star" class="w-3 h-3 text-amber-400 fill-amber-400"></i>
+                                                </div>
                                             </div>
+                                            <p class="text-xs text-slate-500 mt-1">Excelente servicio, el mejor corte que me
+                                                han hecho. Muy recomendado.</p>
+                                            <p class="text-[10px] text-slate-300 mt-1">Hace 2 semanas</p>
                                         </div>
-                                        <p class="text-xs text-slate-500 mt-1">Excelente servicio, el mejor corte que me
-                                            han hecho. Muy recomendado.</p>
-                                        <p class="text-[10px] text-slate-300 mt-1">Hace 2 semanas</p>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div
-                                class="bg-white rounded-[var(--radius-xl)] border border-[var(--border-soft)] shadow-[var(--shadow-soft)] p-4">
-                                <div class="flex items-start gap-3">
-                                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=andrea" alt="Avatar"
-                                        class="w-9 h-9 rounded-full flex-shrink-0">
-                                    <div>
-                                        <div class="flex items-center gap-2">
-                                            <p class="text-sm font-bold text-slate-700">Andrea L.</p>
-                                            <div class="flex gap-0.5">
-                                                <i data-lucide="star" class="w-3 h-3 text-amber-400 fill-amber-400"></i>
-                                                <i data-lucide="star" class="w-3 h-3 text-amber-400 fill-amber-400"></i>
-                                                <i data-lucide="star" class="w-3 h-3 text-amber-400 fill-amber-400"></i>
-                                                <i data-lucide="star" class="w-3 h-3 text-amber-400 fill-amber-400"></i>
-                                                <i data-lucide="star" class="w-3 h-3 text-slate-200"></i>
+                                <div
+                                    class="bg-white rounded-[var(--radius-xl)] border border-[var(--border-soft)] shadow-[var(--shadow-soft)] p-4">
+                                    <div class="flex items-start gap-3">
+                                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=andrea" alt="Avatar"
+                                            class="w-9 h-9 rounded-full flex-shrink-0">
+                                        <div>
+                                            <div class="flex items-center gap-2">
+                                                <p class="text-sm font-bold text-slate-700">Andrea L.</p>
+                                                <div class="flex gap-0.5">
+                                                    <i data-lucide="star" class="w-3 h-3 text-amber-400 fill-amber-400"></i>
+                                                    <i data-lucide="star" class="w-3 h-3 text-amber-400 fill-amber-400"></i>
+                                                    <i data-lucide="star" class="w-3 h-3 text-amber-400 fill-amber-400"></i>
+                                                    <i data-lucide="star" class="w-3 h-3 text-amber-400 fill-amber-400"></i>
+                                                    <i data-lucide="star" class="w-3 h-3 text-slate-200"></i>
+                                                </div>
                                             </div>
+                                            <p class="text-xs text-slate-500 mt-1">Muy buen ambiente y atención. El diseño
+                                                de cejas quedó perfecto.</p>
+                                            <p class="text-[10px] text-slate-300 mt-1">Hace 1 mes</p>
                                         </div>
-                                        <p class="text-xs text-slate-500 mt-1">Muy buen ambiente y atención. El diseño
-                                            de cejas quedó perfecto.</p>
-                                        <p class="text-[10px] text-slate-300 mt-1">Hace 1 mes</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Tab: Fotos -->
-                        <div id="panel-fotos" class="info-panel space-y-3 mt-4 hidden">
-                            <div class="grid grid-cols-2 gap-2">
-                                <div
-                                    class="rounded-[var(--radius-xl)] overflow-hidden border border-[var(--border-soft)] shadow-[var(--shadow-soft)] aspect-square">
-                                    <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=400&h=400&fit=crop"
-                                        alt="Barbería interior" class="w-full h-full object-cover">
-                                </div>
-                                <div
-                                    class="rounded-[var(--radius-xl)] overflow-hidden border border-[var(--border-soft)] shadow-[var(--shadow-soft)] aspect-square">
-                                    <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=400&h=400&fit=crop"
-                                        alt="Corte de cabello" class="w-full h-full object-cover">
-                                </div>
-                                <div
-                                    class="rounded-[var(--radius-xl)] overflow-hidden border border-[var(--border-soft)] shadow-[var(--shadow-soft)] aspect-square">
-                                    <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=400&h=400&fit=crop"
-                                        alt="Ambiente" class="w-full h-full object-cover">
-                                </div>
-                                <div
-                                    class="rounded-[var(--radius-xl)] overflow-hidden border border-[var(--border-soft)] shadow-[var(--shadow-soft)] aspect-square">
-                                    <img src="https://images.unsplash.com/photo-1759134198561-e2041049419c?q=80&w=400&h=400&fit=crop"
-                                        alt="Detalles" class="w-full h-full object-cover">
-                                </div>
+                        <!-- Tab: Galería -->
+                        <div id="panel-galeria" class="info-panel space-y-3 mt-4 hidden landing-gallery-panel">
+                            <div class="landing-gallery-heading">
+                                <h3 class="landing-section-title">Galería</h3>
+                                <button type="button" onclick="openGalleryModal(0)" class="landing-gallery-viewall">
+                                    Ver todas
+                                    <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                                </button>
                             </div>
+                            <div id="landing-gallery-preview" class="grid grid-cols-2 gap-2 landing-gallery-grid"></div>
                         </div>
 
+                    </div>
+
+                    <!-- Banner de cierre con CTA repetido, solo en escritorio -->
+                    <div class="landing-closing-cta">
+                        <div>
+                            <p class="landing-closing-cta-kicker">
+                                <i data-lucide="calendar-days"></i>
+                                Agenda online · Disponible 24/7
+                            </p>
+                            <h3 class="landing-closing-cta-title">¿Listo para tu próxima cita?</h3>
+                            <p class="landing-closing-cta-copy">Reserva en menos de un minuto: elige tu servicio, tu
+                                barbero y el horario que mejor te quede.</p>
+                        </div>
+                        <button onclick="moveSlide(1)" class="landing-closing-cta-btn">
+                            <i id="closing-cta-icon" data-lucide="calendar-plus" class="w-5 h-5"></i>
+                            <span id="closing-cta-text">Agendar Cita</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -3473,27 +4520,49 @@
                 </div>
             </div>
 
-            <ol class="desktop-steps">
-                <li class="desktop-step" data-progress-key="services"
-                    onclick="if (services.length) goToStep(2)">
-                    <span class="desktop-step-marker"><span>1</span><i data-lucide="check"></i></span>
-                    <span class="desktop-step-label">Servicios</span>
-                </li>
-                <li class="desktop-step" data-progress-key="professional"
-                    onclick="if (professional) goToStep(3)">
-                    <span class="desktop-step-marker"><span>2</span><i data-lucide="check"></i></span>
-                    <span class="desktop-step-label">Barbero</span>
-                </li>
-                <li class="desktop-step" data-progress-key="datetime"
-                    onclick="if (selectedDate && time) goToStep(4)">
-                    <span class="desktop-step-marker"><span>3</span><i data-lucide="check"></i></span>
-                    <span class="desktop-step-label">Fecha y hora</span>
-                </li>
-                <li class="desktop-step" data-progress-key="customer">
-                    <span class="desktop-step-marker"><span>4</span><i data-lucide="check"></i></span>
-                    <span class="desktop-step-label">Tus datos</span>
-                </li>
-            </ol>
+            <div class="desktop-summary-columns">
+                <ol class="desktop-steps">
+                    <li class="desktop-step" data-progress-key="services"
+                        onclick="if (services.length) goToStep(2)">
+                        <span class="desktop-step-marker"><span>1</span><i data-lucide="check"></i></span>
+                        <span class="desktop-step-label">Servicios</span>
+                    </li>
+                    <li class="desktop-step" data-progress-key="professional"
+                        onclick="if (professional) goToStep(3)">
+                        <span class="desktop-step-marker"><span>2</span><i data-lucide="check"></i></span>
+                        <span class="desktop-step-label">Barbero</span>
+                    </li>
+                    <li class="desktop-step" data-progress-key="datetime"
+                        onclick="if (selectedDate && time) goToStep(4)">
+                        <span class="desktop-step-marker"><span>3</span><i data-lucide="check"></i></span>
+                        <span class="desktop-step-label">Fecha y hora</span>
+                    </li>
+                    <li class="desktop-step" data-progress-key="customer">
+                        <span class="desktop-step-marker"><span>4</span><i data-lucide="check"></i></span>
+                        <span class="desktop-step-label">Tus datos</span>
+                    </li>
+                </ol>
+
+                <div id="desktop-summary-aux" class="desktop-summary-col-details desktop-summary-aux-row">
+                    <div id="desktop-summary-prof-block" class="desktop-summary-block hidden">
+                        <p class="desktop-summary-label">Profesional</p>
+                        <div class="desktop-summary-prof">
+                            <img id="desktop-summary-prof-avatar" src="" alt="Profesional">
+                            <span id="desktop-summary-prof-name"></span>
+                        </div>
+                    </div>
+
+                    <div id="desktop-summary-datetime-block" class="desktop-summary-block hidden">
+                        <p class="desktop-summary-label">Fecha y hora</p>
+                        <p id="desktop-summary-datetime" class="desktop-summary-value"></p>
+                    </div>
+
+                    <div id="desktop-summary-customer-block" class="desktop-summary-block hidden">
+                        <p class="desktop-summary-label">Datos de contacto</p>
+                        <p id="desktop-summary-customer" class="desktop-summary-value"></p>
+                    </div>
+                </div>
+            </div>
 
             <div class="desktop-summary-divider"></div>
 
@@ -3502,29 +4571,9 @@
                 <p id="desktop-summary-empty-text">Presiona "Agendar Cita" para comenzar.</p>
             </div>
 
-            <div id="desktop-summary-body" class="desktop-summary-dynamic-body hidden">
-                <div class="desktop-summary-block desktop-summary-services-block">
-                    <p class="desktop-summary-label">Servicios</p>
-                    <div id="desktop-summary-services" class="desktop-summary-services-scroll"></div>
-                </div>
-
-                <div id="desktop-summary-prof-block" class="desktop-summary-block hidden">
-                    <p class="desktop-summary-label">Profesional</p>
-                    <div class="desktop-summary-prof">
-                        <img id="desktop-summary-prof-avatar" src="" alt="Profesional">
-                        <span id="desktop-summary-prof-name"></span>
-                    </div>
-                </div>
-
-                <div id="desktop-summary-datetime-block" class="desktop-summary-block hidden">
-                    <p class="desktop-summary-label">Fecha y hora</p>
-                    <p id="desktop-summary-datetime" class="desktop-summary-value"></p>
-                </div>
-
-                <div id="desktop-summary-customer-block" class="desktop-summary-block hidden">
-                    <p class="desktop-summary-label">Datos de contacto</p>
-                    <p id="desktop-summary-customer" class="desktop-summary-value"></p>
-                </div>
+            <div id="desktop-summary-body" class="desktop-summary-services-block hidden">
+                <p class="desktop-summary-label">Servicios</p>
+                <div id="desktop-summary-services" class="desktop-summary-services-scroll"></div>
             </div>
 
             <div class="desktop-summary-total-row">
@@ -3786,6 +4835,38 @@
         </div>
     </div>
 
+    <!-- Modal de galería: lightbox con imagen grande, navegación y miniaturas -->
+    <div id="gallery-modal" class="modal-overlay gallery-modal" role="dialog" aria-modal="true"
+        aria-label="Galería de fotos" onclick="if (event.target === this) closeGalleryModal()">
+        <div class="gallery-modal-content" onclick="event.stopPropagation()">
+            <div class="gallery-modal-top">
+                <span id="gallery-modal-counter" class="gallery-modal-counter">1 / 1</span>
+                <button type="button" onclick="closeGalleryModal()" class="gallery-modal-close"
+                    aria-label="Cerrar galería">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <div class="gallery-modal-stage">
+                <button type="button" onclick="galleryStep(-1)" class="gallery-modal-nav gallery-modal-prev"
+                    aria-label="Foto anterior">
+                    <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                </button>
+
+                <div class="gallery-modal-frame">
+                    <img id="gallery-modal-image" src="" alt="">
+                </div>
+
+                <button type="button" onclick="galleryStep(1)" class="gallery-modal-nav gallery-modal-next"
+                    aria-label="Foto siguiente">
+                    <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div id="gallery-modal-thumbs" class="gallery-modal-thumbs"></div>
+        </div>
+    </div>
+
     <div id="booking-loader" class="booking-loader">
         <div class="loader-card">
             <div class="loader-ring"></div>
@@ -3919,9 +5000,131 @@
         }
 
         /* ===============================
+           GALERÍA: preview + modal lightbox
+        =============================== */
+        const GALLERY_PREVIEW_COUNT = 4;
+
+        const galleryPhotos = (() => {
+            const base = [
+                { src: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1200&h=1200&fit=crop&auto=format&q=80', alt: 'Barbería interior' },
+                { src: 'https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=1200&h=1200&fit=crop&auto=format&q=80', alt: 'Corte de cabello' },
+                { src: 'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=1200&h=1200&fit=crop&auto=format&q=80', alt: 'Ambiente' },
+                { src: 'https://images.unsplash.com/photo-1759134198561-e2041049419c?q=80&w=1200&h=1200&fit=crop&auto=format', alt: 'Detalles' },
+            ];
+            return Array.from({ length: 54 }, (_, i) => base[i % base.length]);
+        })();
+
+        let galleryIndex = 0;
+
+        function renderGalleryPreview() {
+            const grid = document.getElementById('landing-gallery-preview');
+            if (!grid) return;
+
+            const extra = galleryPhotos.length - GALLERY_PREVIEW_COUNT;
+            grid.innerHTML = galleryPhotos.slice(0, GALLERY_PREVIEW_COUNT).map((photo, i) => {
+                const showMore = i === GALLERY_PREVIEW_COUNT - 1 && extra > 0;
+                return `
+                    <button type="button" class="landing-gallery-tile" onclick="openGalleryModal(${i})" aria-label="Ver foto ${i + 1} de la galería">
+                        <img src="${photo.src}" alt="${photo.alt}" loading="lazy">
+                        ${showMore ? `
+                            <span class="landing-gallery-more">
+                                <i data-lucide="images"></i>
+                                <span>+${extra} fotos</span>
+                            </span>
+                        ` : ''}
+                    </button>
+                `;
+            }).join('');
+            lucide.createIcons();
+        }
+
+        function renderGalleryThumbs() {
+            const thumbs = document.getElementById('gallery-modal-thumbs');
+            if (!thumbs) return;
+
+            thumbs.innerHTML = galleryPhotos.map((photo, i) => `
+                <button type="button" class="gallery-modal-thumb${i === galleryIndex ? ' active' : ''}"
+                    onclick="setGalleryIndex(${i})" aria-label="Ir a foto ${i + 1}">
+                    <img src="${photo.src}" alt="" loading="lazy">
+                </button>
+            `).join('');
+
+            const activeThumb = thumbs.querySelector('.gallery-modal-thumb.active');
+            if (activeThumb) activeThumb.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
+
+        function updateGalleryModal() {
+            const photo = galleryPhotos[galleryIndex];
+            const img = document.getElementById('gallery-modal-image');
+            const counter = document.getElementById('gallery-modal-counter');
+
+            if (img) {
+                img.style.opacity = '0';
+                requestAnimationFrame(() => {
+                    img.src = photo.src;
+                    img.alt = photo.alt;
+                    img.onload = () => { img.style.opacity = '1'; };
+                });
+            }
+            if (counter) counter.textContent = `${galleryIndex + 1} / ${galleryPhotos.length}`;
+
+            renderGalleryThumbs();
+        }
+
+        function openGalleryModal(index = 0) {
+            galleryIndex = index;
+            updateGalleryModal();
+            document.getElementById('gallery-modal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+
+        function closeGalleryModal() {
+            document.getElementById('gallery-modal').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        function setGalleryIndex(index) {
+            galleryIndex = (index + galleryPhotos.length) % galleryPhotos.length;
+            updateGalleryModal();
+        }
+
+        function galleryStep(delta) {
+            setGalleryIndex(galleryIndex + delta);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            const modal = document.getElementById('gallery-modal');
+            if (!modal || !modal.classList.contains('show')) return;
+            if (e.key === 'Escape') closeGalleryModal();
+            if (e.key === 'ArrowLeft') galleryStep(-1);
+            if (e.key === 'ArrowRight') galleryStep(1);
+        });
+
+        (function initGallerySwipe() {
+            const frame = document.querySelector('.gallery-modal-frame');
+            if (!frame) return;
+            let startX = 0, tracking = false;
+
+            frame.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+                tracking = true;
+            }, { passive: true });
+
+            frame.addEventListener('touchend', (e) => {
+                if (!tracking) return;
+                tracking = false;
+                const dx = e.changedTouches[0].clientX - startX;
+                if (Math.abs(dx) > 40) galleryStep(dx > 0 ? -1 : 1);
+            }, { passive: true });
+        })();
+
+        renderGalleryPreview();
+
+        /* ===============================
            SWIPE EN TABS
         =============================== */
-        const tabNames = ['info', 'contacto', 'comodidades', 'resenas', 'fotos'];
+        const tabNames = ['info', 'contacto', 'comodidades', 'resenas', 'galeria'];
         let currentTab = 0;
         (function initTabSwipe() {
             const introSlide = document.querySelector('.slide');
@@ -4210,14 +5413,34 @@
         }
 
         function updateIntroCta() {
-            const introText = document.getElementById('intro-cta-text');
-            const introIcon = document.getElementById('intro-cta-icon');
-            if (!introText || !introIcon) return;
-
             const inProgress = hasBookingInProgress();
-            introText.textContent = inProgress ? 'Continuar reserva' : 'Agendar Cita';
-            introIcon.setAttribute('data-lucide', inProgress ? 'arrow-right-circle' : 'calendar-plus');
-            lucide.createIcons();
+
+            // Botón de la barra inferior (móvil/tablet) y los 3 CTA de la
+            // landing de escritorio (hero, barra de datos clave, banner de
+            // cierre) deben reflejar por igual si ya hay un avance guardado.
+            const ctas = [
+                { text: 'intro-cta-text', icon: 'intro-cta-icon', defaultLabel: 'Agendar Cita' },
+                { text: 'topbar-cta-text', icon: 'topbar-cta-icon', defaultLabel: 'Agendar Cita' },
+                { text: 'hero-cta-text', icon: 'hero-cta-icon', defaultLabel: 'Agendar Cita' },
+                { text: 'quickfact-cta-text', icon: 'quickfact-cta-icon', defaultLabel: 'Agendar ahora' },
+                { text: 'closing-cta-text', icon: 'closing-cta-icon', defaultLabel: 'Agendar Cita' },
+            ];
+
+            let iconsChanged = false;
+            ctas.forEach(({ text, icon, defaultLabel }) => {
+                const textEl = document.getElementById(text);
+                const iconEl = document.getElementById(icon);
+                if (!textEl || !iconEl) return;
+
+                textEl.textContent = inProgress ? 'Continuar reserva' : defaultLabel;
+                const nextIcon = inProgress ? 'arrow-right-circle' : 'calendar-plus';
+                if (iconEl.getAttribute('data-lucide') !== nextIcon) {
+                    iconEl.setAttribute('data-lucide', nextIcon);
+                    iconsChanged = true;
+                }
+            });
+
+            if (iconsChanged) lucide.createIcons();
         }
 
         function updateBackButtonAppearance() {
@@ -4696,6 +5919,8 @@
             const isValid = canProceedFromStep(step);
 
             btnNext.disabled = !isValid;
+
+            document.body.classList.toggle('is-landing-step', step === 1);
 
             updateIntroCta();
             updateProgressSummary();
