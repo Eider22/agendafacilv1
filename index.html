@@ -552,22 +552,30 @@
             height: 22px;
         }
 
-        /* Modal / lightbox: a pantalla completa en móvil para una
-           experiencia inmersiva; se centra en tarjeta en escritorio
-           (ver override dentro del media query >=1280px). */
+        /* Modal / lightbox: tarjeta centrada con fondo difuminado
+           visible alrededor (para poder cerrar tocando fuera), tanto
+           en móvil como en escritorio (ver ajuste de tamaño dentro
+           del media query >=1280px). */
         .gallery-modal {
             z-index: 300;
-            padding: 0;
+            padding: 20px;
         }
 
         .gallery-modal-content {
-            width: 100vw;
-            height: 100dvh;
+            width: 100%;
+            max-width: 480px;
+            height: min(80dvh, 640px);
             background: #0b1120;
+            border-radius: 22px;
+            box-shadow: 0 30px 70px -15px rgba(0, 0, 0, .6);
             display: flex;
             flex-direction: column;
-            transform: scale(1);
+            transform: scale(.95);
             transition: .35s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .gallery-modal.show .gallery-modal-content {
+            transform: scale(1);
         }
 
         .gallery-modal-top {
@@ -2580,8 +2588,7 @@
                 gap: 16px !important;
             }
 
-            /* En escritorio el modal se centra en una tarjeta grande en
-               vez de ocupar toda la pantalla (eso queda para móvil). */
+            /* En escritorio la tarjeta del modal es más grande que en móvil. */
             .gallery-modal {
                 padding: 32px;
             }
@@ -5143,18 +5150,33 @@
             renderGalleryThumbs();
         }
 
+        let galleryHistoryPushed = false;
+
         function openGalleryModal(index = 0) {
             galleryIndex = index;
             updateGalleryModal();
             document.getElementById('gallery-modal').classList.add('show');
             document.body.style.overflow = 'hidden';
             lucide.createIcons();
+            history.pushState({ galleryModal: true }, '');
+            galleryHistoryPushed = true;
         }
 
-        function closeGalleryModal() {
+        function closeGalleryModal(fromPopState = false) {
             document.getElementById('gallery-modal').classList.remove('show');
             document.body.style.overflow = '';
+            if (galleryHistoryPushed) {
+                galleryHistoryPushed = false;
+                if (!fromPopState) history.back();
+            }
         }
+
+        window.addEventListener('popstate', () => {
+            const modal = document.getElementById('gallery-modal');
+            if (modal && modal.classList.contains('show')) {
+                closeGalleryModal(true);
+            }
+        });
 
         function setGalleryIndex(index) {
             galleryIndex = (index + galleryPhotos.length) % galleryPhotos.length;
