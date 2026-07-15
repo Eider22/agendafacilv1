@@ -563,7 +563,8 @@
 
         .gallery-modal-content {
             width: 100%;
-            max-width: 420px;
+            max-width: 480px;
+            height: min(80dvh, 640px);
             background: #0b1120;
             border-radius: 22px;
             box-shadow: 0 30px 70px -15px rgba(0, 0, 0, .6);
@@ -639,6 +640,7 @@
         }
 
         .gallery-modal-nav {
+            display: none;
             flex-shrink: 0;
             width: 40px;
             height: 40px;
@@ -646,7 +648,6 @@
             border: 1px solid rgba(255, 255, 255, .18);
             background: rgba(255, 255, 255, .1);
             color: #fff;
-            display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
@@ -660,20 +661,70 @@
         .gallery-modal-frame {
             flex: 1;
             min-width: 0;
-            aspect-ratio: 1 / 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            height: 100%;
             overflow: hidden;
             border-radius: 12px;
         }
 
-        .gallery-modal-frame img {
+        /* Paso de fotos por scroll vertical con snap, estilo Instagram:
+           todas las fotos se apilan una debajo de otra dentro del
+           scroller y el navegador maneja el gesto nativamente. */
+        .gallery-modal-scroller {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            scroll-snap-type: y mandatory;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .gallery-modal-scroller::-webkit-scrollbar {
+            display: none;
+        }
+
+        .gallery-modal-slide {
+            width: 100%;
+            height: 100%;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-modal-slide img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 1;
-            transition: opacity .2s ease;
+            display: block;
+        }
+
+        .gallery-modal-hint-row {
+            align-self: center;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0 14px;
+        }
+
+        .gallery-modal-next-hint {
+            flex-shrink: 0;
+            width: 34px;
+            height: 34px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .18);
+            background: rgba(255, 255, 255, .1);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: .18s ease;
+        }
+
+        .gallery-modal-next-hint:hover {
+            background: rgba(255, 255, 255, .22);
         }
 
         .gallery-modal-thumbs {
@@ -2651,12 +2702,10 @@
             }
 
             .gallery-modal-frame {
-                height: 100%;
-                aspect-ratio: auto;
                 border-radius: 0;
             }
 
-            .gallery-modal-frame img {
+            .gallery-modal-slide img {
                 width: auto;
                 height: auto;
                 max-width: 100%;
@@ -2664,6 +2713,10 @@
                 object-fit: contain;
                 border-radius: 14px;
                 box-shadow: 0 25px 60px -15px rgba(0, 0, 0, .55);
+            }
+
+            .gallery-modal-hint-row {
+                display: none;
             }
 
             .gallery-modal-thumbs {
@@ -4981,12 +5034,23 @@
                 </button>
 
                 <div class="gallery-modal-frame">
-                    <img id="gallery-modal-image" src="" alt="">
+                    <div id="gallery-modal-scroller" class="gallery-modal-scroller"></div>
                 </div>
 
                 <button type="button" onclick="galleryStep(1)" class="gallery-modal-nav gallery-modal-next"
                     aria-label="Foto siguiente">
                     <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="gallery-modal-hint-row">
+                <button type="button" onclick="galleryStep(-1)" class="gallery-modal-next-hint"
+                    aria-label="Ver foto anterior">
+                    <i data-lucide="chevron-up" class="w-5 h-5"></i>
+                </button>
+                <button type="button" onclick="galleryStep(1)" class="gallery-modal-next-hint"
+                    aria-label="Ver siguiente foto">
+                    <i data-lucide="chevron-down" class="w-5 h-5"></i>
                 </button>
             </div>
 
@@ -5138,7 +5202,7 @@
                 { src: 'https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=1200&h=1200&fit=crop&auto=format&q=80', alt: 'Ambiente' },
                 { src: 'https://images.unsplash.com/photo-1759134198561-e2041049419c?q=80&w=1200&h=1200&fit=crop&auto=format', alt: 'Detalles' },
             ];
-            return Array.from({ length: 54 }, (_, i) => base[i % base.length]);
+            return Array.from({ length: 200 }, (_, i) => base[i % base.length]);
         })();
 
         let galleryIndex = 0;
@@ -5187,21 +5251,31 @@
             if (activeThumb) activeThumb.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
         }
 
-        function updateGalleryModal() {
-            const photo = galleryPhotos[galleryIndex];
-            const img = document.getElementById('gallery-modal-image');
-            const counter = document.getElementById('gallery-modal-counter');
+        let gallerySlidesRendered = false;
 
-            if (img) {
-                img.style.opacity = '0';
-                requestAnimationFrame(() => {
-                    img.src = photo.src;
-                    img.alt = photo.alt;
-                    img.onload = () => { img.style.opacity = '1'; };
-                });
-            }
+        function renderGalleryStage() {
+            const scroller = document.getElementById('gallery-modal-scroller');
+            if (!scroller || gallerySlidesRendered) return;
+
+            scroller.innerHTML = galleryPhotos.map((photo) => `
+                <div class="gallery-modal-slide">
+                    <img src="${photo.src}" alt="${photo.alt}" loading="lazy">
+                </div>
+            `).join('');
+            gallerySlidesRendered = true;
+        }
+
+        function scrollGalleryTo(index, smooth = true) {
+            const scroller = document.getElementById('gallery-modal-scroller');
+            if (!scroller) return;
+            scroller.scrollTo({ top: index * scroller.clientHeight, behavior: smooth ? 'smooth' : 'auto' });
+        }
+
+        function updateGalleryModal(smooth = true) {
+            const counter = document.getElementById('gallery-modal-counter');
             if (counter) counter.textContent = `${galleryIndex + 1} / ${galleryPhotos.length}`;
 
+            scrollGalleryTo(galleryIndex, smooth);
             renderGalleryThumbs();
         }
 
@@ -5209,12 +5283,13 @@
 
         function openGalleryModal(index = 0) {
             galleryIndex = index;
-            updateGalleryModal();
+            renderGalleryStage();
             document.getElementById('gallery-modal').classList.add('show');
             document.body.style.overflow = 'hidden';
             lucide.createIcons();
             history.pushState({ galleryModal: true }, '');
             galleryHistoryPushed = true;
+            requestAnimationFrame(() => updateGalleryModal(false));
         }
 
         function closeGalleryModal(fromPopState = false) {
@@ -5233,9 +5308,9 @@
             }
         });
 
-        function setGalleryIndex(index) {
+        function setGalleryIndex(index, smooth = true) {
             galleryIndex = (index + galleryPhotos.length) % galleryPhotos.length;
-            updateGalleryModal();
+            updateGalleryModal(smooth);
         }
 
         function galleryStep(delta) {
@@ -5246,27 +5321,35 @@
             const modal = document.getElementById('gallery-modal');
             if (!modal || !modal.classList.contains('show')) return;
             if (e.key === 'Escape') closeGalleryModal();
-            if (e.key === 'ArrowLeft') galleryStep(-1);
-            if (e.key === 'ArrowRight') galleryStep(1);
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') galleryStep(-1);
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') galleryStep(1);
         });
 
-        (function initGallerySwipe() {
-            const frame = document.querySelector('.gallery-modal-frame');
-            if (!frame) return;
-            let startX = 0, tracking = false;
+        (function initGalleryScrollSync() {
+            const scroller = document.getElementById('gallery-modal-scroller');
+            if (!scroller) return;
+            let debounceId;
 
-            frame.addEventListener('touchstart', (e) => {
-                startX = e.touches[0].clientX;
-                tracking = true;
-            }, { passive: true });
-
-            frame.addEventListener('touchend', (e) => {
-                if (!tracking) return;
-                tracking = false;
-                const dx = e.changedTouches[0].clientX - startX;
-                if (Math.abs(dx) > 40) galleryStep(dx > 0 ? -1 : 1);
+            scroller.addEventListener('scroll', () => {
+                clearTimeout(debounceId);
+                debounceId = setTimeout(() => {
+                    const itemHeight = scroller.clientHeight;
+                    if (!itemHeight) return;
+                    const nearest = Math.round(scroller.scrollTop / itemHeight);
+                    if (nearest !== galleryIndex) {
+                        galleryIndex = nearest;
+                        const counter = document.getElementById('gallery-modal-counter');
+                        if (counter) counter.textContent = `${galleryIndex + 1} / ${galleryPhotos.length}`;
+                        renderGalleryThumbs();
+                    }
+                }, 120);
             }, { passive: true });
         })();
+
+        window.addEventListener('resize', () => {
+            const modal = document.getElementById('gallery-modal');
+            if (modal && modal.classList.contains('show')) scrollGalleryTo(galleryIndex, false);
+        });
 
         renderGalleryPreview();
 
