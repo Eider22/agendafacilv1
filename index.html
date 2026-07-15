@@ -2661,8 +2661,11 @@
             }
 
             .gallery-modal-content {
-                width: min(92vw, 1080px);
-                height: min(88vh, 720px);
+                /* Tarjeta más cuadrada que ancha: las fotos son 1:1, así que
+                   un marco muy ancho dejaba mucho espacio vacío a los lados
+                   y la foto se veía pequeña dentro de la tarjeta. */
+                width: min(58vw, 720px);
+                height: min(90vh, 800px);
                 border-radius: 28px;
                 transform: scale(.95);
                 box-shadow: 0 40px 100px -20px rgba(0, 0, 0, .6);
