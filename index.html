@@ -578,28 +578,45 @@
             transform: scale(1);
         }
 
+        /* Móvil: chrome mínimo flotando sobre la foto (estilo Instagram/
+           Google Photos) — sin barra sólida, sin flechas (se navega con
+           swipe) y sin tira de miniaturas. En escritorio (media query
+           >=1280px más abajo) se restauran barra, flechas y miniaturas. */
         .gallery-modal-top {
-            flex-shrink: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 2;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 16px 18px;
+            padding: 14px 14px 32px;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, .55), transparent);
+            pointer-events: none;
+        }
+
+        .gallery-modal-top>* {
+            pointer-events: auto;
         }
 
         .gallery-modal-counter {
-            color: rgba(255, 255, 255, .75);
-            font-size: 12px;
+            color: rgba(255, 255, 255, .9);
+            font-size: 11px;
             font-weight: 800;
             letter-spacing: .06em;
             text-transform: uppercase;
+            background: rgba(0, 0, 0, .35);
+            padding: 5px 10px;
+            border-radius: 999px;
         }
 
         .gallery-modal-close {
-            width: 38px;
-            height: 38px;
+            width: 34px;
+            height: 34px;
             border-radius: 999px;
             border: 1px solid rgba(255, 255, 255, .18);
-            background: rgba(255, 255, 255, .08);
+            background: rgba(0, 0, 0, .35);
             color: #fff;
             display: flex;
             align-items: center;
@@ -618,10 +635,11 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            padding: 0 8px;
+            padding: 0;
         }
 
         .gallery-modal-nav {
+            display: none;
             flex-shrink: 0;
             width: 40px;
             height: 40px;
@@ -629,7 +647,6 @@
             border: 1px solid rgba(255, 255, 255, .18);
             background: rgba(255, 255, 255, .1);
             color: #fff;
-            display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
@@ -651,18 +668,16 @@
         }
 
         .gallery-modal-frame img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            border-radius: 14px;
-            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, .55);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             opacity: 1;
             transition: opacity .2s ease;
         }
 
         .gallery-modal-thumbs {
+            display: none;
             flex-shrink: 0;
-            display: flex;
             gap: 8px;
             padding: 12px 16px 16px;
             overflow-x: auto;
@@ -2605,14 +2620,47 @@
                 transform: scale(1);
             }
 
+            .gallery-modal-top {
+                position: relative;
+                background: none;
+                padding: 16px 18px;
+            }
+
+            .gallery-modal-counter {
+                color: rgba(255, 255, 255, .75);
+                background: none;
+                padding: 0;
+            }
+
+            .gallery-modal-close {
+                width: 38px;
+                height: 38px;
+                background: rgba(255, 255, 255, .08);
+            }
+
             .gallery-modal-stage {
                 gap: 14px;
                 padding: 0 18px;
             }
 
             .gallery-modal-nav {
+                display: flex;
                 width: 46px;
                 height: 46px;
+            }
+
+            .gallery-modal-frame img {
+                width: auto;
+                height: auto;
+                max-width: 100%;
+                max-height: 100%;
+                object-fit: contain;
+                border-radius: 14px;
+                box-shadow: 0 25px 60px -15px rgba(0, 0, 0, .55);
+            }
+
+            .gallery-modal-thumbs {
+                display: flex;
             }
 
             .gallery-modal-thumb {
