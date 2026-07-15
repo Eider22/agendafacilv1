@@ -3453,7 +3453,7 @@
              mientras body lleva .is-landing-step). -->
         <div class="landing-topbar">
             <div class="landing-topbar-brand">
-                <img src="./images/logo2.jpeg" alt="Logo Barbería 017" class="landing-topbar-logo">
+                <img src="./images/logo2.jpeg" alt="Logo Barbería 017" class="landing-topbar-logo brand-logo-img">
                 <span class="landing-topbar-name">Barbería 017</span>
             </div>
             <div class="landing-topbar-actions">
@@ -3482,7 +3482,7 @@
                             <div id="carousel-dots" class="carousel-dots-inset"></div>
 
                             <div class="hero-brand-block" aria-label="Marca Barbería 017">
-                                <img src="./images/logo2.jpeg" alt="Logo Barbería 017" class="hero-brand-logo">
+                                <img src="./images/logo2.jpeg" alt="Logo Barbería 017" class="hero-brand-logo brand-logo-img">
                                 <div class="hero-brand-copy">
                                     <p class="hero-brand-kicker">Tu estilo, tu sello</p>
                                     <p class="hero-brand-title">Barbería 017</p>
@@ -5270,7 +5270,7 @@
                         </div>
 
                         <div class="reservation-ticket-brand mt-2.5 flex items-center gap-2.5">
-                            <img src="./images/logo2.jpeg" alt="Logo Barberia 017" class="reservation-brand-logo">
+                            <img src="./images/logo2.jpeg" alt="Logo Barberia 017" class="reservation-brand-logo brand-logo-img">
                             <div class="min-w-0">
                                 <p class="text-[12px] font-black text-slate-900 leading-tight">Barberia 017</p>
                                 <p class="text-[10px] font-semibold text-slate-500 leading-tight">Calle 17 #45,
@@ -5546,6 +5546,11 @@
         ];
         const carouselPhotos = carouselAliyari;
         // const carouselPhotos = carouselBarberia;
+
+        // Logo de marca reutilizado en la barra superior, el hero y el ticket de reserva.
+        // const BRAND_LOGO_URL = './images/logo2.jpeg';
+        const BRAND_LOGO_URL = './images/logo-aliyari.png';
+        document.querySelectorAll('.brand-logo-img').forEach((img) => { img.src = BRAND_LOGO_URL; });
 
         /* ===============================
            GALERÍA: preview + modal lightbox
