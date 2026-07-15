@@ -478,7 +478,7 @@
         }
 
         .landing-gallery-viewall {
-            display: flex;
+            display: none;
             align-items: center;
             gap: 4px;
             flex-shrink: 0;
@@ -2562,6 +2562,10 @@
 
             .landing-badge-row>div {
                 flex: 1 1 280px;
+            }
+
+            .landing-gallery-viewall {
+                display: flex;
             }
 
             /* Galería: mosaico fijo 2x2 que llena la altura de su fila
@@ -5077,13 +5081,18 @@
 
         let galleryIndex = 0;
 
+        const galleryDesktopMql = window.matchMedia('(min-width: 1280px)');
+
         function renderGalleryPreview() {
             const grid = document.getElementById('landing-gallery-preview');
             if (!grid) return;
 
+            const isDesktop = galleryDesktopMql.matches;
             const extra = galleryPhotos.length - GALLERY_PREVIEW_COUNT;
-            grid.innerHTML = galleryPhotos.slice(0, GALLERY_PREVIEW_COUNT).map((photo, i) => {
-                const showMore = i === GALLERY_PREVIEW_COUNT - 1 && extra > 0;
+            const photosToShow = isDesktop ? galleryPhotos.slice(0, GALLERY_PREVIEW_COUNT) : galleryPhotos;
+
+            grid.innerHTML = photosToShow.map((photo, i) => {
+                const showMore = isDesktop && i === GALLERY_PREVIEW_COUNT - 1 && extra > 0;
                 return `
                     <button type="button" class="landing-gallery-tile" onclick="openGalleryModal(${i})" aria-label="Ver foto ${i + 1} de la galería">
                         <img src="${photo.src}" alt="${photo.alt}" loading="lazy">
@@ -5098,6 +5107,8 @@
             }).join('');
             lucide.createIcons();
         }
+
+        galleryDesktopMql.addEventListener('change', renderGalleryPreview);
 
         function renderGalleryThumbs() {
             const thumbs = document.getElementById('gallery-modal-thumbs');
